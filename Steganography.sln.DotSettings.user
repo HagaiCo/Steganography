@@ -2,4 +2,8 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Users\hagai\.nuget\packages\firebaseadmin\1.17.1\lib\netstandard2.0\FirebaseAdmin.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
+	
+	
+	
+	
 	</wpf:ResourceDictionary>

@@ -12,6 +12,7 @@
           <e p="BundleConfig.cs" t="Include" />
           <e p="FilterConfig.cs" t="Include" />
           <e p="RouteConfig.cs" t="Include" />
+          <e p="StartUp.Auth.cs" t="Include" />
         </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="Content" t="Include">
@@ -26,7 +27,9 @@
           <e p="site.css" t="Include" />
         </e>
         <e p="Controllers" t="Include">
+          <e p="AccountController.cs" t="Include" />
           <e p="HomeController.cs" t="Include" />
+          <e p="StudentController.cs" t="Include" />
         </e>
         <e p="favicon.ico" t="Include" />
         <e p="fonts" t="Include">
@@ -38,7 +41,11 @@
         </e>
         <e p="Global.asax" t="Include" />
         <e p="Global.asax.cs" t="Include" />
-        <e p="Models" t="Include" />
+        <e p="Models" t="Include">
+          <e p="LoginViewModel.cs" t="Include" />
+          <e p="SignUpModel.cs" t="Include" />
+          <e p="Student.cs" t="Include" />
+        </e>
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />
         <e p="Properties" t="Include">
@@ -61,8 +68,13 @@
           <e p="jquery.validate.unobtrusive.min.js" t="Include" />
           <e p="modernizr-2.8.3.js" t="Include" />
         </e>
+        <e p="StartUp.cs" t="Include" />
         <e p="Views" t="Include">
           <e p="_ViewStart.cshtml" t="Include" />
+          <e p="Account" t="Include">
+            <e p="Login.cshtml" t="Include" />
+            <e p="SignUp.cshtml" t="Include" />
+          </e>
           <e p="Home" t="Include">
             <e p="About.cshtml" t="Include" />
             <e p="Contact.cshtml" t="Include" />
@@ -71,6 +83,10 @@
           <e p="Shared" t="Include">
             <e p="_Layout.cshtml" t="Include" />
             <e p="Error.cshtml" t="Include" />
+          </e>
+          <e p="Student" t="Include">
+            <e p="Create.cshtml" t="Include" />
+            <e p="Index.cshtml" t="Include" />
           </e>
           <e p="Web.config" t="Include" />
         </e>
