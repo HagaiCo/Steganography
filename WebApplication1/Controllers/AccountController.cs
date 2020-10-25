@@ -15,22 +15,23 @@ namespace WebApplication1.Controllers
     public class AccountController : Controller
     {
         private static string ApiKey = "AIzaSyBXcxNJb-mTnFWQYshXyELXZyj14u40xwQ";
-        private static string Bucket = "https://steganography-5582f.firebaseio.com/";
+        private static string Bucket = "steganography-5582f.firebaseio.com";
 
         public ActionResult SignUp()
         {
             return View();
         }
 
+        [HttpPost]
         [AllowAnonymous]
-        [HttpGet]
         public async Task<ActionResult> SignUp(SignUpModel model)
         {
-            if (model.Id == 0)
+            if (string.IsNullOrEmpty(model.Email))
                 return View();
+
             try
             {
-                var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+                var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey)); 
                 var a = await auth.CreateUserWithEmailAndPasswordAsync(model.Email, model.Password, model.Name, true);
                 ModelState.AddModelError(string.Empty, "Please Verify your email then login.");
             }
@@ -39,58 +40,89 @@ namespace WebApplication1.Controllers
                 ModelState.AddModelError(string.Empty, e.Message);
                 Console.WriteLine(e);
             }
-            return RedirectToAction("Login", "Account");
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Login(string returnUrl)
+        {
+            try
+            {
+                // Verification.
+                if (this.Request.IsAuthenticated)
+                {
+                    return this.RedirectToLocal(returnUrl);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Info
+                Console.Write(ex);
+            }
+
+            // Info.
+            return this.View();
         }
 
         // GET: Account
+        [HttpPost]
         [AllowAnonymous]
-        [HttpGet]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             try
             {
-                var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
-                var a = await auth.SignInWithEmailAndPasswordAsync(model.Email, model.Password);
-                string token = a.FirebaseToken;
-                var user = a.User;
-                if (token != "")
+                // Verification.
+                if (ModelState.IsValid)
                 {
+                    var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+                    var ab = await auth.SignInWithEmailAndPasswordAsync(model.Email, model.Password);
+                    string token = ab.FirebaseToken;
+                    var user = ab.User;
+                    if (token != "")
+                    {
 
-                    this.SignInUser(user.Email, token, false);
-                    return this.RedirectToLocal(returnUrl);
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid username or password");
+                        SignInUser(user.Email, token, false);
+                        return RedirectToLocal(returnUrl);
+
+                    }
+                    else
+                    {
+                        // Setting.
+                        ModelState.AddModelError(string.Empty, "Invalid username or password.");
+                    }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
+                // Info
+                Console.Write(ex);
             }
-            return this.View();
+
+            // If we got this far, something failed, redisplay form
+            return this.View(model);
         }
 
         private void SignInUser(string email, string token, bool isPersistent)
         {
-            //Initialization
-            var claim = new List<Claim>();
+            // Initialization.
+            var claims = new List<Claim>();
 
             try
             {
-                //Setting
-                claim.Add(new Claim(ClaimTypes.Email, email));
-                claim.Add(new Claim(ClaimTypes.Authentication, token));
-                var claimIdenties = new ClaimsIdentity(claim, DefaultAuthenticationTypes.ApplicationCookie);
+                // Setting
+                claims.Add(new Claim(ClaimTypes.Email, email));
+                claims.Add(new Claim(ClaimTypes.Authentication, token));
+                var claimIdenties = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
                 var ctx = Request.GetOwinContext();
                 var authenticationManager = ctx.Authentication;
-                //Sign in
-                authenticationManager.SignIn(new AuthenticationProperties() {IsPersistent = isPersistent}, claimIdenties);
+                // Sign In.
+                authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, claimIdenties);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
-                throw;
+                // Info
+                throw ex;
             }
         }
 
@@ -118,7 +150,12 @@ namespace WebApplication1.Controllers
                 if (Url.IsLocalUrl(returnUrl))
                 {
                     //info
-                    return this.Redirect(returnUrl);
+                    return Redirect(returnUrl);
+                }
+
+                if (string.IsNullOrEmpty(returnUrl))
+                {
+                    return RedirectToAction("Index", "Home");
                 }
             }
             catch (Exception e)
@@ -127,14 +164,18 @@ namespace WebApplication1.Controllers
                 throw;
             }
             //info
-            return this.RedirectToAction("LogOff", "Account");
+            return this.RedirectToAction("LogOut", "Account");
         }
 
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult LogOff()
+        public ActionResult LogOut()
         {
             var ctx = Request.GetOwinContext();
+            if (ctx.Authentication.User == null)
+            {
+                
+            }
             var authenticationManager = ctx.Authentication;
             authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login", "Account");
