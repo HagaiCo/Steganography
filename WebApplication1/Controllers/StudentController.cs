@@ -34,6 +34,7 @@ namespace WebApplication1.Controllers
             return View();
         }
         
+
         [HttpPost]
         public ActionResult Create(Student student)
         {
