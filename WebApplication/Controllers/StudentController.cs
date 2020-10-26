@@ -1,11 +1,10 @@
 ﻿using System;
-using System.EnterpriseServices.Internal;
-using System.Web.Mvc;
 using FireSharp;
 using FireSharp.Response;
 using FireSharp.Interfaces;
 using FireSharp.Config;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
 
 
@@ -47,7 +46,7 @@ namespace WebApplication1.Controllers
 
         private void AddStudentToFirebase(Student student)
         {
-            _client = new FirebaseClient(config);
+            _client = new FireSharp.FirebaseClient(config);
             var data = student;
             PushResponse response = _client.Push("Student/", data);
             data.StudentId = response.Result.name;
