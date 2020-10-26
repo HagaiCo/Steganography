@@ -33,7 +33,8 @@ namespace WebApplication1.Controllers
         {
             return View();
         }
-        // we de best
+        
+
         [HttpPost]
         public ActionResult Create(Student student)
         {
