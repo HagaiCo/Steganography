@@ -32,6 +32,9 @@
           <e p="StudentController.cs" t="Include" />
         </e>
         <e p="favicon.ico" t="Include" />
+        <e p="FirebaseModel" t="Include">
+          <e p="FileUploadFirebaseModel.cs" t="Include" />
+        </e>
         <e p="fonts" t="Include">
           <e p="glyphicons-halflings-regular.eot" t="Include" />
           <e p="glyphicons-halflings-regular.svg" t="Include" />
@@ -41,11 +44,6 @@
         </e>
         <e p="Global.asax" t="Include" />
         <e p="Global.asax.cs" t="Include" />
-        <e p="Models" t="Include">
-          <e p="LoginViewModel.cs" t="Include" />
-          <e p="SignUpModel.cs" t="Include" />
-          <e p="Student.cs" t="Include" />
-        </e>
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />
         <e p="Properties" t="Include">
@@ -69,6 +67,12 @@
           <e p="modernizr-2.8.3.js" t="Include" />
         </e>
         <e p="StartUp.cs" t="Include" />
+        <e p="ViewModels" t="Include">
+          <e p="FileUploadViewModel.cs" t="Include" />
+          <e p="LoginViewModel.cs" t="Include" />
+          <e p="SignUpViewModel.cs" t="Include" />
+          <e p="StudentViewModel.cs" t="Include" />
+        </e>
         <e p="Views" t="Include">
           <e p="_ViewStart.cshtml" t="Include" />
           <e p="Account" t="Include">
@@ -86,7 +90,6 @@
           </e>
           <e p="Student" t="Include">
             <e p="Create.cshtml" t="Include" />
-            <e p="Index.cshtml" t="Include" />
           </e>
           <e p="Web.config" t="Include" />
         </e>

@@ -1,14 +1,16 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using Firebase.Auth;
 using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
+using AuthenticationProperties = Microsoft.Owin.Security.AuthenticationProperties;
 
 namespace WebApplication1.Controllers
 {
@@ -31,7 +33,7 @@ namespace WebApplication1.Controllers
 
             try
             {
-                var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey)); 
+                var auth = new FirebaseAuthProvider(new Firebase.Auth.FirebaseConfig(ApiKey)); 
                 var a = await auth.CreateUserWithEmailAndPasswordAsync(model.Email, model.Password, model.Name, true);
                 ModelState.AddModelError(string.Empty, "Please Verify your email then login.");
             }
@@ -50,7 +52,7 @@ namespace WebApplication1.Controllers
             try
             {
                 // Verification.
-                if (this.Request.IsAuthenticated)
+                if (User.Identity.IsAuthenticated)
                 {
                     return this.RedirectToLocal(returnUrl);
                 }
@@ -114,10 +116,10 @@ namespace WebApplication1.Controllers
                 claims.Add(new Claim(ClaimTypes.Email, email));
                 claims.Add(new Claim(ClaimTypes.Authentication, token));
                 var claimIdenties = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
-                var ctx = Request.GetOwinContext();
+                var ctx = HttpContext.AuthenticateAsync();
                 var authenticationManager = ctx.Authentication;
                 // Sign In.
-                authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, claimIdenties);
+                ctx.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, claimIdenties);
             }
             catch (Exception ex)
             {
