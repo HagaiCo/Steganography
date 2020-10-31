@@ -1,6 +1,6 @@
-﻿namespace WebApplication1.Models
+﻿namespace WebApplication.Models
 {
-    public class Student
+    public class StudentRequestModel
     {
         public string StudentId { get; set; }
         public string FullName { get; set; }

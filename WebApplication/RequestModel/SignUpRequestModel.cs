@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApplication1.Models
+namespace WebApplication.Models
 {
-    public class SignUpModel
+    public class SignUpRequestModel
     {
 
         [Key] 

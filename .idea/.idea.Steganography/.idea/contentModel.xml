@@ -6,7 +6,7 @@
     <e p="C:\Users\hagai\RiderProjects\Steganography" t="IncludeFlat">
       <e p="packages" t="ExcludeRecursive" />
       <e p="Steganography.sln" t="IncludeFlat" />
-      <e p="WebApplication1" t="IncludeRecursive">
+      <e p="WebApplication" t="IncludeRecursive">
         <e p="App_Data" t="Include" />
         <e p="App_Start" t="Include">
           <e p="BundleConfig.cs" t="Include" />
@@ -33,7 +33,7 @@
         </e>
         <e p="favicon.ico" t="Include" />
         <e p="FirebaseModel" t="Include">
-          <e p="FileUploadFirebaseModel.cs" t="Include" />
+          <e p="FileUploadFirebaseRequest.cs" t="Include" />
         </e>
         <e p="fonts" t="Include">
           <e p="glyphicons-halflings-regular.eot" t="Include" />
@@ -48,6 +48,15 @@
         <e p="packages.config" t="Include" />
         <e p="Properties" t="Include">
           <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="RequestModel" t="Include">
+          <e p="FileDataUploadRequestModel.cs" t="Include" />
+          <e p="LoginRequestModel.cs" t="Include" />
+          <e p="SignUpRequestModel.cs" t="Include" />
+          <e p="StudentRequestModel.cs" t="Include" />
+        </e>
+        <e p="ResponseModel" t="Include">
+          <e p="FileDataUploadResponseModel.cs" t="Include" />
         </e>
         <e p="Scripts" t="Include">
           <e p="bootstrap.js" t="Include" />
@@ -67,12 +76,6 @@
           <e p="modernizr-2.8.3.js" t="Include" />
         </e>
         <e p="StartUp.cs" t="Include" />
-        <e p="ViewModels" t="Include">
-          <e p="FileUploadViewModel.cs" t="Include" />
-          <e p="LoginViewModel.cs" t="Include" />
-          <e p="SignUpViewModel.cs" t="Include" />
-          <e p="StudentViewModel.cs" t="Include" />
-        </e>
         <e p="Views" t="Include">
           <e p="_ViewStart.cshtml" t="Include" />
           <e p="Account" t="Include">
@@ -80,8 +83,6 @@
             <e p="SignUp.cshtml" t="Include" />
           </e>
           <e p="Home" t="Include">
-            <e p="About.cshtml" t="Include" />
-            <e p="Contact.cshtml" t="Include" />
             <e p="Index.cshtml" t="Include" />
           </e>
           <e p="Shared" t="Include">
@@ -96,7 +97,7 @@
         <e p="Web.config" t="Include" />
         <e p="Web.Debug.config" t="Include" />
         <e p="Web.Release.config" t="Include" />
-        <e p="WebApplication1.csproj" t="IncludeRecursive" />
+        <e p="WebApplication.csproj" t="IncludeRecursive" />
       </e>
     </e>
   </component>

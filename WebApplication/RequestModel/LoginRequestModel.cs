@@ -1,21 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApplication1.Models
+namespace WebApplication.Models
 {
-    public class SignUpModel
+    public class LoginRequestModel
     {
-
         [Key] 
         public int Id { get; set; }
-
-        [Required]
-        [Display(Name = "Name")] 
-        public string Name { get; set; }
         
         [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")] 
-        public string? Email { get; set; }
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

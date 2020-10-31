@@ -2,15 +2,18 @@
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 
-namespace WebApplication1.FirebaseModel
+namespace WebApplication.ResposeModel
 {
-    public class FileUploadFirebaseModel
+    public class FileDataUploadResponseModel
     {
-        [Key] 
-        public string Id { get; set; }
         public byte[] File { get; set; }
+        
         public string FileName { get; set; }
-        [Required] 
+
+        public string Id { get; set; }
+
+        public string TextToHide { get; set; }
+        
         public List<string> PermittedUsers { get; set; }
     }
 }
