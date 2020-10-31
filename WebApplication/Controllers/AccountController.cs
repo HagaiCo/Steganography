@@ -1,18 +1,16 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using Firebase.Auth;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using WebApplication1.Models;
-using AuthenticationProperties = Microsoft.Owin.Security.AuthenticationProperties;
+using Microsoft.Owin.Security;
+using WebApplication.Models;
 
-namespace WebApplication1.Controllers
+namespace WebApplication.Controllers
 {
     public class AccountController : Controller
     {
@@ -26,15 +24,15 @@ namespace WebApplication1.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> SignUp(SignUpModel model)
+        public async Task<ActionResult> SignUp(SignUpRequestModel requestModel)
         {
-            if (string.IsNullOrEmpty(model.Email))
+            if (string.IsNullOrEmpty(requestModel.Email))
                 return View();
 
             try
             {
-                var auth = new FirebaseAuthProvider(new Firebase.Auth.FirebaseConfig(ApiKey)); 
-                var a = await auth.CreateUserWithEmailAndPasswordAsync(model.Email, model.Password, model.Name, true);
+                var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey)); 
+                var a = await auth.CreateUserWithEmailAndPasswordAsync(requestModel.Email, requestModel.Password, requestModel.Name, true);
                 ModelState.AddModelError(string.Empty, "Please Verify your email then login.");
             }
             catch (Exception e)
@@ -52,7 +50,7 @@ namespace WebApplication1.Controllers
             try
             {
                 // Verification.
-                if (User.Identity.IsAuthenticated)
+                if (this.Request.IsAuthenticated)
                 {
                     return this.RedirectToLocal(returnUrl);
                 }
@@ -61,16 +59,18 @@ namespace WebApplication1.Controllers
             {
                 // Info
                 Console.Write(ex);
+                ModelState.AddModelError(string.Empty, ex.Message);
+                throw;
             }
 
             // Info.
-            return this.View();
+            return View();
         }
 
         // GET: Account
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginRequestModel model, string returnUrl)
         {
             try
             {
@@ -102,7 +102,7 @@ namespace WebApplication1.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return this.View(model);
+            return View(model);
         }
 
         private void SignInUser(string email, string token, bool isPersistent)
@@ -116,10 +116,10 @@ namespace WebApplication1.Controllers
                 claims.Add(new Claim(ClaimTypes.Email, email));
                 claims.Add(new Claim(ClaimTypes.Authentication, token));
                 var claimIdenties = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
-                var ctx = HttpContext.AuthenticateAsync();
+                var ctx = Request.GetOwinContext();
                 var authenticationManager = ctx.Authentication;
                 // Sign In.
-                ctx.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, claimIdenties);
+                authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, claimIdenties);
             }
             catch (Exception ex)
             {

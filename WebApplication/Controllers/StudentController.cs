@@ -1,14 +1,15 @@
 ﻿using System;
+using System.EnterpriseServices.Internal;
+using System.Web.Mvc;
 using FireSharp;
 using FireSharp.Response;
 using FireSharp.Interfaces;
 using FireSharp.Config;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using WebApplication1.Models;
+using System.Web.Mvc;
+using WebApplication.Models;
 
 
-namespace WebApplication1.Controllers
+namespace WebApplication.Controllers
 {
     [Authorize]
     public class StudentController : Controller
@@ -28,11 +29,11 @@ namespace WebApplication1.Controllers
         
 
         [HttpPost]
-        public ActionResult Create(Student student)
+        public ActionResult Create(StudentRequestModel studentRequestModel)
         {
             try
             {
-                AddStudentToFirebase(student);
+                AddStudentToFirebase(studentRequestModel);
                 ModelState.AddModelError(string.Empty, "Added Successfully");
             }
             catch (Exception e)
@@ -44,10 +45,10 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        private void AddStudentToFirebase(Student student)
+        private void AddStudentToFirebase(StudentRequestModel studentRequestModel)
         {
-            _client = new FireSharp.FirebaseClient(config);
-            var data = student;
+            _client = new FirebaseClient(config);
+            var data = studentRequestModel;
             PushResponse response = _client.Push("Student/", data);
             data.StudentId = response.Result.name;
             SetResponse setResponse = _client.Set("Student/" + data.StudentId, data);
