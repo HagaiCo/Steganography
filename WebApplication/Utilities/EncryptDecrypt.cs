@@ -1,4 +1,4 @@
-﻿namespace WebApplication1.Utilities
+﻿namespace WebApplication.Utilities
 {
     public class EncryptDecrypt
     {
