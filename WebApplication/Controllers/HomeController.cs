@@ -4,22 +4,24 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Services;
 using Firebase.Auth;
 using Firebase.Storage.Options;
 using FireSharp;
-using FireSharp.Extensions;
 using FireSharp.Interfaces;
 using FireSharp.Response;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RestSharp;
-using WebApplication.FirebaseModel;
 using WebApplication.Models;
 using WebApplication.ResposeModel;
+using WebApplication.Utilities;
 
 namespace WebApplication.Controllers
 {
@@ -42,7 +44,7 @@ namespace WebApplication.Controllers
             return View();
         }
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult> Index(FileDataUploadRequestModel fileDataUploadRequestModel)
         {
             FileStream stream;
@@ -61,7 +63,7 @@ namespace WebApplication.Controllers
         }
         public async Task<bool> Upload(FileDataUploadRequestModel fileDataUploadRequestModel, FileStream stream)
         {
-            GetAllFiles();
+            GetPermittedFilesData();
             var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
             var a = await auth.SignInWithEmailAndPasswordAsync(adminEmail, adminPass);
 
@@ -74,21 +76,14 @@ namespace WebApplication.Controllers
             _client = new FirebaseClient(config);
             var data = fileDataUploadRequestModel;
             
-            //todo - create convert method
-            FileUploadFirebaseRequest fileUploadFirebaseRequest = new FileUploadFirebaseRequest();
-            fileUploadFirebaseRequest.File = System.IO.File.ReadAllBytes(fileDataUploadRequestModel.FilePath);
-            fileUploadFirebaseRequest.Id = data.Id;
-            fileUploadFirebaseRequest.FileName = data.File.FileName;
-            fileUploadFirebaseRequest.PermittedUsers = data.PermittedUsers;
-            fileUploadFirebaseRequest.TextToHide = data.TextToHide;
-
-            //var task = new FirebaseStorage(Bucket, firebaseStorageOptions).Child("images").Child(fileUploadViewModel.File.FileName).PutAsync(stream, cancellation.Token);
-        
+            //convert FileDataUploadRequestModel object to FileDataUploadResponseModel object:
+            var fileDataUploadResponseModel = data.Convert();
+            
             try
             {
-                PushResponse response = _client.Push("Files/", fileUploadFirebaseRequest);
-                fileUploadFirebaseRequest.Id = response.Result.name;
-                SetResponse setResponse = _client.Set("Files/" + fileUploadFirebaseRequest.Id, fileUploadFirebaseRequest);
+                var response = await _client.PushAsync("Files/", fileDataUploadResponseModel);
+                fileDataUploadResponseModel.Id = response.Result.name;
+                await _client.SetAsync("Files/" + fileDataUploadResponseModel.Id, fileDataUploadResponseModel);
                 return true;
             }
             catch(Exception ex)
@@ -99,7 +94,7 @@ namespace WebApplication.Controllers
             }
         }
 
-        public List<FileDataUploadResponseModel> GetAllFiles()
+        public List<FileDataUploadResponseModel> GetAllFilesData()
         {
             List<FileDataUploadResponseModel> listOfFileData = null;
             try
@@ -123,7 +118,7 @@ namespace WebApplication.Controllers
 
         public FileDataUploadResponseModel GetFileById(string id)
         {
-            var allFiles = GetAllFiles();
+            var allFiles = GetAllFilesData();
             var requestedFile = allFiles.SingleOrDefault(x => x.Id == id);
             return requestedFile;
         }
@@ -143,6 +138,14 @@ namespace WebApplication.Controllers
                 return false;
             }
             return true;
+        }
+
+        public List<FileDataUploadResponseModel> GetPermittedFilesData()
+        {
+            var requestingUserEmail = HttpContext.GetOwinContext().Authentication.User.Claims.First().Value;
+            var allFilesData = GetAllFilesData();
+            var permittedFilesData = allFilesData.Where(x => x.PermittedUsers.Contains(requestingUserEmail)).ToList();
+            return permittedFilesData;
         }
         
         [WebMethod]
