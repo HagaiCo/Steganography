@@ -1,4 +1,5 @@
-﻿using WebApplication.Models;
+﻿using System.IO;
+using WebApplication.Models;
 using WebApplication.ResposeModel;
 
 namespace WebApplication.Utilities
@@ -9,7 +10,7 @@ namespace WebApplication.Utilities
         {
             var obj = new FileDataUploadResponseModel
             {
-                File = System.IO.File.ReadAllBytes(data.FilePath),
+                File = File.ReadAllBytes(data.FilePath),
                 Id = data.Id,
                 FileName = data.File.FileName,
                 PermittedUsers = data.PermittedUsers,
