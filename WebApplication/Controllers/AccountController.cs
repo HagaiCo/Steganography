@@ -12,7 +12,7 @@ namespace WebApplication.Controllers
 {
     public class AccountController : BaseController
     {
-        private AccountService _accountService = new AccountService();
+        private readonly AccountService _accountService = new AccountService();
 
         public ActionResult SignUp()
         {
@@ -28,7 +28,7 @@ namespace WebApplication.Controllers
                 if (string.IsNullOrEmpty(requestModel.Email))
                     return View();
 
-                await _accountService.SignUp(requestModel.Email, requestModel.Password, requestModel.Name);
+                await _accountService.SignUp(requestModel);
                 ModelState.AddModelError(string.Empty, "Please Verify your email then login.");
             }
             catch (Exception e)

@@ -1,20 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Firebase.Auth;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using WebApplication.Models;
+using WebApplication.ResposeModel;
 
 namespace WebApplication.Services
 {
     public class AccountService : BaseService
     {
-        public async Task SignUp(string email, string password, string name)
+        public async Task SignUp(SignUpRequestModel signUpRequest)
         {
             var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey)); 
-            var a = await auth.CreateUserWithEmailAndPasswordAsync(email, password, name, true);
+            var a = await auth.CreateUserWithEmailAndPasswordAsync(signUpRequest.Email, signUpRequest.Password, signUpRequest.Name, true);
+            var response = await _client.PushAsync("Users/", signUpRequest);
+
         }
         
         public async Task<FirebaseAuthLink> Login(string email, string password)
@@ -36,6 +44,27 @@ namespace WebApplication.Services
             var authenticationManager = context.Authentication;
             // Sign In.
             authenticationManager.SignIn(new AuthenticationProperties() {IsPersistent = isPersistent}, claimIdentities);
+        }
+
+        public List<SignUpRequestModel> GetAllUsers()
+        {
+            List<SignUpRequestModel> listOfFileData = null;
+            try
+            {
+                var resultAsJsonString = _client.Get("Users/").Body;
+                if(resultAsJsonString == "null")
+                    return null;
+                
+                
+                dynamic data = JsonConvert.DeserializeObject<dynamic>(resultAsJsonString);
+                listOfFileData = ((IDictionary<string, JToken>)data).Select(k => 
+                    JsonConvert.DeserializeObject<SignUpRequestModel>(k.Value.ToString())).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return listOfFileData;
         }
     }
 }
