@@ -10,13 +10,13 @@
 }
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Upload";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Upload</h2>
 
-@using (Html.BeginForm("Index","Home", FormMethod.Post, new { enctype = "multipart/form-data"}))
+@using (Html.BeginForm("Upload","Home", FormMethod.Post, new { enctype = "multipart/form-data"}))
 {
     //@Html.AntiForgeryToken()
 
@@ -55,7 +55,7 @@
         
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Upload" class="btn btn-default" />
             </div>
         </div>
     </div>
