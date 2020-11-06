@@ -14,7 +14,8 @@ namespace WebApplication.Controllers
     public class HomeController : BaseController
     {
         private readonly HomeService _homeService = new HomeService();
-        
+        private static readonly AccountService _accountService = new AccountService();
+
         public ActionResult Upload()
         {
             return View();
@@ -54,12 +55,11 @@ namespace WebApplication.Controllers
         /// <summary>
         /// This method used to get all existing users to allow current user to choose with who he want to share his data.
         /// </summary>            
-        [WebMethod]
         public static IEnumerable<SelectListItem> GetAllUsers()
         {
-            //todo - this is demo data, need to refactor 
-            var list1 = new List<string>(){"hagai729@gmail.com"};
-            var selectListItems = list1.Select(x => new SelectListItem(){ Value = x, Text = x }).ToList();
+            var allUsers = _accountService.GetAllUsers();
+            var emailsList = allUsers.Select(x => x.Email).ToList();
+            var selectListItems = emailsList.Select(x => new SelectListItem(){ Value = x, Text = x }).ToList();
 
             return selectListItems.AsEnumerable();
         }

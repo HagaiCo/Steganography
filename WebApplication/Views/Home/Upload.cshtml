@@ -14,24 +14,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Upload</h2>
+<h2></h2>
 
 @using (Html.BeginForm("Upload","Home", FormMethod.Post, new { enctype = "multipart/form-data"}))
 {
     //@Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        @Html.LabelFor(model => model.File, htmlAttributes: new { @class = "control-label col-md-2" })
-        <h4>FileUploadViewModel</h4>
-        <hr />
-        @Html.EditorFor(model => model.PermittedUsers, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
         <div class="form-group">
-            Image
+            @Html.LabelFor(model => model.File, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" class="form-control" name="file" accept="image/*" required />
+                <input type="file" class="form-control" name="file" accept="image/*" required/>
             </div>
         </div>
 
@@ -47,7 +43,7 @@
             @Html.LabelFor(model => model.PermittedUsers, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PermittedUsers, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.DropDownListFor(model => model.PermittedUsers, GetAllUsers(), "Choose", new { @class = "form-control", } )
+                @Html.DropDownListFor(model => model.PermittedUsers, GetAllUsers(), "Choose...", new { @class = "form-control", } )
                 @Html.ValidationMessageFor(model => model.PermittedUsers, "", new { @class = "text-danger" })
             </div>
         </div>
