@@ -4,7 +4,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 
-namespace WebApplication.App_Start
+namespace WebApplication
 {
     public partial class StartUp
     {

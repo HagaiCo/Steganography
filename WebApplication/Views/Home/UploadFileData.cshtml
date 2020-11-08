@@ -1,22 +1,23 @@
 ﻿@using WebApplication.Controllers
-@model WebApplication.Models.FileDataUploadRequestModel
+@using WebApplication.Services
+@model WebApplication.RequestModel.FileDataUploadRequestModel
 
-@functions {
+@functions 
+{
     private IEnumerable<SelectListItem> GetAllUsers()
     {
-        return HomeController.GetAllUsers();
+        return HomeService.GetAllUsers();
     }
-
 }
 
 @{
-    ViewBag.Title = "Upload";
+    ViewBag.Title = "UploadFileData";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2></h2>
 
-@using (Html.BeginForm("Upload","Home", FormMethod.Post, new { enctype = "multipart/form-data"}))
+@using (Html.BeginForm("UploadFileData","Home", FormMethod.Post, new { enctype = "multipart/form-data"}))
 {
     //@Html.AntiForgeryToken()
 
@@ -51,7 +52,7 @@
         
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Upload" class="btn btn-default" />
+                <input type="submit" value="UploadFileData" class="btn btn-default" />
             </div>
         </div>
     </div>

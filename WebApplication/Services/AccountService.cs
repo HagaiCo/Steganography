@@ -10,8 +10,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using WebApplication.Models;
-using WebApplication.ResposeModel;
+using WebApplication.RequestModel;
 
 namespace WebApplication.Services
 {

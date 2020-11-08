@@ -1,0 +1,31 @@
+﻿﻿@using WebApplication.Controllers
+@using WebApplication.Services
+@model IEnumerable<WebApplication.ResponseModel.FileDataDownloadResponseModel>
+
+@{
+    ViewBag.Title = "GetAllAssignedFileData";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model != null)
+{
+    <h1>All files that assigned to you</h1>
+    foreach (var item in Model)
+    {
+        <div>
+            <img alt="Embedded Image" width="64" height="64" class="img-circle" src="data:image;base64,@Convert.ToBase64String(item.File)"/>
+            @item.FileName
+            
+            @Html.ActionLink("Download |", "DownloadFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, null)
+            
+           
+            @Html.ActionLink("Delete", "DeleteFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, null)
+            <hr/>
+        </div>
+    }
+}
+else
+    if (Model == null)
+    {
+        <h1>You have no files shared</h1>
+    }
