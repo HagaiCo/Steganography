@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using WebApplication.Models;
+using WebApplication.RequestModel;
 using WebApplication.Services;
 
 namespace WebApplication.Controllers
@@ -46,9 +46,9 @@ namespace WebApplication.Controllers
             try
             {
                 // Verification.
-                if (this.Request.IsAuthenticated)
+                if (Request.IsAuthenticated)
                 {
-                    return this.RedirectToLocal(returnUrl);
+                    return RedirectToLocal(returnUrl);
                 }
             }
             catch (Exception ex)
@@ -122,7 +122,7 @@ namespace WebApplication.Controllers
 
                 if (string.IsNullOrEmpty(returnUrl))
                 {
-                    return RedirectToAction("Upload", "Home");
+                    return RedirectToAction("UploadFileData", "Home");
                 }
             }
             catch (Exception e)

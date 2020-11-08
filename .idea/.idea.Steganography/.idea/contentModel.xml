@@ -52,6 +52,7 @@
           <e p="SignUpRequestModel.cs" t="Include" />
         </e>
         <e p="ResponseModel" t="Include">
+          <e p="FileDataDownloadResponseModel.cs" t="Include" />
           <e p="FileDataUploadResponseModel.cs" t="Include" />
         </e>
         <e p="Scripts" t="Include">
@@ -88,7 +89,8 @@
             <e p="SignUp.cshtml" t="Include" />
           </e>
           <e p="Home" t="Include">
-            <e p="Upload.cshtml" t="Include" />
+            <e p="GetAllAssignedFileData.cshtml" t="Include" />
+            <e p="UploadFileData.cshtml" t="Include" />
           </e>
           <e p="Shared" t="Include">
             <e p="_Layout.cshtml" t="Include" />

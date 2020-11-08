@@ -6831,4 +6831,7 @@ button.close {
     display: none !important;
   }
 }
+.img-circle {
+  border-radius: 50%;
+}
 /*# sourceMappingURL=bootstrap.css.map */

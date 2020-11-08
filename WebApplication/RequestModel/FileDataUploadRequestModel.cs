@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using Microsoft.AspNetCore.Http;
 
-namespace WebApplication.Models
+namespace WebApplication.RequestModel
 {
     public class FileDataUploadRequestModel
     {
