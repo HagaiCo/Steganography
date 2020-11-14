@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (Model != null)
+@if (Model?.GetEnumerator().Current != null)
 {
     <h1>All files that assigned to you</h1>
     foreach (var item in Model)
@@ -25,7 +25,7 @@
     }
 }
 else
-    if (Model == null)
-    {
-        <h1>You have no files shared</h1>
-    }
+{
+    <h1>You have no files shared</h1>
+}
+    
