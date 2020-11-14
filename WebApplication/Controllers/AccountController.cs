@@ -4,18 +4,15 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using Firebase.Auth;
 using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
-using WebApplication.Models;
+using WebApplication.RequestModel;
+using WebApplication.Services;
 
 namespace WebApplication.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private static string ApiKey = "AIzaSyBXcxNJb-mTnFWQYshXyELXZyj14u40xwQ";
-        private static string Bucket = "steganography-5582f.firebaseio.com";
+        private readonly AccountService _accountService = new AccountService();
 
         public ActionResult SignUp()
         {
@@ -26,13 +23,12 @@ namespace WebApplication.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> SignUp(SignUpRequestModel requestModel)
         {
-            if (string.IsNullOrEmpty(requestModel.Email))
-                return View();
-
             try
             {
-                var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey)); 
-                var a = await auth.CreateUserWithEmailAndPasswordAsync(requestModel.Email, requestModel.Password, requestModel.Name, true);
+                if (string.IsNullOrEmpty(requestModel.Email))
+                    return View();
+
+                await _accountService.SignUp(requestModel);
                 ModelState.AddModelError(string.Empty, "Please Verify your email then login.");
             }
             catch (Exception e)
@@ -50,9 +46,9 @@ namespace WebApplication.Controllers
             try
             {
                 // Verification.
-                if (this.Request.IsAuthenticated)
+                if (Request.IsAuthenticated)
                 {
-                    return this.RedirectToLocal(returnUrl);
+                    return RedirectToLocal(returnUrl);
                 }
             }
             catch (Exception ex)
@@ -62,7 +58,6 @@ namespace WebApplication.Controllers
                 ModelState.AddModelError(string.Empty, ex.Message);
                 throw;
             }
-
             // Info.
             return View();
         }
@@ -77,55 +72,24 @@ namespace WebApplication.Controllers
                 // Verification.
                 if (ModelState.IsValid)
                 {
-                    var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
-                    var ab = await auth.SignInWithEmailAndPasswordAsync(model.Email, model.Password);
-                    string token = ab.FirebaseToken;
-                    var user = ab.User;
-                    if (token != "")
+                    var result = await _accountService.Login(model.Email, model.Password);
+                    if (result.FirebaseToken != "")
                     {
-
-                        SignInUser(user.Email, token, false);
+                        _accountService.SignInUser(result.User.Email, result.FirebaseToken, false, Request.GetOwinContext());
                         return RedirectToLocal(returnUrl);
-
                     }
-                    else
-                    {
-                        // Setting.
+                    // Setting.
                         ModelState.AddModelError(string.Empty, "Invalid username or password.");
-                    }
                 }
             }
             catch (Exception ex)
             {
                 // Info
                 Console.Write(ex);
+                ModelState.AddModelError(string.Empty, "Some error occured while trying to sign in");
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
-        }
-
-        private void SignInUser(string email, string token, bool isPersistent)
-        {
-            // Initialization.
-            var claims = new List<Claim>();
-
-            try
-            {
-                // Setting
-                claims.Add(new Claim(ClaimTypes.Email, email));
-                claims.Add(new Claim(ClaimTypes.Authentication, token));
-                var claimIdenties = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
-                var ctx = Request.GetOwinContext();
-                var authenticationManager = ctx.Authentication;
-                // Sign In.
-                authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, claimIdenties);
-            }
-            catch (Exception ex)
-            {
-                // Info
-                throw ex;
-            }
         }
 
         private void ClaimIdentities(string userName, string isPersistent)
@@ -144,6 +108,7 @@ namespace WebApplication.Controllers
                 throw;
             }
         }
+
         private ActionResult RedirectToLocal(string returnUrl)
         {
             try
@@ -157,7 +122,7 @@ namespace WebApplication.Controllers
 
                 if (string.IsNullOrEmpty(returnUrl))
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("UploadFileData", "Home");
                 }
             }
             catch (Exception e)
@@ -165,6 +130,7 @@ namespace WebApplication.Controllers
                 Console.WriteLine(e);
                 throw;
             }
+
             //info
             return this.RedirectToAction("LogOut", "Account");
         }
@@ -176,8 +142,8 @@ namespace WebApplication.Controllers
             var ctx = Request.GetOwinContext();
             if (ctx.Authentication.User == null)
             {
-                
             }
+
             var authenticationManager = ctx.Authentication;
             authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login", "Account");

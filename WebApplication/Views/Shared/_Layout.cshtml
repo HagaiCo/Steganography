@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using WebApplication.Controllers
+@using WebApplication.Services
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -16,13 +18,20 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            @Html.ActionLink("Steganography", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
+            @Html.ActionLink("Steganography", "UploadFileData", "Home", new {area = ""}, new {@class = "navbar-brand"})
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li>@Html.ActionLink("Sign Up", "SignUp", "Account")</li>
-                <li>@Html.ActionLink("Log Out", "LogOut", "Account")</li>
+                <li>@Html.ActionLink("Home", "UploadFileData", "Home")</li>
+                <li>@Html.ActionLink("My Files", "DownloadFileData", "Home")</li>
+                @if (Request.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("Log Out", "LogOut", "Account")</li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink("Sign Up", "SignUp", "Account")</li>
+                }
             </ul>
         </div>
     </div>
@@ -31,7 +40,7 @@
     @RenderBody()
     <hr/>
     <footer>
-        <p>&copy; @DateTime.Now.2020 - My ASP.NET Application</p>
+        <p>@DateTime.Now.2020 - &copy; All rights reserved</p>
     </footer>
 </div>
 

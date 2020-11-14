@@ -28,6 +28,7 @@
         </e>
         <e p="Controllers" t="Include">
           <e p="AccountController.cs" t="Include" />
+          <e p="BaseController.cs" t="Include" />
           <e p="HomeController.cs" t="Include" />
         </e>
         <e p="favicon.ico" t="Include" />
@@ -49,9 +50,9 @@
           <e p="FileDataUploadRequestModel.cs" t="Include" />
           <e p="LoginRequestModel.cs" t="Include" />
           <e p="SignUpRequestModel.cs" t="Include" />
-          <e p="StudentRequestModel.cs" t="Include" />
         </e>
         <e p="ResponseModel" t="Include">
+          <e p="FileDataDownloadResponseModel.cs" t="Include" />
           <e p="FileDataUploadResponseModel.cs" t="Include" />
         </e>
         <e p="Scripts" t="Include">
@@ -71,6 +72,11 @@
           <e p="jquery.validate.unobtrusive.min.js" t="Include" />
           <e p="modernizr-2.8.3.js" t="Include" />
         </e>
+        <e p="Services" t="Include">
+          <e p="AccountService.cs" t="Include" />
+          <e p="BaseService.cs" t="Include" />
+          <e p="HomeService.cs" t="Include" />
+        </e>
         <e p="StartUp.cs" t="Include" />
         <e p="Utilities" t="Include">
           <e p="EncryptDecrypt.cs" t="Include" />
@@ -83,7 +89,8 @@
             <e p="SignUp.cshtml" t="Include" />
           </e>
           <e p="Home" t="Include">
-            <e p="Index.cshtml" t="Include" />
+            <e p="GetAllAssignedFileData.cshtml" t="Include" />
+            <e p="UploadFileData.cshtml" t="Include" />
           </e>
           <e p="Shared" t="Include">
             <e p="_Layout.cshtml" t="Include" />
