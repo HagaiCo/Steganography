@@ -19,12 +19,5 @@ namespace WebApplication.Utilities
             };
             return obj;
         }
-        
-        public static Image byteArrayToImage(byte[] bytesArr)
-        {
-            using MemoryStream memstr = new MemoryStream(bytesArr);
-            var img = Image.FromStream(memstr);
-            return img;
-        }
     }
 }

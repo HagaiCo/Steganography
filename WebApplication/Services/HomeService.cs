@@ -87,6 +87,7 @@ namespace WebApplication.Services
         
         public void DownloadFile(string fileId)
         {
+            if (fileId == null) return;
             var fileToDownload = GetFileById(fileId);
             var downloadPath = Environment.GetEnvironmentVariable("USERPROFILE")+@"\"+@"Downloads\";
             var pathString = Path.Combine(downloadPath, fileToDownload.FileName);
@@ -117,6 +118,7 @@ namespace WebApplication.Services
 
         public void DeleteFileData(string fileId)
         {
+            if (fileId == null) return;
             var resultAsJsonString = _client.DeleteAsync("Files/" + fileId);
         }
     }
