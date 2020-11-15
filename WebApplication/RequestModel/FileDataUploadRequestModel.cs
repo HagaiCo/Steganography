@@ -19,6 +19,7 @@ namespace WebApplication.RequestModel
         [Display(Name = "Choose permitted users")] 
         public List<string> PermittedUsers { get; set; }
         public string FilePath { get; set; }
+        
 
     }
 }
