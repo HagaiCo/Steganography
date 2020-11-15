@@ -78,8 +78,13 @@
           <e p="HomeService.cs" t="Include" />
         </e>
         <e p="StartUp.cs" t="Include" />
+        <e p="Tests" t="Include">
+          <e p="UnitTests.cs" t="Include" />
+        </e>
         <e p="Utilities" t="Include">
+          <e p="AesAlgo.cs" t="Include" />
           <e p="EncryptDecrypt.cs" t="Include" />
+          <e p="HideAndSeek.cs" t="Include" />
           <e p="TransformationUtils.cs" t="Include" />
         </e>
         <e p="Views" t="Include">

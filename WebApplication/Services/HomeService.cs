@@ -28,6 +28,8 @@ namespace WebApplication.Services
     public class HomeService : BaseService
     {
         private static readonly AccountService _accountService = new AccountService();
+        AesAlgo _aesAlgo= new AesAlgo(); 
+        HideAndSeek _hideAndSeek =new HideAndSeek();
 
         public async Task<bool> Upload(FileDataUploadRequestModel fileDataUploadRequestModel)
         {
@@ -44,7 +46,9 @@ namespace WebApplication.Services
             var data = fileDataUploadRequestModel;
             
             //convert FileDataUploadRequestModel object to FileDataUploadResponseModel object:
+            
             var fileDataUploadResponseModel = data.Convert();
+            // todo: encrypt and hide text in file
             
             var response = await _client.PushAsync("Files/", fileDataUploadResponseModel);
             fileDataUploadResponseModel.Id = response.Result.name;
@@ -86,6 +90,8 @@ namespace WebApplication.Services
             var fileToDownload = GetFileById(fileId);
             var downloadPath = Environment.GetEnvironmentVariable("USERPROFILE")+@"\"+@"Downloads\";
             var pathString = Path.Combine(downloadPath, fileToDownload.FileName);
+            Path.GetExtension(fileToDownload.FileName);
+            //todo: fileToDownload.file == > seek and decrypt
             File.WriteAllBytes(pathString, fileToDownload.File);
         }
 
