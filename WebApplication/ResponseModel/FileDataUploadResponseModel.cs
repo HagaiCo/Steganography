@@ -4,7 +4,7 @@ namespace WebApplication.ResponseModel
 {
     public class FileDataUploadResponseModel
     {
-        public byte[] File { get; set; }
+        public byte [] File { get; set; }
         
         public string FileName { get; set; }
 

@@ -21,11 +21,11 @@ namespace WebApplication.Tests
                 aes.KeySize = 128;
                 aes.Padding = PaddingMode.PKCS7;
                 
-                var path = @"C:/Users/mamis/RiderProjects/ConsoleApp1/ConsoleApp1/assets/NewBmp.bmp";
+                var path = @"C:/Users/mamis/Desktop/tiger.Bmp";
                 
                 var bmp = (Bitmap) Image.FromFile(path);
 
-                string message = "Lebron is the Goat ! Lebron is the Goat ! Lebron is the Goat ! Lebron is the Goat ! Lebron is the Goat ! Lebron is the Goat ! Lebron is the Goat ! Lebron is the Goat ! Lebron is the Goat ! Lebron is the Goat ! Lebron is the Goat ! Lebron is the Goat ! Lebron is the Goat !  Lebron is the Goat ! Lebron is the Goat ! Lebron is the Goat ! Lebron is the Goat ! Lebron is the Goat ! Lebron is the Goat ! Lebron is the Goat ! ";
+                string message = "Lebron is the Goat  Lebron is the Goat  ";
                 
                 byte[] encryptedData = aesAlgo.EncryptStringToBytes_Aes(message, aes.Key, aes.IV);
 
@@ -45,7 +45,7 @@ namespace WebApplication.Tests
         public void bmpSeek()
         {
             AesAlgo aesAlgo = new AesAlgo();
-            var path1 = "C:/Users/mamis/Desktop/newBmp.Bmp";
+            var path1 = "C:/Users/mamis/Desktop/Test1.Bmp";
             var bmp = (Bitmap) Image.FromFile(path1);
             byte[] cypherData = _hideAndSeek.Seek(bmp);
             byte[] key = _hideAndSeek.ExtractKey(bmp);

@@ -16,6 +16,7 @@
         </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="Content" t="Include">
+          <e p="bootstrap-SpaceLab.css" t="Include" />
           <e p="bootstrap-theme.css" t="Include" />
           <e p="bootstrap-theme.css.map" t="Include" />
           <e p="bootstrap-theme.min.css" t="Include" />

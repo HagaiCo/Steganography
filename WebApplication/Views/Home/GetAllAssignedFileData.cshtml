@@ -18,6 +18,7 @@
             
             @Html.ActionLink("Download |", "DownloadFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, null)
             
+            @Html.ActionLink("Show Message |", "ShowSecretMessage", "Home", new {fileId = item.Id}, null)
            
             @Html.ActionLink("Delete", "DeleteFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, null)
             <hr/>
