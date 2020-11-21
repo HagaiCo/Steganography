@@ -74,7 +74,7 @@ namespace WebApplication.Services
                 aes.KeySize = 128;
                 aes.Padding = PaddingMode.PKCS7;
                 Bitmap bmp = (Bitmap) Image.FromStream(data.File.InputStream, true, false);
-                string message = data.TextToHide;
+                var message = data.TextToHide;
                 byte[] encryptedData = aesAlgo.EncryptStringToBytes_Aes(message, aes.Key, aes.IV);
                 var binMessage = _hideAndSeek.EncryptedDataToBin(encryptedData, aes.Key, aes.IV);
                 _hideAndSeek.Clean(bmp, binMessage.Length);
