@@ -41,6 +41,7 @@ namespace WebApplication.Controllers
 
                     if (uploadSucceed)
                         ModelState.AddModelError(string.Empty, "Uploaded Successfully");
+                    
                 }
             }
             catch (Exception ex)
@@ -70,6 +71,11 @@ namespace WebApplication.Controllers
             return View(filesToPresent);
         }
 
+        public ActionResult ShowSecretMessage(string fileId)
+        {
+            var message = _homeService.GetSecretMessage(fileId);
+            return Content(message);
+        }
         public ActionResult DownloadFileData(string fileId, string fileName)
         {
             try

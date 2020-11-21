@@ -19,5 +19,13 @@ namespace WebApplication.Utilities
             };
             return obj;
         }
+        
+        public static Bitmap ByteArrayToBmp(byte[] source)
+        {
+            using (var ms = new MemoryStream(source))
+            {
+                return new Bitmap(ms);
+            }
+        }
     }
 }

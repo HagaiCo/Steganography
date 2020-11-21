@@ -558,6 +558,7 @@
     <Compile Include="Utilities\TransformationUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-SpaceLab.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />

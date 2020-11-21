@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration.Internal;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -17,6 +21,7 @@ using WebApplication.Utilities;
 using Microsoft.Owin.Host.SystemWeb;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Compilation;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
@@ -45,15 +50,40 @@ namespace WebApplication.Services
             _client = new FirebaseClient(Config);
             var data = fileDataUploadRequestModel;
             
+            
             //convert FileDataUploadRequestModel object to FileDataUploadResponseModel object:
             
             var fileDataUploadResponseModel = data.Convert();
             // todo: encrypt and hide text in file
+
+            fileDataUploadResponseModel.File = EncryptAndHide(data);
             
             var response = await _client.PushAsync("Files/", fileDataUploadResponseModel);
             fileDataUploadResponseModel.Id = response.Result.name;
             var setResult = await _client.SetAsync("Files/" + fileDataUploadResponseModel.Id, fileDataUploadResponseModel);
             return setResult.StatusCode == HttpStatusCode.OK;
+        }
+
+        public byte[] EncryptAndHide(FileDataUploadRequestModel data)
+        {
+            
+            HideAndSeek _hideAndSeek = new HideAndSeek();
+            AesAlgo aesAlgo = new AesAlgo();
+            using (AesManaged aes = new AesManaged())
+            {
+                aes.KeySize = 128;
+                aes.Padding = PaddingMode.PKCS7;
+                Bitmap bmp = (Bitmap) Image.FromStream(data.File.InputStream, true, false);
+                var message = data.TextToHide;
+                byte[] encryptedData = aesAlgo.EncryptStringToBytes_Aes(message, aes.Key, aes.IV);
+                var binMessage = _hideAndSeek.EncryptedDataToBin(encryptedData, aes.Key, aes.IV);
+                _hideAndSeek.Clean(bmp, binMessage.Length);
+                _hideAndSeek.Hide(bmp, binMessage);
+
+                ImageConverter converter = new ImageConverter();
+                return (byte[])converter.ConvertTo(bmp, typeof(byte[]));
+                
+            }
         }
         
         public List<FileDataUploadResponseModel> GetAllFilesData()
@@ -89,6 +119,7 @@ namespace WebApplication.Services
         {
             if (fileId == null) return;
             var fileToDownload = GetFileById(fileId);
+            
             var downloadPath = Environment.GetEnvironmentVariable("USERPROFILE")+@"\"+@"Downloads\";
             var pathString = Path.Combine(downloadPath, fileToDownload.FileName);
             Path.GetExtension(fileToDownload.FileName);
@@ -96,6 +127,21 @@ namespace WebApplication.Services
             File.WriteAllBytes(pathString, fileToDownload.File);
         }
 
+        public string GetSecretMessage(string fileId)
+        {
+            AesAlgo aesAlgo = new AesAlgo();
+            var data = GetFileById(fileId);
+            var ms = new MemoryStream(data.File);
+            var bmp = new Bitmap(ms);
+            byte[] cypherData = _hideAndSeek.Seek(bmp);
+            byte[] key = _hideAndSeek.ExtractKey(bmp);
+            byte[] iv = _hideAndSeek.ExtractIv(bmp);
+
+            var decryptedMessage = aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
+
+            return decryptedMessage;
+        }
+        
         public List<FileDataUploadResponseModel> GetPermittedFilesData()
         {
             var requestingUserEmail = HttpContext.Current.GetOwinContext().Authentication.User.Claims.First().Value;
