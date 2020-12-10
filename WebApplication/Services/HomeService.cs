@@ -55,8 +55,8 @@ namespace WebApplication.Services
             
             var fileDataUploadResponseModel = data.Convert();
             // todo: encrypt and hide text in file
-
-            fileDataUploadResponseModel.File = EncryptAndHide(data);
+            if(!IsMediaFile(fileDataUploadResponseModel.FileName))
+                fileDataUploadResponseModel.File = EncryptAndHide(data);
             
             var response = await _client.PushAsync("Files/", fileDataUploadResponseModel);
             fileDataUploadResponseModel.Id = response.Result.name;
@@ -166,6 +166,18 @@ namespace WebApplication.Services
         {
             if (fileId == null) return;
             var resultAsJsonString = _client.DeleteAsync("Files/" + fileId);
+        }
+        
+        static string[] mediaExtensions = 
+        {
+            ".PNG", ".JPG", ".JPEG", ".BMP", ".GIF", //etc
+            ".WAV", ".MID", ".MIDI", ".WMA", ".MP3", ".OGG", ".RMA", //etc
+            ".AVI", ".MP4", ".DIVX", ".WMV", //etc
+        };
+        
+        public bool IsMediaFile(string fileName)
+        {
+            return mediaExtensions.Contains(Path.GetExtension(fileName), StringComparer.OrdinalIgnoreCase);
         }
     }
 }
