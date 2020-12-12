@@ -51,17 +51,17 @@ namespace WebApplication.Services
             
             ;
             
-            //convert FileDataUploadRequestModel object to FileDataUploadResponseModel object:
+           
             var fileDataUploadResponseModel = fileDataUploadRequestModel.Convert();
             
-            fileDataUploadResponseModel.File = EncryptAndHideInPicture(fileDataUploadRequestModel);
             
-            //fileDataUploadResponseModel.File = EncryptAndHideInVideo(fileDataUploadResponseModel);
-            var fileDataUploadResponseModel = data.Convert();
-            // todo: encrypt and hide text in file
+            
             if(!IsMediaFile(fileDataUploadResponseModel.FileName))
-                fileDataUploadResponseModel.File = EncryptAndHide(data);
-            
+                fileDataUploadResponseModel.File = EncryptAndHideInPicture(fileDataUploadRequestModel);
+            else
+            {
+                fileDataUploadResponseModel.File = EncryptAndHideInVideo(fileDataUploadResponseModel);
+            }
             var response = await _client.PushAsync("Files/", fileDataUploadResponseModel);
             fileDataUploadResponseModel.Id = response.Result.name;
             var setResult = await _client.SetAsync("Files/" + fileDataUploadResponseModel.Id, fileDataUploadResponseModel);
@@ -84,10 +84,22 @@ namespace WebApplication.Services
             }
         }
 
+        
         public string Decrypt_Aes(byte [] cypherData, byte[] key,byte[] iv)
         {
             AesAlgo aesAlgo = new AesAlgo();
             return aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
+        }
+
+        public string ExtractMessage(string fileId)
+        {
+            var fileData = GetFileById(fileId);
+            if (IsMediaFile(fileData.FileName))
+               return ExtractMessageFromVideo(fileId);
+            else
+            {
+               return ExtractMessageFromPicture(fileId);
+            }
         }
         
         public byte[] EncryptAndHideInPicture(FileDataUploadRequestModel fileData)
@@ -105,8 +117,10 @@ namespace WebApplication.Services
         public byte[] EncryptAndHideInVideo(FileDataUploadResponseModel fileData)
         {
             HideAndSeekLsb hideAndSeekLsb = new HideAndSeekLsb();
+            HideAndSeekMetaData hideAndSeekMetaData = new HideAndSeekMetaData();
             byte[] byteVideo = fileData.File;
             hideAndSeekLsb.Hide(byteVideo, Encrypt_Aes(fileData.SecretMessage));
+            //hideAndSeekMetaData.hide(byteVideo,Encrypt_Aes(fileData.SecretMessage));
             return byteVideo;
             
         }
@@ -167,7 +181,7 @@ namespace WebApplication.Services
             return Decrypt_Aes(cypherData, key, iv);
         }
         
-        public string GetSecretMessageFromVideo(string fileId)
+        public string ExtractMessageFromVideo(string fileId)
         {
             AesAlgo aesAlgo = new AesAlgo();
             
