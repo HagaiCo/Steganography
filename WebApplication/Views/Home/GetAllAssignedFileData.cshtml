@@ -1,4 +1,5 @@
 ﻿﻿@using WebApplication.Controllers
+@using WebApplication.ResponseModel
 @using WebApplication.Services
 @model IEnumerable<WebApplication.ResponseModel.FileDataDownloadResponseModel>
 
@@ -9,20 +10,25 @@
 
 @if (Model != null && Model.GetEnumerator().MoveNext())
 {
+    HomeService homeService = new HomeService();
     <h1>All files that assigned to you</h1>
     foreach (var item in Model)
     {
-        <div>
-            <img alt="Embedded Image" width="64" height="64" class="img-circle" src="data:image;base64,@Convert.ToBase64String(item.File)"/>
-            @item.FileName
-            
-            @Html.ActionLink("Download |", "DownloadFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, null)
-            
-            @Html.ActionLink("Show Message |", "ShowSecretMessage", "Home", new {fileId = item.Id}, null)
-           
-            @Html.ActionLink("Delete", "DeleteFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, null)
-            <hr/>
-        </div>
+        var isMediaFile = homeService.IsVideoFile(@item.FileName);
+        switch (@item.FileType)
+        {
+            case FileType.Image:
+                <img alt="Embedded Image" width="64" height="64" class="img-circle" src="data:image;base64,@Convert.ToBase64String(item.File)"/>
+                break;
+            default:
+                <img alt="Embedded Image" width="64" height="64" class="img-circle" src="data:image;base64,@homeService.GetGenericIconByFileType(@item.FileType)"/>
+                break;
+        }
+        @item.FileName
+        @Html.ActionLink("Download |", "DownloadFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, null)
+        @Html.ActionLink("Show Message |", "ShowSecretMessage", "Home", new {fileId = item.Id}, null)
+        @Html.ActionLink("Delete", "DeleteFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, null)
+        <hr/>
     }
 }
 else

@@ -8,10 +8,21 @@ namespace WebApplication.ResponseModel
         
         public string FileName { get; set; }
 
+        public FileType FileType { get; set; }
+        
         public string Id { get; set; }
 
         public string TextToHide { get; set; }
         
         public List<string> PermittedUsers { get; set; }
+    }
+
+    public enum FileType
+    {
+        UndefinedType = 0,
+        Image = 1,
+        Video = 2,
+        Executable = 3,
+        UnknownType = -1
     }
 }

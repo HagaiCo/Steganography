@@ -50,13 +50,17 @@ namespace WebApplication.Services
             _client = new FirebaseClient(Config);
             var data = fileDataUploadRequestModel;
             
-            
-            //convert FileDataUploadRequestModel object to FileDataUploadResponseModel object:
-            
             var fileDataUploadResponseModel = data.Convert();
-            // todo: encrypt and hide text in file
-            if(!IsMediaFile(fileDataUploadResponseModel.FileName))
-                fileDataUploadResponseModel.File = EncryptAndHide(data);
+            SetFileType(fileDataUploadResponseModel);
+
+            switch (fileDataUploadResponseModel.FileType)
+            {
+                case FileType.Image:
+                    fileDataUploadResponseModel.File = EncryptAndHide(data);
+                    break;
+                case FileType.Video:
+                    break;
+            }
             
             var response = await _client.PushAsync("Files/", fileDataUploadResponseModel);
             fileDataUploadResponseModel.Id = response.Result.name;
@@ -147,6 +151,7 @@ namespace WebApplication.Services
             var requestingUserEmail = HttpContext.Current.GetOwinContext().Authentication.User.Claims.First().Value;
             var allFilesData = GetAllFilesData();
             var permittedFilesData = allFilesData?.Where(x => x.PermittedUsers.Contains(requestingUserEmail)).ToList();
+            permittedFilesData = permittedFilesData?.OrderBy(x => x.FileType).ToList();
             return permittedFilesData;
         }
 
@@ -168,16 +173,59 @@ namespace WebApplication.Services
             var resultAsJsonString = _client.DeleteAsync("Files/" + fileId);
         }
         
-        static string[] mediaExtensions = 
+        static string[] VideoFileExtensions = 
         {
-            ".PNG", ".JPG", ".JPEG", ".BMP", ".GIF", //etc
             ".WAV", ".MID", ".MIDI", ".WMA", ".MP3", ".OGG", ".RMA", //etc
             ".AVI", ".MP4", ".DIVX", ".WMV", //etc
         };
         
-        public bool IsMediaFile(string fileName)
+        static string[] ImageFileExtensions = 
         {
-            return mediaExtensions.Contains(Path.GetExtension(fileName), StringComparer.OrdinalIgnoreCase);
+            ".JPEG", ".JPG", ".PNG", ".BMP", ".GIF"
+        };
+        
+        static string[] ExecutableFileExtensions = 
+        {
+            ".EXE", ".BAT", ".APP"
+        };
+        
+        public bool IsVideoFile(string fileName)
+        {
+            return VideoFileExtensions.Contains(Path.GetExtension(fileName), StringComparer.OrdinalIgnoreCase);
+        }
+
+        public FileDataUploadResponseModel SetFileType(FileDataUploadResponseModel fileDataUploadResponseModel)
+        {
+            var isVideoFile = VideoFileExtensions.Contains(Path.GetExtension(fileDataUploadResponseModel.FileName), StringComparer.OrdinalIgnoreCase);
+            var isImageFile = ImageFileExtensions.Contains(Path.GetExtension(fileDataUploadResponseModel.FileName), StringComparer.OrdinalIgnoreCase);
+            var isExecutableFile = ExecutableFileExtensions.Contains(Path.GetExtension(fileDataUploadResponseModel.FileName), StringComparer.OrdinalIgnoreCase);
+
+            if (isVideoFile)
+                fileDataUploadResponseModel.FileType = FileType.Video;
+            else if (isImageFile)
+                fileDataUploadResponseModel.FileType = FileType.Image;
+            else if (isExecutableFile)
+                fileDataUploadResponseModel.FileType = FileType.Executable;
+            else
+                fileDataUploadResponseModel.FileType = FileType.UnknownType;
+            return fileDataUploadResponseModel;
+        }
+        
+        public string GetGenericIconByFileType(FileType fileTyoe)
+        {
+            string fileIconName = "";
+            switch (fileTyoe)
+            {
+                case FileType.Video:
+                    fileIconName = "VideoIcon.png";
+                    break;
+                case FileType.Executable:
+                    fileIconName = "ExecutableIcon.jpg";
+                    break;
+            }
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileIconName);
+            var fileContentInBytes = File.ReadAllBytes(path);
+            return Convert.ToBase64String(fileContentInBytes);
         }
     }
 }
