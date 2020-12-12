@@ -85,7 +85,8 @@
         <e p="Utilities" t="Include">
           <e p="AesAlgo.cs" t="Include" />
           <e p="EncryptDecrypt.cs" t="Include" />
-          <e p="HideAndSeek.cs" t="Include" />
+          <e p="HideAndSeekLsb.cs" t="Include" />
+          <e p="HideAndSeekMetaData.cs" t="Include" />
           <e p="TransformationUtils.cs" t="Include" />
         </e>
         <e p="Views" t="Include">

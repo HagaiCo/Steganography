@@ -554,7 +554,8 @@
     <Compile Include="Tests\UnitTests.cs" />
     <Compile Include="Utilities\AesAlgo.cs" />
     <Compile Include="Utilities\EncryptDecrypt.cs" />
-    <Compile Include="Utilities\HideAndSeek.cs" />
+    <Compile Include="Utilities\HideAndSeekLsb.cs" />
+    <Compile Include="Utilities\HideAndSeekMetaData.cs" />
     <Compile Include="Utilities\TransformationUtils.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace WebApplication.Utilities
 {
-    public class HideAndSeek
+    public class HideAndSeekLsb
     {
         public void Clean(Bitmap bmp, int textLength) // Cleaning all LSB to 0's
         {
@@ -49,7 +49,15 @@ namespace WebApplication.Utilities
                         {
                             R = pixel.R;
                             if (bin[iterantions] == '1')
-                                R+=1;
+                            {
+                                if (R % 2 == 0)
+                                    R += 1;
+                            }
+                            else
+                            {
+                                if (R % 2 == 1)
+                                    R -= 1;
+                            }
                             bmp.SetPixel(j, i, Color.FromArgb(R, pixel.G, pixel.B));
                             break;
                         }
@@ -57,7 +65,15 @@ namespace WebApplication.Utilities
                         {
                             G = pixel.G;
                             if (bin[iterantions] == '1')
-                                G+=1;
+                            {
+                                if (G % 2 == 0)
+                                    G += 1;
+                            }
+                            else
+                            {
+                                if (G % 2 == 1)
+                                    G -= 1;
+                            }
                             bmp.SetPixel(j, i, Color.FromArgb(pixel.R, G, pixel.B));
                             break;
                         }
@@ -65,7 +81,16 @@ namespace WebApplication.Utilities
                         {
                             B = pixel.B;
                             if (bin[iterantions] == '1')
-                                B+=1;
+                            {
+                                if (B % 2 == 0)
+                                    B += 1;
+                            }
+                            else
+                            {
+                                if (B % 2 == 1)
+                                    B -= 1;
+                            }
+                            
                             bmp.SetPixel(j, i, Color.FromArgb(pixel.R, pixel.G, B));
                             break;
                             
@@ -82,14 +107,71 @@ namespace WebApplication.Utilities
             }
         }
 
+        public void Hide(byte[] vid, String bin)
+        {
+            var dataChunk = findMOVI(vid);
+            var iterations = 0;
+            while (iterations<bin.Length)
+            {
+                if (bin[iterations] == '1')
+                {
+                    if (vid[dataChunk + iterations] % 2 == 0)
+                        vid[dataChunk + iterations]++;
+                }
+                else
+                {
+                    if (vid[dataChunk + iterations] % 2 == 1)
+                        vid[dataChunk + iterations]--;
+                }
+
+                iterations++;
+            }
+        }
+        
+        public static int findMOVI(byte[] b)
+        {
+            for (int i = 12; i < b.Length; i++)
+            {
+                if(b[i]!=109)
+                    continue;
+                else
+                {
+                    if (b[i + 1] == 111 && b[i + 2] == 118 && b[i + 3] == 105)
+                        return i+100000;
+                }
+            }
+
+            return 0;
+        }
+
+        static int GetByteCount(byte[] vid)
+        {
+            var firstByteList = new List<int>();
+            string bin = null;
+            var datachunk = findMOVI(vid);
+            for (int j = 0; j < 16; j++)
+            {
+                firstByteList.Add(vid[datachunk + j] % 2 == 1 ? 1 : 0);
+            }
+            
+            foreach (var n in firstByteList)
+            {
+                bin += n % 2 == 1 ? 1 : 0;
+            }
+
+            return Convert.ToInt32(bin, 2);
+        }
         
         static int GetByteCount(Bitmap bmp) //returns decimal value of first 16 bits - length of cypher.
         {
             var firstByteList = new List<int>();
             string bin = null;
+            
             int i = 0, j;
             for (j = 0; j < 16; j++)
             {
+                
+                
                 Color pixel = bmp.GetPixel(j, i);
                 switch (i+j%3)
                 {
@@ -119,6 +201,26 @@ namespace WebApplication.Utilities
 
         }
 
+        public byte[] Seek(byte[] vid)
+        {
+            var bitsToProcess = GetByteCount(vid)*8;
+            string binText=null;
+            int i = findMOVI(vid)+16;
+            int bitsProcessed = 0;
+            var list= new List<int>();
+            while (bitsProcessed<bitsToProcess)
+            {
+                list.Add(vid[i] % 2 == 0 ? 0 : 1);
+                i++;
+                bitsProcessed++;
+            }
+            foreach (var n in list)
+            {
+                binText += n % 2 == 1 ? 1 : 0;
+            }
+            return BinToByte(binText);
+        }
+        
         public byte [] Seek(Bitmap bmp)
         {
             var bitsToProcess = GetByteCount(bmp)*8;
@@ -129,7 +231,7 @@ namespace WebApplication.Utilities
             var list= new List<int>();
             for (i = 0; i < bmp.Height; i += 1)
             {
-                for (j = i == 0 ? 16 : 0; j < bmp.Width; j += 1)  // starts from 3rd byte because 1st byte is length
+                for (j = i == 0 ? 16 : 0; j < bmp.Width; j += 1)  // starts from 3rd byte because 2st byte is length
                 {
                     Color pixel = bmp.GetPixel(j, i);
                     switch ((i + j) % 3)
@@ -222,6 +324,24 @@ namespace WebApplication.Utilities
 
         }
 
+        public byte[] ExtractKey(byte [] vid)
+        {
+            string binText = null;
+            var bytesToSkip = GetByteCount(vid);
+            int index = findMOVI(vid) + 16 + (bytesToSkip*8);
+            int iterations, i;
+            var list = new List<int>();
+            for (i = 0; i < 128; i++)
+            {
+                list.Add(vid[index+i] % 2 == 0 ? 0 : 1);
+                
+            }
+            foreach (var n in list)
+            {
+                binText += n % 2 == 1 ? 1 : 0;
+            }
+            return BinToByte(binText);
+        }
         public byte[] ExtractIv(Bitmap bmp)
         {
             string binText = null;
@@ -269,10 +389,28 @@ namespace WebApplication.Utilities
             return BinToByte(binText);
         }
 
+        public byte[] ExtractIv(byte [] vid)
+        {
+            string binText = null;
+            var bytesToSkip = GetByteCount(vid);
+            int index = findMOVI(vid) + 16 + (bytesToSkip*8) + 128;
+            int iterations, i;
+            var list = new List<int>();
+            for (i = 0; i < 128; i++)
+            {
+                list.Add(vid[index+i] % 2 == 0 ? 0 : 1);
+                
+            }
+            foreach (var n in list)
+            {
+                binText += n % 2 == 1 ? 1 : 0;
+            }
+            return BinToByte(binText);
+        }
         public string EncryptedDataToBin(byte [] encryptedData,byte [] key, byte[] iv)
         {
             string binText = null;
-            binText=Convert.ToString(encryptedData.Length, 2).PadLeft(16, '0'); //first byte is the length of byts to read.
+            binText=Convert.ToString(encryptedData.Length, 2).PadLeft(16, '0'); //first 2 byte is the length of byts to read.
             foreach (var byt in encryptedData)
             {
                 binText += Convert.ToString(byt, 2).PadLeft(8, '0');

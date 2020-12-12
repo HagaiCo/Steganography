@@ -34,7 +34,7 @@ namespace WebApplication.Services
     {
         private static readonly AccountService _accountService = new AccountService();
         AesAlgo _aesAlgo= new AesAlgo(); 
-        HideAndSeek _hideAndSeek =new HideAndSeek();
+        HideAndSeekLsb _hideAndSeekLsb =new HideAndSeekLsb();
 
         public async Task<bool> Upload(FileDataUploadRequestModel fileDataUploadRequestModel)
         {
@@ -48,15 +48,15 @@ namespace WebApplication.Services
                 ThrowOnCancel = true     
             };
             _client = new FirebaseClient(Config);
-            var data = fileDataUploadRequestModel;
             
+            ;
             
             //convert FileDataUploadRequestModel object to FileDataUploadResponseModel object:
+            var fileDataUploadResponseModel = fileDataUploadRequestModel.Convert();
             
-            var fileDataUploadResponseModel = data.Convert();
-            // todo: encrypt and hide text in file
-
-            fileDataUploadResponseModel.File = EncryptAndHide(data);
+            fileDataUploadResponseModel.File = EncryptAndHideInPicture(fileDataUploadRequestModel);
+            
+            //fileDataUploadResponseModel.File = EncryptAndHideInVideo(fileDataUploadResponseModel);
             
             var response = await _client.PushAsync("Files/", fileDataUploadResponseModel);
             fileDataUploadResponseModel.Id = response.Result.name;
@@ -64,26 +64,47 @@ namespace WebApplication.Services
             return setResult.StatusCode == HttpStatusCode.OK;
         }
 
-        public byte[] EncryptAndHide(FileDataUploadRequestModel data)
+        public string Encrypt_Aes(string plainMessage)
         {
-            
-            HideAndSeek _hideAndSeek = new HideAndSeek();
+            HideAndSeekLsb hideAndSeekLsb = new HideAndSeekLsb();
             AesAlgo aesAlgo = new AesAlgo();
             using (AesManaged aes = new AesManaged())
             {
                 aes.KeySize = 128;
                 aes.Padding = PaddingMode.PKCS7;
-                Bitmap bmp = (Bitmap) Image.FromStream(data.File.InputStream, true, false);
-                var message = data.TextToHide;
-                byte[] encryptedData = aesAlgo.EncryptStringToBytes_Aes(message, aes.Key, aes.IV);
-                var binMessage = _hideAndSeek.EncryptedDataToBin(encryptedData, aes.Key, aes.IV);
-                _hideAndSeek.Clean(bmp, binMessage.Length);
-                _hideAndSeek.Hide(bmp, binMessage);
+                byte[] encryptedData = aesAlgo.EncryptStringToBytes_Aes(plainMessage, aes.Key, aes.IV);
 
-                ImageConverter converter = new ImageConverter();
-                return (byte[])converter.ConvertTo(bmp, typeof(byte[]));
-                
+                hideAndSeekLsb.EncryptedDataToBin(encryptedData, aes.Key, aes.IV);
+
+                return hideAndSeekLsb.EncryptedDataToBin(encryptedData, aes.Key, aes.IV);
             }
+        }
+
+        public string Decrypt_Aes(byte [] cypherData, byte[] key,byte[] iv)
+        {
+            AesAlgo aesAlgo = new AesAlgo();
+            return aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
+        }
+        
+        public byte[] EncryptAndHideInPicture(FileDataUploadRequestModel fileData)
+        {
+            HideAndSeekLsb hideAndSeekLsb = new HideAndSeekLsb();
+            Bitmap bmp = (Bitmap) Image.FromStream(fileData.File.InputStream, true, false);
+            hideAndSeekLsb.Hide(bmp, Encrypt_Aes(fileData.SecretMessage));
+            using (var stream = new MemoryStream())
+            {
+                bmp.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return stream.ToArray();
+            }
+        }
+
+        public byte[] EncryptAndHideInVideo(FileDataUploadResponseModel fileData)
+        {
+            HideAndSeekLsb hideAndSeekLsb = new HideAndSeekLsb();
+            byte[] byteVideo = fileData.File;
+            hideAndSeekLsb.Hide(byteVideo, Encrypt_Aes(fileData.SecretMessage));
+            return byteVideo;
+            
         }
         
         public List<FileDataUploadResponseModel> GetAllFilesData()
@@ -127,19 +148,32 @@ namespace WebApplication.Services
             File.WriteAllBytes(pathString, fileToDownload.File);
         }
 
-        public string GetSecretMessage(string fileId)
+        public string ExtractMessageFromPicture(string fileId)
         {
             AesAlgo aesAlgo = new AesAlgo();
-            var data = GetFileById(fileId);
-            var ms = new MemoryStream(data.File);
+            
+            var fileData = GetFileById(fileId);
+            var ms = new MemoryStream(fileData.File);
             var bmp = new Bitmap(ms);
-            byte[] cypherData = _hideAndSeek.Seek(bmp);
-            byte[] key = _hideAndSeek.ExtractKey(bmp);
-            byte[] iv = _hideAndSeek.ExtractIv(bmp);
+            
+            byte[] cypherData = _hideAndSeekLsb.Seek(bmp);
+            byte[] key = _hideAndSeekLsb.ExtractKey(bmp);
+            byte[] iv = _hideAndSeekLsb.ExtractIv(bmp);
 
-            var decryptedMessage = aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
-
-            return decryptedMessage;
+            return Decrypt_Aes(cypherData, key, iv);
+        }
+        
+        public string GetSecretMessageFromVideo(string fileId)
+        {
+            AesAlgo aesAlgo = new AesAlgo();
+            
+            var data = GetFileById(fileId);
+            byte[] video = data.File;
+            byte[] cypherData = _hideAndSeekLsb.Seek(video);
+            byte[] key = _hideAndSeekLsb.ExtractKey(video);
+            byte[] iv = _hideAndSeekLsb.ExtractIv(video);
+            
+            return Decrypt_Aes(cypherData,key,iv);
         }
         
         public List<FileDataUploadResponseModel> GetPermittedFilesData()

@@ -14,7 +14,7 @@ namespace WebApplication.RequestModel
         public string Id { get; set; }
         [Required]
         [Display(Name = "Type text to hide")] 
-        public string TextToHide { get; set; }
+        public string SecretMessage { get; set; }
         [Required] 
         [Display(Name = "Choose permitted users")] 
         public List<string> PermittedUsers { get; set; }

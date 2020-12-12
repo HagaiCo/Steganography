@@ -73,7 +73,9 @@ namespace WebApplication.Controllers
 
         public ActionResult ShowSecretMessage(string fileId)
         {
-            var message = _homeService.GetSecretMessage(fileId);
+            var message = _homeService.ExtractMessageFromPicture(fileId);
+            //var message = _homeService.GetSecretMessageFromVideo(fileId);
+            
             return Content(message);
         }
         public ActionResult DownloadFileData(string fileId, string fileName)
