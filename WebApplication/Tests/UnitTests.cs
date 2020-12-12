@@ -4,6 +4,7 @@ using System.Drawing.Imaging;
 using System.Security.Cryptography;
 using System.Text;
 using NUnit.Framework;
+using WebApplication.Services;
 using WebApplication.Utilities;
 
 namespace WebApplication.Tests
@@ -12,6 +13,9 @@ namespace WebApplication.Tests
     public class UnitTests
     {
         HideAndSeek _hideAndSeek = new HideAndSeek();
+        HomeService _homeService = new HomeService();
+
+        
         [Test]
         public void bmpHide()
         {

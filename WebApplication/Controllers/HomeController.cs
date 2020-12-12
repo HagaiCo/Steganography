@@ -66,6 +66,7 @@ namespace WebApplication.Controllers
                 obj.File = file.File;
                 obj.FileName = file.FileName;
                 obj.Id = file.Id;
+                obj.FileType = file.FileType;
                 filesToPresent.Add(obj);
             }
             return View(filesToPresent);
