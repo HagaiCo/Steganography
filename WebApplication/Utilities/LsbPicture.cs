@@ -1,34 +1,11 @@
-﻿/*using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 
 namespace WebApplication.Utilities
 {
-    public class HideAndSeekLsb
+    public class LsbPicture
     {
-        public void Clean(Bitmap bmp, int textLength) // Cleaning all LSB to 0's
-        {
-            int i;  // row
-            int j; // col
-            var R = 0;
-            var G = 0;
-            var B = 0;
-            for (i = 0; i < bmp.Height; i+=1)
-            {
-                for (j = 0; j < bmp.Width; j+=1)
-                {
-                    Color pixel = bmp.GetPixel(j,i);
-                    R = pixel.R;
-                    R = pixel.R - pixel.R % 2;
-                    G = pixel.G;
-                    G = pixel.G - pixel.G % 2;
-                    B = pixel.B;
-                    B = pixel.B - pixel.B % 2;
-                    bmp.SetPixel(j,i, Color.FromArgb(R,G,B));
-                }
-            }
-        }
-
         public void Hide(Bitmap bmp,String bin)
         {
             
@@ -106,61 +83,6 @@ namespace WebApplication.Utilities
                 }
             }
         }
-
-        public void Hide(byte[] vid, String bin)
-        {
-            var dataChunk = findMOVI(vid);
-            var iterations = 0;
-            while (iterations<bin.Length)
-            {
-                if (bin[iterations] == '1')
-                {
-                    if (vid[dataChunk + iterations] % 2 == 0)
-                        vid[dataChunk + iterations]++;
-                }
-                else
-                {
-                    if (vid[dataChunk + iterations] % 2 == 1)
-                        vid[dataChunk + iterations]--;
-                }
-
-                iterations++;
-            }
-        }
-        
-        public static int findMOVI(byte[] b)
-        {
-            for (int i = 12; i < b.Length; i++)
-            {
-                if(b[i]!=109)
-                    continue;
-                else
-                {
-                    if (b[i + 1] == 111 && b[i + 2] == 118 && b[i + 3] == 105)
-                        return i+100000;
-                }
-            }
-
-            return 0;
-        }
-
-        static int GetByteCount(byte[] vid)
-        {
-            var firstByteList = new List<int>();
-            string bin = null;
-            var datachunk = findMOVI(vid);
-            for (int j = 0; j < 16; j++)
-            {
-                firstByteList.Add(vid[datachunk + j] % 2 == 1 ? 1 : 0);
-            }
-            
-            foreach (var n in firstByteList)
-            {
-                bin += n % 2 == 1 ? 1 : 0;
-            }
-
-            return Convert.ToInt32(bin, 2);
-        }
         
         static int GetByteCount(Bitmap bmp) //returns decimal value of first 16 bits - length of cypher.
         {
@@ -199,26 +121,6 @@ namespace WebApplication.Utilities
 
             return Convert.ToInt32(bin, 2);
 
-        }
-
-        public byte[] Seek(byte[] vid)
-        {
-            var bitsToProcess = GetByteCount(vid)*8;
-            string binText=null;
-            int i = findMOVI(vid)+16;
-            int bitsProcessed = 0;
-            var list= new List<int>();
-            while (bitsProcessed<bitsToProcess)
-            {
-                list.Add(vid[i] % 2 == 0 ? 0 : 1);
-                i++;
-                bitsProcessed++;
-            }
-            foreach (var n in list)
-            {
-                binText += n % 2 == 1 ? 1 : 0;
-            }
-            return BinToByte(binText);
         }
         
         public byte [] Seek(Bitmap bmp)
@@ -323,25 +225,7 @@ namespace WebApplication.Utilities
             
 
         }
-
-        public byte[] ExtractKey(byte [] vid)
-        {
-            string binText = null;
-            var bytesToSkip = GetByteCount(vid);
-            int index = findMOVI(vid) + 16 + (bytesToSkip*8);
-            int iterations, i;
-            var list = new List<int>();
-            for (i = 0; i < 128; i++)
-            {
-                list.Add(vid[index+i] % 2 == 0 ? 0 : 1);
-                
-            }
-            foreach (var n in list)
-            {
-                binText += n % 2 == 1 ? 1 : 0;
-            }
-            return BinToByte(binText);
-        }
+        
         public byte[] ExtractIv(Bitmap bmp)
         {
             string binText = null;
@@ -388,25 +272,7 @@ namespace WebApplication.Utilities
             }
             return BinToByte(binText);
         }
-
-        public byte[] ExtractIv(byte [] vid)
-        {
-            string binText = null;
-            var bytesToSkip = GetByteCount(vid);
-            int index = findMOVI(vid) + 16 + (bytesToSkip*8) + 128;
-            int iterations, i;
-            var list = new List<int>();
-            for (i = 0; i < 128; i++)
-            {
-                list.Add(vid[index+i] % 2 == 0 ? 0 : 1);
-                
-            }
-            foreach (var n in list)
-            {
-                binText += n % 2 == 1 ? 1 : 0;
-            }
-            return BinToByte(binText);
-        }
+        
         public string EncryptedDataToBin(byte [] encryptedData,byte [] key, byte[] iv)
         {
             string binText = null;
@@ -428,7 +294,6 @@ namespace WebApplication.Utilities
             
             return binText;
         }
-
         static byte [] BinToByte(string bin)
         {
             var list= new List<byte>();
@@ -440,5 +305,8 @@ namespace WebApplication.Utilities
             
             return list.ToArray(); ;
         }
+        
+        
+        
     }
-}*/
+}

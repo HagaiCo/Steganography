@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace WebApplication.Utilities
 {
-    public class HideAndSeekMetaData
+    public class MetaDataVideo
     {
 
         public void hide(byte[] video, byte [] encryptedData)

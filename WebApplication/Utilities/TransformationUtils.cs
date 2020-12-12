@@ -15,7 +15,11 @@ namespace WebApplication.Utilities
                 Id = data.Id,
                 FileName = data.File.FileName,
                 PermittedUsers = data.PermittedUsers,
-                SecretMessage = data.SecretMessage
+                SecretMessage = data.SecretMessage,
+                EncryptionMethod = data.EncryptionMethod,
+                HidingMethod = data.HidingMethod
+                
+                
             };
             return obj;
         }

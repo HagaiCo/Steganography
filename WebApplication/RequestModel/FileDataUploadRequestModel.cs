@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
+using WebApplication.ResponseModel;
 
 namespace WebApplication.RequestModel
 {
@@ -20,6 +21,14 @@ namespace WebApplication.RequestModel
         public List<string> PermittedUsers { get; set; }
         public string FilePath { get; set; }
         
-
+        public FileType FileType { get; set; }
+        
+        public EncryptionMethod EncryptionMethod { get; set; }
+        
+        public HidingMethod HidingMethod { get; set; }
+        
+     
     }
+    
+    
 }

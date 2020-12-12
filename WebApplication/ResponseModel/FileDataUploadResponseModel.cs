@@ -8,10 +8,40 @@ namespace WebApplication.ResponseModel
         
         public string FileName { get; set; }
 
+        public FileType FileType { get; set; }
+        
+        public EncryptionMethod EncryptionMethod { get; set; }
+        
+        public HidingMethod HidingMethod { get; set; }
+        
         public string Id { get; set; }
 
         public string SecretMessage { get; set; }
         
         public List<string> PermittedUsers { get; set; }
+        
+        
+    }
+
+    public enum FileType
+    {
+        UndefinedType = 0,
+        Image = 1,
+        Audio =2,
+        Video = 3,
+        Executable = 4,
+        UnknownType = -1
+    }
+
+    public enum EncryptionMethod
+    {
+        Aes =0,
+        Tbd = 1
+    }
+
+    public enum HidingMethod
+    {
+        Lsb=0,
+        MetaData=1
     }
 }

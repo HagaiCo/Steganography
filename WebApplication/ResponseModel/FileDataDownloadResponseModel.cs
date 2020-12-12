@@ -9,5 +9,15 @@ namespace WebApplication.ResponseModel
         public string FileName { get; set; }
 
         public string Id { get; set; }
+        
+        public FileType FileType { get; set; }
+        
+        public EncryptionMethod EncryptionMethod { get; set; }
+        
+        public HidingMethod HidingMethod { get; set; }
+       
+
     }
+    
+    
 }

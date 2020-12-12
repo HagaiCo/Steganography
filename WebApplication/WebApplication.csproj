@@ -553,9 +553,17 @@
     <Compile Include="StartUp.cs" />
     <Compile Include="Tests\UnitTests.cs" />
     <Compile Include="Utilities\AesAlgo.cs" />
+    <Compile Include="Utilities\Decoder.cs" />
     <Compile Include="Utilities\EncryptDecrypt.cs" />
     <Compile Include="Utilities\HideAndSeekLsb.cs" />
-    <Compile Include="Utilities\HideAndSeekMetaData.cs" />
+    <Compile Include="Utilities\MetaDataVideo.cs" />
+    <Compile Include="Utilities\LsbAudio.cs" />
+    <Compile Include="Utilities\LsbExe.cs" />
+    <Compile Include="Utilities\LsbPicture.cs" />
+    <Compile Include="Utilities\LsbVideo.cs" />
+    <Compile Include="Utilities\MetaDataAudio.cs" />
+    <Compile Include="Utilities\MetaDataExe.cs" />
+    <Compile Include="Utilities\MetaDataPicture.cs" />
     <Compile Include="Utilities\TransformationUtils.cs" />
   </ItemGroup>
   <ItemGroup>
