@@ -146,6 +146,83 @@ namespace WebApplication.Tests
         }
         
         [Test]
+        public void MovTestLsb()
+        {
+            AesAlgo aesAlgo = new AesAlgo();
+            using (AesManaged aes = new AesManaged())
+            {
+                aes.KeySize = 128;
+                aes.Padding = PaddingMode.PKCS7;
+                
+                var path = @"C:/Users/mamis/Desktop/sample.mov";
+                
+                FileStream file = File.OpenRead(path);
+                byte[] byteVideo = File.ReadAllBytes(path);
+
+                string message = "Im the GOATTTT!!";
+                
+                byte[] encryptedData = aesAlgo.EncryptStringToBytes_Aes(message, aes.Key, aes.IV).Concat(aes.Key).Concat(aes.IV).ToArray();
+
+                var binMessage = _decoder.EncryptedByteArrayToBinary(encryptedData);
+                
+                _lsbVideo.HideMov(byteVideo, binMessage);
+                
+                byte[] cypherData = _lsbVideo.SeekMov(byteVideo);
+                byte[] key = _lsbVideo.ExtractKeyMov(byteVideo);
+                byte[] iv = _lsbVideo.ExtractIvMov(byteVideo);
+
+                var decryptedMessage = aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
+
+                Console.WriteLine("Secret Massage Is: \n" + decryptedMessage);
+                File.WriteAllBytes("C:/Users/mamis/Desktop/outputTest.mov", byteVideo);
+
+
+
+            }
+        }
+        
+        [Test]
+        public void MovTestMetaData()
+        {
+            AesAlgo aesAlgo = new AesAlgo();
+            using (AesManaged aes = new AesManaged())
+            {
+                aes.KeySize = 128;
+                aes.Padding = PaddingMode.PKCS7;
+                
+                var path = @"C:/Users/mamis/Desktop/vid.mov";
+                
+                
+                byte[] byteVideo = File.ReadAllBytes(path);
+                string message = "  the seven sees?? Lebron is the goat, It is well known all the seven sees." +
+                                 "the seven sees?? Lebron is the goat, It is well known all the seven sees" +
+                                 "the seven sees?? Lebron is the goat, It is well known all the seven sees" +
+                                 "the seven sees?? Lebron is the goat, It is well known all the seven sees" +
+                                 "the seven sees?? Lebron is the goat, It is well known all the seven sees??";
+
+                byte[] encryptedData = aesAlgo.EncryptStringToBytes_Aes(message, aes.Key, aes.IV).Concat(aes.Key).Concat(aes.IV)
+                    .ToArray();
+                //byte[] b = encryptedData.Concat(aes.Key).ToArray();
+                _metaDataVideo.HideMov(byteVideo, encryptedData);
+                
+                
+                
+                
+                byte[] cypherData = _metaDataVideo.SeekMov(byteVideo);
+                byte[] key = _metaDataVideo.ExtractKeyMov(byteVideo);
+                byte[] iv = _metaDataVideo.ExtractIvMov(byteVideo);
+
+                var decryptedMessage = aesAlgo.DecryptStringFromBytes_Aes(cypherData, aes.Key, aes.IV);
+
+                Console.WriteLine("Secret Massage Is: \n" + decryptedMessage);
+                File.WriteAllBytes("C:/Users/mamis/Desktop/movOutput.mov", byteVideo);
+
+
+
+            }
+        }
+        
+        [Test]
         public void AviTestMetaData()
         {
             AesAlgo aesAlgo = new AesAlgo();

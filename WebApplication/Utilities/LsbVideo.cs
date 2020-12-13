@@ -25,6 +25,42 @@ namespace WebApplication.Utilities
                 iterations++;
             }
         }
+
+        public void HideMov(byte[] mov, String bin)
+        {
+            var i = findMoov(mov);
+            foreach (var bit in bin)
+            {
+                if (bit == '1')
+                {
+                    if (mov[i] % 2 == 0)
+                        mov[i]++;
+                }
+                else
+                {
+                    if (mov[i] % 2 == 1)
+                        mov[i]--;
+                }
+                i--;
+            }
+            
+        }
+        
+        public static int findMoov(byte[] b)
+        {
+            for (int i = 12; i < b.Length; i++)
+            {
+                if(b[i]!=109)
+                    continue;
+                else
+                {
+                    if (b[i + 1] == 111 && b[i + 2] == 111 && b[i + 3] == 118)
+                        return i-10;
+                }
+            }
+
+            return 0;
+        }
         
         public byte[] Seek(byte[] vid)
         {
@@ -38,6 +74,23 @@ namespace WebApplication.Utilities
                 list.Add(vid[i] % 2 == 0 ? 0 : 1);
                 i++;
                 bitsProcessed++;
+            }
+            foreach (var n in list)
+            {
+                binText += n % 2 == 1 ? 1 : 0;
+            }
+            return BinToByte(binText);
+        }
+
+        public byte[] SeekMov(byte[] mov)
+        {
+            String binText = null;
+            var bitsToProcess = GetByteCountMov(mov)*8;
+            var i = findMoov(mov)-16;
+            var list = new List<int>();
+            for (int j = i; j > i - bitsToProcess; j--)
+            {
+                list.Add(mov[j] % 2 == 0 ? 0 : 1);
             }
             foreach (var n in list)
             {
@@ -65,6 +118,27 @@ namespace WebApplication.Utilities
             return BinToByte(binText);
         }
         
+        public byte[] ExtractKeyMov(byte [] vid)
+        {
+            string binText = null;
+            var bytesToSkip = GetByteCountMov(vid);
+            int index = findMoov(vid) - 16 - (bytesToSkip*8);
+            int iterations, i;
+            var list = new List<int>();
+            for (i = 0; i < 128; i++)
+            {
+                list.Add(vid[index--] % 2 == 0 ? 0 : 1);
+                
+            }
+            foreach (var n in list)
+            {
+                binText += n % 2 == 1 ? 1 : 0;
+            }
+            return BinToByte(binText);
+        }
+        
+        
+        
         public byte[] ExtractIv(byte [] vid)
         {
             string binText = null;
@@ -75,6 +149,25 @@ namespace WebApplication.Utilities
             for (i = 0; i < 128; i++)
             {
                 list.Add(vid[index+i] % 2 == 0 ? 0 : 1);
+                
+            }
+            foreach (var n in list)
+            {
+                binText += n % 2 == 1 ? 1 : 0;
+            }
+            return BinToByte(binText);
+        }
+        
+        public byte[] ExtractIvMov(byte [] vid)
+        {
+            string binText = null;
+            var bytesToSkip = GetByteCountMov(vid);
+            int index = findMoov(vid) - 16 - (bytesToSkip*8) - 128;
+            int iterations, i;
+            var list = new List<int>();
+            for (i = 0; i < 128; i++)
+            {
+                list.Add(vid[index--] % 2 == 0 ? 0 : 1);
                 
             }
             foreach (var n in list)
@@ -115,6 +208,25 @@ namespace WebApplication.Utilities
 
             return Convert.ToInt32(bin, 2);
         }
+        
+        static int GetByteCountMov(byte[] vid)
+        {
+            var firstByteList = new List<int>();
+            string bin = null;
+            var moovChunk = findMoov(vid);
+            for (int j = 0; j < 16; j++)
+            {
+                firstByteList.Add(vid[moovChunk--] % 2 == 1 ? 1 : 0);
+            }
+            
+            foreach (var n in firstByteList)
+            {
+                bin += n % 2 == 1 ? 1 : 0;
+            }
+
+            return Convert.ToInt32(bin, 2);
+        }
+        
         static byte [] BinToByte(string bin)
         {
             var list= new List<byte>();

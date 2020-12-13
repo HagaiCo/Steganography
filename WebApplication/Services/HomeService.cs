@@ -186,10 +186,16 @@ namespace WebApplication.Services
             {
                 case HidingMethod.Lsb:
                     encryptedBinary = _decoder.EncryptedByteArrayToBinary(encryptedData);
-                    _lsbVideo.Hide(byteVideo,encryptedBinary);
+                    if(fileData.FileExtension==".avi")
+                        _lsbVideo.Hide(byteVideo,encryptedBinary);
+                    else if (fileData.FileExtension==".mov")
+                        _lsbVideo.HideMov(byteVideo,encryptedBinary);
                     break;
                 case HidingMethod.MetaData:
-                    _metaDataVideo.hide(byteVideo,encryptedData);
+                    if(fileData.FileExtension==".avi")
+                        _metaDataVideo.hide(byteVideo,encryptedData);
+                    else if (fileData.FileExtension==".mov")
+                        _metaDataVideo.HideMov(byteVideo,encryptedData);
                     break;
                 
             }
@@ -318,14 +324,32 @@ namespace WebApplication.Services
             switch (data.HidingMethod)
             {
                 case HidingMethod.Lsb:
-                    cypherData = _lsbVideo.Seek(video);
-                     key = _lsbVideo.ExtractKey(video);
-                     iv = _lsbVideo.ExtractIv(video);
+                    if (data.FileExtension == ".avi")
+                    {
+                        cypherData = _lsbVideo.Seek(video);
+                        key = _lsbVideo.ExtractKey(video);
+                        iv = _lsbVideo.ExtractIv(video);
+                    }
+                    else
+                    {
+                        cypherData = _lsbVideo.SeekMov(video);
+                        key = _lsbVideo.ExtractKeyMov(video);
+                        iv = _lsbVideo.ExtractIvMov(video);
+                    }
                     break;
                 case HidingMethod.MetaData:
-                    cypherData = _metaDataVideo.Seek(video);
-                    key = _metaDataVideo.ExtractKey(video);
-                    iv = _metaDataVideo.ExtractIv(video);
+                    if (data.FileExtension == ".avi")
+                    {
+                        cypherData = _metaDataVideo.Seek(video);
+                        key = _metaDataVideo.ExtractKey(video);
+                        iv = _metaDataVideo.ExtractIv(video);
+                    }
+                    else
+                    {
+                        cypherData = _metaDataVideo.SeekMov(video);
+                        key = _metaDataVideo.ExtractKeyMov(video);
+                        iv = _metaDataVideo.ExtractIvMov(video);
+                    }
                     break;
             }
 
@@ -408,6 +432,8 @@ namespace WebApplication.Services
         static string[] VideoFileExtensions = 
         {
             ".AVI", ".MP4", ".DIVX", ".WMV", //etc
+            ".RMA", //etc
+            ".avi", ".MP4", ".DIVX", ".WMV",".mov" //etc
         };
 
         static string[] AudioFileExtensions =

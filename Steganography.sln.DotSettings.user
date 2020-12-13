@@ -7,14 +7,30 @@
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.WavTestLsb&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0c9c2275_002Dd028_002D4463_002D9e51_002D23666720e720/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="MovTestLsb #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.MovTestLsb&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1234f4ef_002D286e_002D45b2_002Da559_002De91e960b1606/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="bmpHide #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.bmpHide&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.MovTestLsb&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3d9fc293_002D4e3b_002D4b37_002Dadf7_002D4f68f2001965/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="bmpHide #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5d58ad32_002D270a_002D4de5_002Db1f1_002D7b1143bf9191/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="MovTestLsb #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.MovTestLsb&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a3f22dfe_002Dd8a1_002D4d92_002Dbc4f_002D71931cc37132/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="MovTestLsb" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.MovTestLsb&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=adea184a_002D955d_002D44ab_002D8b44_002D78c9ac5ae134/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="bmpHide" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -36,6 +52,7 @@
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.AviTestMetaData&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.bmpHide&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.AviTestLsb&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.MovTestLsb&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
