@@ -14,6 +14,8 @@ namespace WebApplication.ResponseModel
         
         public HidingMethod HidingMethod { get; set; }
         
+        public string FileExtension { get; set; }
+        
         public string Id { get; set; }
 
         public string SecretMessage { get; set; }
