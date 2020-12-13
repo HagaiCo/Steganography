@@ -4,31 +4,8 @@ using System.Drawing;
 
 namespace WebApplication.Utilities
 {
-    public class HideAndSeek
+    public class LsbPicture
     {
-        public void Clean(Bitmap bmp, int textLength) // Cleaning all LSB to 0's
-        {
-            int i;  // row
-            int j; // col
-            var R = 0;
-            var G = 0;
-            var B = 0;
-            for (i = 0; i < bmp.Height; i+=1)
-            {
-                for (j = 0; j < bmp.Width; j+=1)
-                {
-                    Color pixel = bmp.GetPixel(j,i);
-                    R = pixel.R;
-                    R = pixel.R - pixel.R % 2;
-                    G = pixel.G;
-                    G = pixel.G - pixel.G % 2;
-                    B = pixel.B;
-                    B = pixel.B - pixel.B % 2;
-                    bmp.SetPixel(j,i, Color.FromArgb(R,G,B));
-                }
-            }
-        }
-
         public void Hide(Bitmap bmp,String bin)
         {
             
@@ -49,7 +26,15 @@ namespace WebApplication.Utilities
                         {
                             R = pixel.R;
                             if (bin[iterantions] == '1')
-                                R+=1;
+                            {
+                                if (R % 2 == 0)
+                                    R += 1;
+                            }
+                            else
+                            {
+                                if (R % 2 == 1)
+                                    R -= 1;
+                            }
                             bmp.SetPixel(j, i, Color.FromArgb(R, pixel.G, pixel.B));
                             break;
                         }
@@ -57,7 +42,15 @@ namespace WebApplication.Utilities
                         {
                             G = pixel.G;
                             if (bin[iterantions] == '1')
-                                G+=1;
+                            {
+                                if (G % 2 == 0)
+                                    G += 1;
+                            }
+                            else
+                            {
+                                if (G % 2 == 1)
+                                    G -= 1;
+                            }
                             bmp.SetPixel(j, i, Color.FromArgb(pixel.R, G, pixel.B));
                             break;
                         }
@@ -65,7 +58,16 @@ namespace WebApplication.Utilities
                         {
                             B = pixel.B;
                             if (bin[iterantions] == '1')
-                                B+=1;
+                            {
+                                if (B % 2 == 0)
+                                    B += 1;
+                            }
+                            else
+                            {
+                                if (B % 2 == 1)
+                                    B -= 1;
+                            }
+                            
                             bmp.SetPixel(j, i, Color.FromArgb(pixel.R, pixel.G, B));
                             break;
                             
@@ -81,15 +83,17 @@ namespace WebApplication.Utilities
                 }
             }
         }
-
         
         static int GetByteCount(Bitmap bmp) //returns decimal value of first 16 bits - length of cypher.
         {
             var firstByteList = new List<int>();
             string bin = null;
+            
             int i = 0, j;
             for (j = 0; j < 16; j++)
             {
+                
+                
                 Color pixel = bmp.GetPixel(j, i);
                 switch (i+j%3)
                 {
@@ -118,7 +122,7 @@ namespace WebApplication.Utilities
             return Convert.ToInt32(bin, 2);
 
         }
-
+        
         public byte [] Seek(Bitmap bmp)
         {
             var bitsToProcess = GetByteCount(bmp)*8;
@@ -129,7 +133,7 @@ namespace WebApplication.Utilities
             var list= new List<int>();
             for (i = 0; i < bmp.Height; i += 1)
             {
-                for (j = i == 0 ? 16 : 0; j < bmp.Width; j += 1)  // starts from 3rd byte because 1st byte is length
+                for (j = i == 0 ? 16 : 0; j < bmp.Width; j += 1)  // starts from 3rd byte because 2st byte is length
                 {
                     Color pixel = bmp.GetPixel(j, i);
                     switch ((i + j) % 3)
@@ -221,7 +225,7 @@ namespace WebApplication.Utilities
             
 
         }
-
+        
         public byte[] ExtractIv(Bitmap bmp)
         {
             string binText = null;
@@ -268,11 +272,11 @@ namespace WebApplication.Utilities
             }
             return BinToByte(binText);
         }
-
+        
         public string EncryptedDataToBin(byte [] encryptedData,byte [] key, byte[] iv)
         {
             string binText = null;
-            binText=Convert.ToString(encryptedData.Length, 2).PadLeft(16, '0'); //first byte is the length of byts to read.
+            binText=Convert.ToString(encryptedData.Length, 2).PadLeft(16, '0'); //first 2 byte is the length of byts to read.
             foreach (var byt in encryptedData)
             {
                 binText += Convert.ToString(byt, 2).PadLeft(8, '0');
@@ -290,7 +294,6 @@ namespace WebApplication.Utilities
             
             return binText;
         }
-
         static byte [] BinToByte(string bin)
         {
             var list= new List<byte>();
@@ -302,5 +305,8 @@ namespace WebApplication.Utilities
             
             return list.ToArray(); ;
         }
+        
+        
+        
     }
 }

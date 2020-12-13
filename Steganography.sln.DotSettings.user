@@ -26,7 +26,13 @@
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.hagai&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fd665ae2_002D8ccc_002D48b6_002D83f3_002D45701ec38b66/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AviTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.AviTestMetaData&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.bmpHide&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.AviTestLsb&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	
 	
 	

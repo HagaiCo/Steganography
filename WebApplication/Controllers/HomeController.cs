@@ -67,6 +67,8 @@ namespace WebApplication.Controllers
                 obj.FileName = file.FileName;
                 obj.Id = file.Id;
                 obj.FileType = file.FileType;
+                obj.EncryptionMethod = file.EncryptionMethod;
+                obj.HidingMethod = file.HidingMethod;
                 filesToPresent.Add(obj);
             }
             return View(filesToPresent);
@@ -74,7 +76,9 @@ namespace WebApplication.Controllers
 
         public ActionResult ShowSecretMessage(string fileId)
         {
-            var message = _homeService.GetSecretMessage(fileId);
+            var message = _homeService.ExtractMessage(fileId);
+            //var message = _homeService.GetSecretMessageFromVideo(fileId);
+            
             return Content(message);
         }
         public ActionResult DownloadFileData(string fileId, string fileName)

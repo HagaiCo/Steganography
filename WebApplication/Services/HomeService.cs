@@ -27,6 +27,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using WebApplication.RequestModel;
 using WebApplication.ResponseModel;
+using EncryptionMethod = WebApplication.ResponseModel.EncryptionMethod;
+using HidingMethod = WebApplication.ResponseModel.HidingMethod;
 
 namespace WebApplication.Services
 {
@@ -34,7 +36,12 @@ namespace WebApplication.Services
     {
         private static readonly AccountService _accountService = new AccountService();
         AesAlgo _aesAlgo= new AesAlgo(); 
-        HideAndSeek _hideAndSeek =new HideAndSeek();
+        Decoder _decoder = new Decoder();
+        LsbPicture _lsbPicture = new LsbPicture();
+        LsbVideo _lsbVideo = new LsbVideo();
+        MetaDataVideo _metaDataVideo = new MetaDataVideo();
+        
+        
 
         public async Task<bool> Upload(FileDataUploadRequestModel fileDataUploadRequestModel)
         {
@@ -53,13 +60,21 @@ namespace WebApplication.Services
             var fileDataUploadResponseModel = data.Convert();
             SetFileType(fileDataUploadResponseModel);
 
+            Console.WriteLine(fileDataUploadRequestModel.HidingMethod);
             switch (fileDataUploadResponseModel.FileType)
             {
                 case FileType.Image:
-                    fileDataUploadResponseModel.File = EncryptAndHide(data);
+                    
+                    fileDataUploadResponseModel.File = EncryptAndHideInPicture(data);
                     break;
                 case FileType.Video:
+                    fileDataUploadResponseModel.File = EncryptAndHideInVideo(fileDataUploadResponseModel);
                     break;
+                case FileType.Audio:
+                    break;
+                case FileType.Executable:
+                    break;
+                
             }
             
             var response = await _client.PushAsync("Files/", fileDataUploadResponseModel);
@@ -68,26 +83,101 @@ namespace WebApplication.Services
             return setResult.StatusCode == HttpStatusCode.OK;
         }
 
-        public byte[] EncryptAndHide(FileDataUploadRequestModel data)
+        public byte[] Encrypt_Aes(string plainMessage)
         {
             
-            HideAndSeek _hideAndSeek = new HideAndSeek();
             AesAlgo aesAlgo = new AesAlgo();
             using (AesManaged aes = new AesManaged())
             {
                 aes.KeySize = 128;
                 aes.Padding = PaddingMode.PKCS7;
-                Bitmap bmp = (Bitmap) Image.FromStream(data.File.InputStream, true, false);
-                var message = data.TextToHide;
-                byte[] encryptedData = aesAlgo.EncryptStringToBytes_Aes(message, aes.Key, aes.IV);
-                var binMessage = _hideAndSeek.EncryptedDataToBin(encryptedData, aes.Key, aes.IV);
-                _hideAndSeek.Clean(bmp, binMessage.Length);
-                _hideAndSeek.Hide(bmp, binMessage);
+                byte[] encryptedData = aesAlgo.EncryptStringToBytes_Aes(plainMessage, aes.Key, aes.IV).Concat(aes.Key)
+                    .Concat(aes.IV).ToArray();
+                return encryptedData;
 
-                ImageConverter converter = new ImageConverter();
-                return (byte[])converter.ConvertTo(bmp, typeof(byte[]));
+            }
+        }
+
+        
+        public string Decrypt_Aes(byte [] cypherData, byte[] key,byte[] iv)
+        {
+            AesAlgo aesAlgo = new AesAlgo();
+            return aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
+        }
+
+        public string ExtractMessage(string fileId)
+        {
+            var fileData = GetFileById(fileId);
+            if (fileData.FileType == FileType.Video)
+               return ExtractMessageFromVideo(fileId);
+            else
+            {
+               return ExtractMessageFromPicture(fileId);
+            }
+        }
+        
+        public byte[] EncryptAndHideInPicture(FileDataUploadRequestModel fileData)
+        {
+            Bitmap bmp = (Bitmap) Image.FromStream(fileData.File.InputStream, true, false);
+            byte[] encryptedData = null;
+            string encryptedBinary =null;
+            
+            switch (fileData.EncryptionMethod)
+            {
+                case EncryptionMethod.Aes: 
+                    encryptedData = Encrypt_Aes(fileData.SecretMessage);
+                    break;
+                case EncryptionMethod.Tbd:
+                    break;
+            }
+
+            switch (fileData.HidingMethod)
+            {
+                case HidingMethod.Lsb:
+                    encryptedBinary = _decoder.EncryptedByteArrayToBinary(encryptedData);
+                    _lsbPicture.Hide(bmp,encryptedBinary);
+                    break;
+                case HidingMethod.MetaData:
+                    break;
+            }
+            
+            using (var stream = new MemoryStream())
+            {
+                bmp.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return stream.ToArray();
+            }
+        }
+
+        public byte[] EncryptAndHideInVideo(FileDataUploadResponseModel fileData)
+        {
+            
+            byte[] byteVideo = fileData.File;
+            byte[] encryptedData = null;
+            string encryptedBinary =null;
+            
+            switch (fileData.EncryptionMethod)
+            {
+                case EncryptionMethod.Aes:
+                    encryptedData = Encrypt_Aes(fileData.SecretMessage);
+                    break;
+                case EncryptionMethod.Tbd:
+                    break;
+            }
+
+
+            switch (fileData.HidingMethod)
+            {
+                case HidingMethod.Lsb:
+                    encryptedBinary = _decoder.EncryptedByteArrayToBinary(encryptedData);
+                    _lsbVideo.Hide(byteVideo,encryptedBinary);
+                    break;
+                case HidingMethod.MetaData:
+                    _metaDataVideo.hide(byteVideo,encryptedData);
+                    break;
                 
             }
+            return byteVideo;
+            
         }
         
         public List<FileDataUploadResponseModel> GetAllFilesData()
@@ -131,17 +221,74 @@ namespace WebApplication.Services
             File.WriteAllBytes(pathString, fileToDownload.File);
         }
 
-        public string GetSecretMessage(string fileId)
+        public string ExtractMessageFromPicture(string fileId)
         {
             AesAlgo aesAlgo = new AesAlgo();
-            var data = GetFileById(fileId);
-            var ms = new MemoryStream(data.File);
+            
+            var fileData = GetFileById(fileId);
+            var ms = new MemoryStream(fileData.File);
             var bmp = new Bitmap(ms);
-            byte[] cypherData = _hideAndSeek.Seek(bmp);
-            byte[] key = _hideAndSeek.ExtractKey(bmp);
-            byte[] iv = _hideAndSeek.ExtractIv(bmp);
+            byte[] cypherData = null;
+            byte[] key = null;
+            byte[] iv = null;
+            string decryptedMessage = null;
+            switch (fileData.HidingMethod)
+            {
+                case HidingMethod.Lsb:
+                    cypherData = _lsbPicture.Seek(bmp);
+                    key = _lsbPicture.ExtractKey(bmp);
+                    iv = _lsbPicture.ExtractIv(bmp);
+                    break;
+                case HidingMethod.MetaData:
+                    break;
+            }
 
-            var decryptedMessage = aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
+            switch (fileData.EncryptionMethod)
+            {
+                case EncryptionMethod.Aes:
+                    decryptedMessage = Decrypt_Aes(cypherData, key, iv);
+                    break;
+                case EncryptionMethod.Tbd:
+                    break;
+            }
+
+
+            return decryptedMessage;
+        }
+        
+        public string ExtractMessageFromVideo(string fileId)
+        {
+            AesAlgo aesAlgo = new AesAlgo();
+            
+            var data = GetFileById(fileId);
+            byte[] video = data.File;
+            byte[] cypherData = null;
+            byte[] key = null;
+            byte[] iv = null;
+            string decryptedMessage = null;
+            
+            switch (data.HidingMethod)
+            {
+                case HidingMethod.Lsb:
+                    cypherData = _lsbVideo.Seek(video);
+                     key = _lsbVideo.ExtractKey(video);
+                     iv = _lsbVideo.ExtractIv(video);
+                    break;
+                case HidingMethod.MetaData:
+                    cypherData = _metaDataVideo.Seek(video);
+                    key = _metaDataVideo.ExtractKey(video);
+                    iv = _metaDataVideo.ExtractIv(video);
+                    break;
+            }
+
+            switch (data.EncryptionMethod)
+            {
+                case EncryptionMethod.Aes:
+                    decryptedMessage=Decrypt_Aes(cypherData,key,iv);
+                    break;
+                case EncryptionMethod.Tbd: 
+                    break;
+            }
 
             return decryptedMessage;
         }
