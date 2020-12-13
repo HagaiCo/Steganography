@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Compilation;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using WebApplication.RequestModel;
@@ -39,7 +40,9 @@ namespace WebApplication.Services
         Decoder _decoder = new Decoder();
         LsbPicture _lsbPicture = new LsbPicture();
         LsbVideo _lsbVideo = new LsbVideo();
+        LsbAudio _lsbAudio = new LsbAudio();
         MetaDataVideo _metaDataVideo = new MetaDataVideo();
+        MetaDataAudio _metaDataAudio = new MetaDataAudio();
         
         
 
@@ -72,6 +75,7 @@ namespace WebApplication.Services
                     fileDataUploadResponseModel.File = EncryptAndHideInVideo(fileDataUploadResponseModel);
                     break;
                 case FileType.Audio:
+                    fileDataUploadResponseModel.File = EncryptAndHideInAudio(fileDataUploadResponseModel);
                     break;
                 case FileType.Executable:
                     break;
@@ -110,11 +114,23 @@ namespace WebApplication.Services
         {
             var fileData = GetFileById(fileId);
             if (fileData.FileType == FileType.Video)
-               return ExtractMessageFromVideo(fileId);
-            else
             {
-               return ExtractMessageFromPicture(fileId);
+                return ExtractMessageFromVideo(fileId);
             }
+            if (fileData.FileType == FileType.Image)
+            {
+                return ExtractMessageFromPicture(fileId);
+            }
+            if (fileData.FileType == FileType.Audio)
+            {
+                return ExtractMessageFromAudio(fileId);
+            }
+            if (fileData.FileType == FileType.Executable)
+            {
+                return "Not Supported yet";
+            }
+
+            return "No Suitable file type was uploaded";
         }
         
         public byte[] EncryptAndHideInPicture(FileDataUploadRequestModel fileData)
@@ -179,6 +195,37 @@ namespace WebApplication.Services
             }
             return byteVideo;
             
+        }
+        
+        public byte[] EncryptAndHideInAudio(FileDataUploadResponseModel fileData)
+        {
+            
+            byte[] byteAudio = fileData.File;
+            byte[] encrypteMessage = null;
+            string encryptedBinary =null;
+            
+            switch (fileData.EncryptionMethod)
+            {
+                case EncryptionMethod.Aes:
+                    encrypteMessage = Encrypt_Aes(fileData.SecretMessage);
+                    break;
+                case EncryptionMethod.Tbd:
+                    break;
+            }
+
+
+            switch (fileData.HidingMethod)
+            {
+                case HidingMethod.Lsb:
+                    encryptedBinary = _decoder.EncryptedByteArrayToBinary(encrypteMessage);
+                    _lsbAudio.Hide(byteAudio,encryptedBinary);
+                    break;
+                case HidingMethod.MetaData:
+                    _metaDataAudio.Hide(byteAudio,encrypteMessage);
+                    break;
+                
+            }
+            return byteAudio;
         }
         
         public List<FileDataUploadResponseModel> GetAllFilesData()
@@ -294,6 +341,43 @@ namespace WebApplication.Services
             return decryptedMessage;
         }
         
+        public string ExtractMessageFromAudio(string fileId)
+        {
+            AesAlgo aesAlgo = new AesAlgo();
+            
+            var data = GetFileById(fileId);
+            byte[] audio = data.File;
+            byte[] cypherData = null;
+            byte[] key = null;
+            byte[] iv = null;
+            string decryptedMessage = null;
+            
+            switch (data.HidingMethod)
+            {
+                case HidingMethod.Lsb:
+                    cypherData = _lsbAudio.Seek(audio);
+                    key = _lsbAudio.ExtractKey(audio);
+                    iv = _lsbAudio.ExtractIv(audio);
+                    break;
+                case HidingMethod.MetaData:
+                    cypherData = _metaDataAudio.Seek(audio);
+                    key = _metaDataAudio.ExtractKey(audio);
+                    iv = _metaDataAudio.ExtractIv(audio);
+                    break;
+            }
+
+            switch (data.EncryptionMethod)
+            {
+                case EncryptionMethod.Aes:
+                    decryptedMessage=Decrypt_Aes(cypherData,key,iv);
+                    break;
+                case EncryptionMethod.Tbd: 
+                    break;
+            }
+
+            return decryptedMessage;
+        }
+        
         public List<FileDataUploadResponseModel> GetPermittedFilesData()
         {
             var requestingUserEmail = HttpContext.Current.GetOwinContext().Authentication.User.Claims.First().Value;
@@ -323,8 +407,12 @@ namespace WebApplication.Services
         
         static string[] VideoFileExtensions = 
         {
-            ".WAV", ".MID", ".MIDI", ".WMA", ".MP3", ".OGG", ".RMA", //etc
             ".AVI", ".MP4", ".DIVX", ".WMV", //etc
+        };
+
+        static string[] AudioFileExtensions =
+        {
+            ".WAV", ".MID", ".MIDI", ".WMA", ".MP3", ".OGG", ".RMA", //etc
         };
         
         static string[] ImageFileExtensions = 
@@ -346,6 +434,7 @@ namespace WebApplication.Services
         {
             var isVideoFile = VideoFileExtensions.Contains(Path.GetExtension(fileDataUploadResponseModel.FileName), StringComparer.OrdinalIgnoreCase);
             var isImageFile = ImageFileExtensions.Contains(Path.GetExtension(fileDataUploadResponseModel.FileName), StringComparer.OrdinalIgnoreCase);
+            var isAudioFile = AudioFileExtensions.Contains(Path.GetExtension(fileDataUploadResponseModel.FileName), StringComparer.OrdinalIgnoreCase);
             var isExecutableFile = ExecutableFileExtensions.Contains(Path.GetExtension(fileDataUploadResponseModel.FileName), StringComparer.OrdinalIgnoreCase);
 
             if (isVideoFile)
@@ -354,6 +443,8 @@ namespace WebApplication.Services
                 fileDataUploadResponseModel.FileType = FileType.Image;
             else if (isExecutableFile)
                 fileDataUploadResponseModel.FileType = FileType.Executable;
+            else if (isAudioFile)
+                fileDataUploadResponseModel.FileType = FileType.Audio;
             else
                 fileDataUploadResponseModel.FileType = FileType.UnknownType;
             return fileDataUploadResponseModel;
@@ -369,6 +460,9 @@ namespace WebApplication.Services
                     break;
                 case FileType.Executable:
                     fileIconName = "ExecutableIcon.jpg";
+                    break;
+                case FileType.Audio:
+                    fileIconName = "VideoIcon.png";
                     break;
             }
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileIconName);

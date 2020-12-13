@@ -21,10 +21,11 @@ namespace WebApplication.Tests
         MetaDataVideo _metaDataVideo = new MetaDataVideo();
         LsbPicture _lsbPicture = new LsbPicture();
         LsbVideo _lsbVideo = new LsbVideo();
+        LsbAudio _lsbAudio = new LsbAudio();
         HomeService _homeService = new HomeService();
         Decoder _decoder = new Decoder();
             
-            
+        
 
         
         [Test]
@@ -75,6 +76,37 @@ namespace WebApplication.Tests
             var decryptedMessage = aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
 
             Console.WriteLine("Secret Massage Is: \n" + decryptedMessage);
+        }
+
+        [Test]
+        public void WavTestLsb()
+        {
+            AesAlgo aesAlgo = new AesAlgo();
+            using (AesManaged aes = new AesManaged())
+            {
+                aes.KeySize = 128;
+                aes.Padding = PaddingMode.PKCS7;
+                var path = @"C:/Users/Mike/Desktop/pruducta/file_example_WAV_1MG - Copy.wav";
+                //FileStream file = File.OpenRead(path);
+                byte[] byteAudio = File.ReadAllBytes(path);
+                string message = "blalalalalalalalalalalalalal !!!!!!!!!!!!1 @#%% secert message";
+                byte[] encryptedMessage = aesAlgo.EncryptStringToBytes_Aes(message, aes.Key, aes.IV).Concat(aes.Key)
+                    .Concat(aes.IV).ToArray();
+                var binMessage = _decoder.EncryptedByteArrayToBinary(encryptedMessage);
+                
+                
+                _lsbAudio.Hide(byteAudio, binMessage);
+                
+                byte[] cypherData = _lsbAudio.Seek(byteAudio);
+                byte[] key = _lsbAudio.ExtractKey(byteAudio);
+                byte[] iv = _lsbAudio.ExtractIv(byteAudio);
+
+                var decryptedMessage = aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
+
+                Console.WriteLine("Secret Massage Is: \n" + decryptedMessage);
+                File.WriteAllBytes("C:/Users/Mike/Desktop/pruducta/file_example_WAV_1MG - Copy.wav", byteAudio);
+
+            }
         }
 
         [Test]
