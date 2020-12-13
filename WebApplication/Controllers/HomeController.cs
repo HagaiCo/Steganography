@@ -66,6 +66,7 @@ namespace WebApplication.Controllers
                 obj.File = file.File;
                 obj.FileName = file.FileName;
                 obj.Id = file.Id;
+                obj.FileExtension = file.FileExtension;
                 obj.FileType = file.FileType;
                 obj.EncryptionMethod = file.EncryptionMethod;
                 obj.HidingMethod = file.HidingMethod;

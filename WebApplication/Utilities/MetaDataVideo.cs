@@ -23,6 +23,36 @@ namespace WebApplication.Utilities
             }
         }
 
+        public void HideMov(byte[] mov, byte[] encryptedData)
+        {
+            var mdat = FindMdat(mov);
+            byte[] length = BitConverter.GetBytes(encryptedData.Length-32) ;
+            mov[mdat++] = length[0];
+            mov[mdat++] = length[1];
+            mov[mdat++]= 0;
+            mov[mdat++] = 0;
+            foreach (var b in encryptedData)
+            {
+                mov[mdat++] = b;
+            }
+
+        }
+
+        public static int FindMdat(byte[] b)
+        {
+            for (int i = 0; i < b.Length; i++)
+            {
+                if(b[i]!=109)
+                    continue;
+                else
+                {
+                    if (b[i + 1] == 100 && b[i + 2] == 97 && b[i + 3] == 116)
+                        return i+16;
+                }
+            }
+
+            return 0;
+        }
         public byte[] Seek(byte[] video)
         {
             int j = 0;
@@ -36,6 +66,22 @@ namespace WebApplication.Utilities
             {
                 encryptedData[j++] = video[i];
             }
+            return encryptedData;
+        }
+
+        public byte[] SeekMov(byte[] mov)
+        {
+            int j = 0;
+            var mdat = FindMdat(mov);
+            byte[] lengthBytes = {mov[mdat], mov[mdat + 1], mov[mdat + 2], mov[mdat + 3]};
+            int length = BitConverter.ToInt32(lengthBytes, 0);
+            byte [] encryptedData =new byte[length];
+
+            for (int i = mdat+4; i < mdat+4+length; i++)
+            {
+                encryptedData[j++] = mov[i];
+            }
+
             return encryptedData;
         }
 
@@ -55,6 +101,22 @@ namespace WebApplication.Utilities
             return key;
         }
         
+        public byte[] ExtractKeyMov(byte[] mov)
+        {
+            byte [] key = new byte[16];
+            int j = 0;
+            var mdat = FindMdat(mov);
+            byte[] lengthBytes = {mov[mdat], mov[mdat + 1], mov[mdat + 2], mov[mdat + 3]};
+            int length = BitConverter.ToInt32(lengthBytes, 0);
+            int index = mdat + 4 + length;
+            for (int i = index; i < index + 16; i++)
+            {
+                key[j++] = mov[i];
+            }
+
+            return key;
+        }
+        
         public byte[] ExtractIv(byte[] video)
         {
             byte [] iv = new byte[16];
@@ -66,6 +128,22 @@ namespace WebApplication.Utilities
             for (int i = index; i < index + 16; i++)
             {
                 iv[j++] = video[i];
+            }
+
+            return iv;
+        }
+        
+        public byte[] ExtractIvMov(byte[] mov)
+        {
+            byte [] iv = new byte[16];
+            int j = 0;
+            var mdat = FindMdat(mov);
+            byte[] lengthBytes = {mov[mdat], mov[mdat + 1], mov[mdat + 2], mov[mdat + 3]};
+            int length = BitConverter.ToInt32(lengthBytes, 0);
+            int index = mdat + 4 + length + 16;
+            for (int i = index; i < index + 16; i++)
+            {
+                iv[j++] = mov[i];
             }
 
             return iv;

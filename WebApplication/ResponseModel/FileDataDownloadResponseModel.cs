@@ -10,6 +10,8 @@ namespace WebApplication.ResponseModel
 
         public string Id { get; set; }
         
+        public string FileExtension { get; set; }
+        
         public FileType FileType { get; set; }
         
         public EncryptionMethod EncryptionMethod { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.IO;
 using WebApplication.RequestModel;
 using WebApplication.ResponseModel;
@@ -17,7 +18,9 @@ namespace WebApplication.Utilities
                 PermittedUsers = data.PermittedUsers,
                 SecretMessage = data.SecretMessage,
                 EncryptionMethod = data.EncryptionMethod,
-                HidingMethod = data.HidingMethod
+                HidingMethod = data.HidingMethod,
+                FileExtension = Path.GetExtension(data.FilePath)
+                
                 
                 
             };
