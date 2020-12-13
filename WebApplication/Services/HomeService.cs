@@ -61,6 +61,7 @@ namespace WebApplication.Services
             SetFileType(fileDataUploadResponseModel);
 
             Console.WriteLine(fileDataUploadRequestModel.HidingMethod);
+            Console.WriteLine(fileDataUploadRequestModel.EncryptionMethod);
             switch (fileDataUploadResponseModel.FileType)
             {
                 case FileType.Image:
