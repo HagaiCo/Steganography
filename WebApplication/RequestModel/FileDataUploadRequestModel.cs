@@ -24,7 +24,7 @@ namespace WebApplication.RequestModel
         public FileType FileType { get; set; }
         
         
-        
+        [Display(Name="Choose Encryption Method")]
         public EncryptionMethod EncryptionMethod { get; set; }
         [Display(Name="Choose hiding method")]
         public HidingMethod HidingMethod { get; set; }

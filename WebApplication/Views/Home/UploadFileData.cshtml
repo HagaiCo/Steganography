@@ -39,17 +39,27 @@
                 @Html.ValidationMessageFor(model => model.SecretMessage, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="form-group">
+                    @Html.LabelFor(model => model.HidingMethod, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.RadioButtonFor(model => model.EncryptionMethod, "Aes")
+                        @Html.LabelFor(model => model.EncryptionMethod, "AES")
+                        <br>
+                        @Html.RadioButtonFor(model => model.EncryptionMethod, "Tbd")
+                        @Html.LabelFor(model => model.EncryptionMethod, "TBD")
+                    </div>
+                    
+                </div>
         
         <div class="form-group">
             @Html.LabelFor(model => model.HidingMethod, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.RadioButtonFor(model => model.HidingMethod, "LSB")
-                @Html.LabelFor(model => model.HidingMethod, "LSB")
+                @Html.RadioButtonFor(model => model.HidingMethod, "Lsb")
+                @Html.LabelFor(model => model.HidingMethod, "Lsb")
                 <br>
                 @Html.RadioButtonFor(model => model.HidingMethod, "MetaData")
                 @Html.LabelFor(model => model.HidingMethod, "MetaData")
             </div>
-            
         </div>
         
         <div class="form-group">
