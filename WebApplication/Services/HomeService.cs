@@ -43,7 +43,7 @@ namespace WebApplication.Services
         LsbAudio _lsbAudio = new LsbAudio();
         MetaDataVideo _metaDataVideo = new MetaDataVideo();
         MetaDataAudio _metaDataAudio = new MetaDataAudio();
-        
+        MetaDataPicture _metaDataPicture = new MetaDataPicture();
         
 
         public async Task<bool> Upload(FileDataUploadRequestModel fileDataUploadRequestModel)
@@ -155,6 +155,7 @@ namespace WebApplication.Services
                     _lsbPicture.Hide(bmp,encryptedBinary);
                     break;
                 case HidingMethod.MetaData:
+                    return _metaDataPicture.HideJpeg(File.ReadAllBytes(fileData.FilePath), encryptedData); //(File.ReadAllBytes(fileData.FilePath) = byte [] of jpeg)
                     break;
             }
             
@@ -294,6 +295,9 @@ namespace WebApplication.Services
                     iv = _lsbPicture.ExtractIv(bmp);
                     break;
                 case HidingMethod.MetaData:
+                    cypherData = _metaDataPicture.SeekJpeg(fileData.File);
+                    key = _metaDataPicture.ExtractKey(fileData.File);
+                    iv = _metaDataPicture.ExtractIv(fileData.File);
                     break;
             }
 
@@ -443,7 +447,7 @@ namespace WebApplication.Services
         
         static string[] ImageFileExtensions = 
         {
-            ".JPEG", ".JPG", ".PNG", ".BMP", ".GIF"
+            ".JPEG", ".JPG", ".PNG", ".BMP", ".GIF",".tiff","TIFF"
         };
         
         static string[] ExecutableFileExtensions = 
