@@ -86,6 +86,7 @@ namespace WebApplication.Utilities
         
         static int GetByteCount(Bitmap bmp) //returns decimal value of first 16 bits - length of cypher.
         {
+            
             var firstByteList = new List<int>();
             string bin = null;
             

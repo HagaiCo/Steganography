@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using NUnit.Framework;
+using WebApplication.ResponseModel;
 using WebApplication.Services;
 using WebApplication.Services;
 using WebApplication.Utilities;
@@ -19,15 +20,56 @@ namespace WebApplication.Tests
     {
         
         MetaDataVideo _metaDataVideo = new MetaDataVideo();
+        MetaDataPicture _metaDataPicture = new MetaDataPicture();
         LsbPicture _lsbPicture = new LsbPicture();
         LsbVideo _lsbVideo = new LsbVideo();
         LsbAudio _lsbAudio = new LsbAudio();
         HomeService _homeService = new HomeService();
         Decoder _decoder = new Decoder();
-            
-        
 
-        
+
+        [Test]
+        public void JpegHide()
+        {
+            AesAlgo aesAlgo = new AesAlgo();
+            using (AesManaged aes = new AesManaged())
+            {
+                aes.KeySize = 128;
+                aes.Padding = PaddingMode.PKCS7;
+
+                var path = @"C:/Users/mamis/Desktop/tif.tiff";
+                var path2 = @"C:/Users/mamis/Desktop/picOutput.tiff";
+                var jpeg = File.ReadAllBytes(path);
+
+                string message = "Lebron james is the greatest player of all times" +
+                                 "Lebron james is the greatest player of all times" +
+                                 "Lebron james is the greatest player of all times" +
+                                 "Lebron james is the greatest player of all times" +
+                                 "Lebron james is the greatest player of all times" +
+                                 "Lebron james is the greatest player of all times ";
+                                  
+                                  
+                                 
+                    
+
+                byte[] encryptedData = aesAlgo.EncryptStringToBytes_Aes(message, aes.Key, aes.IV);
+                encryptedData = encryptedData
+                    .Concat(aes.Key)
+                    .Concat(aes.IV).ToArray();
+
+                jpeg =_metaDataPicture.HideJpeg(jpeg, encryptedData);
+                byte[] cypherData = _metaDataPicture.SeekJpeg(jpeg);
+                byte[] key = _metaDataPicture.ExtractKey(jpeg);
+                byte[] iv = _metaDataPicture.ExtractIv(jpeg);
+
+                var decryptedMessage = aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
+
+                Console.WriteLine("Secret Massage Is: \n" + decryptedMessage);
+                File.WriteAllBytes(path2,jpeg);
+            }
+        }
+
+
         [Test]
         public void bmpHide()
         {

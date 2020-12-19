@@ -2,9 +2,10 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Users\hagai\.nuget\packages\firebaseadmin\1.17.1\lib\netstandard2.0\FirebaseAdmin.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=11638f70_002D45a5_002D4b57_002Db2e6_002Db64e7c8ea66c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="WavTestLsb" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=11638f70_002D45a5_002D4b57_002Db2e6_002Db64e7c8ea66c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="WavTestLsb" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.WavTestLsb&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.JpegHide&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0c9c2275_002Dd028_002D4463_002D9e51_002D23666720e720/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="MovTestLsb #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -18,9 +19,19 @@
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.MovTestLsb&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=36b039c0_002D341f_002D438e_002Da049_002D2718e1ef4b4c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="JpegHide #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.JpegHide&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3d9fc293_002D4e3b_002D4b37_002Dadf7_002D4f68f2001965/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="bmpHide #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5c498368_002D36e8_002D4ef6_002Db0cd_002D3e0a357ee96d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="JpegHide #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.JpegHide&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5d58ad32_002D270a_002D4de5_002Db1f1_002D7b1143bf9191/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="MovTestLsb #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -33,6 +44,16 @@
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.MovTestLsb&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=acb2ad9d_002Db013_002D43fc_002Da42d_002D6e786bda2b89/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="JpegHide #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.JpegHide&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ade1f13d_002Dabda_002D479a_002Db81a_002D55266ad23ec3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="JpegHide" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.JpegHide&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=adea184a_002D955d_002D44ab_002D8b44_002D78c9ac5ae134/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="bmpHide" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.bmpHide&lt;/TestId&gt;&#xD;
@@ -40,19 +61,20 @@
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.hagai&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b5704780_002Dac0d_002D4e30_002Db69c_002D916d98af772c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="bmpHide #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b5704780_002Dac0d_002D4e30_002Db69c_002D916d98af772c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="bmpHide #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.bmpHide&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.bmpSeek&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.hagai&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fd665ae2_002D8ccc_002D48b6_002D83f3_002D45701ec38b66/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AviTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fd665ae2_002D8ccc_002D48b6_002D83f3_002D45701ec38b66/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AviTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.AviTestMetaData&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.bmpHide&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.AviTestLsb&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.MovTestLsb&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.JpegHide&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
