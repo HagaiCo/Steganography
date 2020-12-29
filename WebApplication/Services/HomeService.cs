@@ -37,6 +37,7 @@ namespace WebApplication.Services
     {
         private static readonly AccountService _accountService = new AccountService();
         AesAlgo _aesAlgo= new AesAlgo(); 
+        DesAlgo _desAlgo = new DesAlgo();
         Decoder _decoder = new Decoder();
         LsbPicture _lsbPicture = new LsbPicture();
         LsbVideo _lsbVideo = new LsbVideo();
@@ -102,12 +103,41 @@ namespace WebApplication.Services
 
             }
         }
+        
+        public byte[] Encrypt_Des(string plainMessage)
+        {
+            using (TripleDESCryptoServiceProvider tDes = new TripleDESCryptoServiceProvider())
+            {
+                tDes.KeySize = 128;
+                tDes.Padding = PaddingMode.PKCS7;
+                byte[] encryptedData = _desAlgo.EncryptStringToBytes_Des(plainMessage, tDes.Key, tDes.IV).Concat(tDes.Key)
+                    .Concat(tDes.IV).ToArray();
+                return encryptedData;
+
+            }
+        }
 
         
         public string Decrypt_Aes(byte [] cypherData, byte[] key,byte[] iv)
         {
             AesAlgo aesAlgo = new AesAlgo();
             return aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
+        }
+        
+        public string Decrypt_Des(byte [] cypherData, byte[] key,byte[] iv)
+        {
+            byte [] desIv = new byte[8];
+            byte [] desKey = new byte[16];
+            byte [] temp = new byte[8];
+            Array.Copy(key,temp,8); // completing cypher data
+            cypherData = cypherData.Concat(temp).ToArray();
+            
+            Array.Copy(key,8,desKey,0,8);// copying first 8 bytes of key from key 2nd half
+            
+            Array.Copy(iv,0,desKey,8,8); // copying 2nd 8 bytes of key from iv first half
+            
+            Array.Copy(iv,8,desIv,0,8); // copying desIv from last 8 bytes of iv
+            return _desAlgo.DecryptStringFromBytes_Des(cypherData, desKey, desIv);
         }
 
         public string ExtractMessage(string fileId)
@@ -144,7 +174,8 @@ namespace WebApplication.Services
                 case EncryptionMethod.Aes: 
                     encryptedData = Encrypt_Aes(fileData.SecretMessage);
                     break;
-                case EncryptionMethod.Tbd:
+                case EncryptionMethod.Des:
+                    encryptedData = Encrypt_Des(fileData.SecretMessage);
                     break;
             }
 
@@ -178,7 +209,8 @@ namespace WebApplication.Services
                 case EncryptionMethod.Aes:
                     encryptedData = Encrypt_Aes(fileData.SecretMessage);
                     break;
-                case EncryptionMethod.Tbd:
+                case EncryptionMethod.Des:
+                    encryptedData = Encrypt_Des(fileData.SecretMessage);
                     break;
             }
 
@@ -216,7 +248,8 @@ namespace WebApplication.Services
                 case EncryptionMethod.Aes:
                     encrypteMessage = Encrypt_Aes(fileData.SecretMessage);
                     break;
-                case EncryptionMethod.Tbd:
+                case EncryptionMethod.Des:
+                    encrypteMessage = Encrypt_Des(fileData.SecretMessage);
                     break;
             }
 
@@ -306,7 +339,8 @@ namespace WebApplication.Services
                 case EncryptionMethod.Aes:
                     decryptedMessage = Decrypt_Aes(cypherData, key, iv);
                     break;
-                case EncryptionMethod.Tbd:
+                case EncryptionMethod.Des:
+                    decryptedMessage = Decrypt_Des(cypherData, key, iv);
                     break;
             }
 
@@ -362,7 +396,8 @@ namespace WebApplication.Services
                 case EncryptionMethod.Aes:
                     decryptedMessage=Decrypt_Aes(cypherData,key,iv);
                     break;
-                case EncryptionMethod.Tbd: 
+                case EncryptionMethod.Des: 
+                    decryptedMessage = Decrypt_Des(cypherData, key, iv);
                     break;
             }
 
@@ -399,7 +434,8 @@ namespace WebApplication.Services
                 case EncryptionMethod.Aes:
                     decryptedMessage=Decrypt_Aes(cypherData,key,iv);
                     break;
-                case EncryptionMethod.Tbd: 
+                case EncryptionMethod.Des: 
+                    decryptedMessage = Decrypt_Des(cypherData, key, iv);
                     break;
             }
 
