@@ -85,7 +85,7 @@
         <e p="Utilities" t="Include">
           <e p="AesAlgo.cs" t="Include" />
           <e p="Decoder.cs" t="Include" />
-          <e p="EncryptDecrypt.cs" t="Include" />
+          <e p="DesAlgo.cs" t="Include" />
           <e p="HideAndSeekLsb.cs" t="Include" />
           <e p="LsbAudio.cs" t="Include" />
           <e p="LsbExe.cs" t="Include" />

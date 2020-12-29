@@ -26,8 +26,37 @@ namespace WebApplication.Tests
         LsbAudio _lsbAudio = new LsbAudio();
         HomeService _homeService = new HomeService();
         Decoder _decoder = new Decoder();
+        DesAlgo _desAlgo = new DesAlgo();
 
 
+        [Test]
+        public void DesTest()
+        {
+            
+            // Create a new TripleDESCryptoServiceProvider object
+            // to generate a key and initialization vector (IV).
+            TripleDESCryptoServiceProvider tDESalg = new TripleDESCryptoServiceProvider();
+            tDESalg.KeySize = 128;
+            tDESalg.Padding = PaddingMode.PKCS7;
+            // Create a string to encrypt.
+            string message = "Lebron James is the goat !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!00000u00";
+
+            // Encrypt the string to an in-memory buffer.
+            byte[] Data = _desAlgo.EncryptStringToBytes_Des(message, tDESalg.Key, tDESalg.IV);
+
+            // Decrypt the buffer back to a string.
+            string plainText = _desAlgo.DecryptStringFromBytes_Des(Data, tDESalg.Key, tDESalg.IV);
+
+            // Display the decrypted string to the console.
+            var index = plainText.IndexOf("\u0000", StringComparison.Ordinal);
+            if(index>0)
+                plainText = plainText.Substring(0, index);
+            Console.WriteLine(plainText);
+
+            
+        }
+        
+        
         [Test]
         public void JpegHide()
         {
