@@ -42,6 +42,7 @@ namespace WebApplication.Services
         LsbPicture _lsbPicture = new LsbPicture();
         LsbVideo _lsbVideo = new LsbVideo();
         LsbAudio _lsbAudio = new LsbAudio();
+        LsbExe _lsbBatch = new LsbExe();
         MetaDataVideo _metaDataVideo = new MetaDataVideo();
         MetaDataAudio _metaDataAudio = new MetaDataAudio();
         MetaDataPicture _metaDataPicture = new MetaDataPicture();
@@ -79,6 +80,7 @@ namespace WebApplication.Services
                     fileDataUploadResponseModel.File = EncryptAndHideInAudio(fileDataUploadResponseModel);
                     break;
                 case FileType.Executable:
+                    fileDataUploadResponseModel.File = EncryptAndHideInBatchFile(fileDataUploadResponseModel);
                     break;
                 
             }
@@ -157,7 +159,7 @@ namespace WebApplication.Services
             }
             if (fileData.FileType == FileType.Executable)
             {
-                return "Not Supported yet";
+                return ExtractMessageFromBatch(fileId);
             }
 
             return "No Suitable file type was uploaded";
@@ -268,6 +270,37 @@ namespace WebApplication.Services
             return byteAudio;
         }
         
+        public byte[] EncryptAndHideInBatchFile(FileDataUploadResponseModel fileData)
+        {
+            
+            byte[] byteAudio = fileData.File;
+            byte[] encrypteMessage = null;
+            string encryptedBinary =null;
+            
+            switch (fileData.EncryptionMethod)
+            {
+                case EncryptionMethod.Aes:
+                    encrypteMessage = Encrypt_Aes(fileData.SecretMessage);
+                    break;
+                case EncryptionMethod.Des:
+                    encrypteMessage = Encrypt_Des(fileData.SecretMessage);
+                    break;
+            }
+
+            byte[] result = null;
+            switch (fileData.HidingMethod)
+            {
+                case HidingMethod.Lsb:
+                    encryptedBinary = _decoder.EncryptedByteArrayToBinary(encrypteMessage);
+                    result = _lsbBatch.HideSecretMessage(byteAudio,encryptedBinary);
+                    break;
+                case HidingMethod.MetaData:
+                    break;
+                
+            }
+            return result;
+        }
+        
         public List<FileDataUploadResponseModel> GetAllFilesData()
         {
             List<FileDataUploadResponseModel> listOfFileData = null;
@@ -309,6 +342,37 @@ namespace WebApplication.Services
             File.WriteAllBytes(pathString, fileToDownload.File);
         }
 
+        public string ExtractMessageFromBatch(string fileId)
+        {
+            AesAlgo aesAlgo = new AesAlgo();
+            
+            var fileData = GetFileById(fileId);
+            var ms = new MemoryStream(fileData.File);
+            byte[] cypherData = null;
+            byte[] key = null;
+            byte[] iv = null;
+            string decryptedMessage = null;
+            cypherData = _lsbBatch.Seek(fileData.File);
+
+
+            switch (fileData.EncryptionMethod)
+            {
+                case EncryptionMethod.Aes:
+                    key = _lsbBatch.ExtractKey(fileData.File);
+                    iv = _lsbBatch.ExtractIv(fileData.File);
+                    decryptedMessage = Decrypt_Aes(cypherData, key, iv);
+                    break;
+                case EncryptionMethod.Des:
+                    key = _lsbBatch.ExtractKey(fileData.File);
+                    iv = _lsbBatch.ExtractIv(fileData.File);
+                    decryptedMessage = Decrypt_Des(cypherData, key, iv);
+                    break;
+            }
+
+
+            return decryptedMessage;
+        }
+        
         public string ExtractMessageFromPicture(string fileId)
         {
             AesAlgo aesAlgo = new AesAlgo();
