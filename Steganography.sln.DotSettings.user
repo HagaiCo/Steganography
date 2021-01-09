@@ -2,10 +2,15 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Users\hagai\.nuget\packages\firebaseadmin\1.17.1\lib\netstandard2.0\FirebaseAdmin.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=10627d4f_002D9eb8_002D436c_002Db9d2_002Dd6a4566723bd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Mp3TestLsb #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.Mp3TestLsb&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=11638f70_002D45a5_002D4b57_002Db2e6_002Db64e7c8ea66c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="WavTestLsb" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.WavTestLsb&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.JpegHide&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.Mp3TestLsb&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0c9c2275_002Dd028_002D4463_002D9e51_002D23666720e720/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="MovTestLsb #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -19,6 +24,11 @@
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.MovTestLsb&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2f106ffb_002D62bd_002D49b7_002D9d09_002Dfc498069e1dc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Mp3TestLsb #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.Mp3TestLsb&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=36b039c0_002D341f_002D438e_002Da049_002D2718e1ef4b4c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="JpegHide #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.JpegHide&lt;/TestId&gt;&#xD;
@@ -28,6 +38,11 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3d9fc293_002D4e3b_002D4b37_002Dadf7_002D4f68f2001965/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="bmpHide #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4e59ff8d_002D2c5c_002D4ebc_002Db48f_002D05ab42983398/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Mp3TestLsb #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.Mp3TestLsb&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5c498368_002D36e8_002D4ef6_002Db0cd_002D3e0a357ee96d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="JpegHide #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -41,9 +56,16 @@
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.MovTestLsb&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=84354c53_002D9080_002D4d8b_002Db283_002D0d8c3c9691f6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Mp3TestLsb" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.Mp3TestLsb&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.WavTestLsb&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a3f22dfe_002Dd8a1_002D4d92_002Dbc4f_002D71931cc37132/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="MovTestLsb" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.MovTestLsb&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.Mp3TestLsb&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=acb2ad9d_002Db013_002D43fc_002Da42d_002D6e786bda2b89/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="JpegHide #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -70,13 +92,17 @@
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.hagai&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fc3f4a57_002Dd5d8_002D4733_002D98cf_002D0b869b9af50f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Mp3TestLsb #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.Mp3TestLsb&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fd665ae2_002D8ccc_002D48b6_002D83f3_002D45701ec38b66/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AviTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.AviTestMetaData&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.bmpHide&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.AviTestLsb&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.MovTestLsb&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.JpegHide&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	

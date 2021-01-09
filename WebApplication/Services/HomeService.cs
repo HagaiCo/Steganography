@@ -258,12 +258,23 @@ namespace WebApplication.Services
             {
                 case HidingMethod.Lsb:
                     encryptedBinary = _decoder.EncryptedByteArrayToBinary(encrypteMessage);
-                    _lsbAudio.Hide(byteAudio,encryptedBinary);
+                    if(fileData.FileExtension==".wav")
+                        _lsbAudio.Hide(byteAudio,encryptedBinary);
+                    else if (fileData.FileExtension == ".mp3")
+                    {
+                        byteAudio = _lsbAudio.GenerateFrames(byteAudio);
+                        _lsbAudio.HideMp3(byteAudio, encryptedBinary);
+                    }
                     break;
                 case HidingMethod.MetaData:
-                    _metaDataAudio.Hide(byteAudio,encrypteMessage);
+                    if(fileData.FileExtension==".wav")
+                        _metaDataAudio.Hide(byteAudio,encrypteMessage);
+                    else if (fileData.FileExtension == ".mp3")
+                    {
+                        byteAudio = _metaDataAudio.GenerateFrames(byteAudio);
+                        _metaDataAudio.HideMp3(byteAudio, encrypteMessage);
+                    }
                     break;
-                
             }
             return byteAudio;
         }
@@ -418,17 +429,34 @@ namespace WebApplication.Services
             switch (data.HidingMethod)
             {
                 case HidingMethod.Lsb:
-                    cypherData = _lsbAudio.Seek(audio);
-                    key = _lsbAudio.ExtractKey(audio);
-                    iv = _lsbAudio.ExtractIv(audio);
+                    if (data.FileExtension == ".wav")
+                    {
+                        cypherData = _lsbAudio.Seek(audio);
+                        key = _lsbAudio.ExtractKey(audio);
+                        iv = _lsbAudio.ExtractIv(audio);   
+                    }
+                    else
+                    {
+                        cypherData = _lsbAudio.SeekMp3(audio);
+                        key = _lsbAudio.ExtractKeyMp3(audio);
+                        iv = _lsbAudio.ExtractIvMp3(audio);
+                    }
                     break;
                 case HidingMethod.MetaData:
-                    cypherData = _metaDataAudio.Seek(audio);
-                    key = _metaDataAudio.ExtractKey(audio);
-                    iv = _metaDataAudio.ExtractIv(audio);
+                    if (data.FileExtension == ".wav")
+                    {
+                        cypherData = _metaDataAudio.Seek(audio);
+                        key = _metaDataAudio.ExtractKey(audio);
+                        iv = _metaDataAudio.ExtractIv(audio);   
+                    }
+                    else
+                    {
+                        cypherData = _metaDataAudio.SeekMp3(audio);
+                        key = _metaDataAudio.ExtractKeyMp3(audio);
+                        iv = _metaDataAudio.ExtractIvMp3(audio);
+                    }
                     break;
             }
-
             switch (data.EncryptionMethod)
             {
                 case EncryptionMethod.Aes:
@@ -438,7 +466,6 @@ namespace WebApplication.Services
                     decryptedMessage = Decrypt_Des(cypherData, key, iv);
                     break;
             }
-
             return decryptedMessage;
         }
         

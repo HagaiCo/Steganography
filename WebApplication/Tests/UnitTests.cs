@@ -5,11 +5,20 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml.Linq;
+using cs_ffmpeg_mp3_converter;
+using FFMpegCore;
+using FFMpegCore.Pipes;
+using NAudio.Lame;
+using NAudio.Wave;
+using NReco.VideoConverter;
 using NUnit.Framework;
+using RestSharp.Extensions;
 using WebApplication.ResponseModel;
 using WebApplication.Services;
 using WebApplication.Services;
 using WebApplication.Utilities;
+using Xabe.FFmpeg;
 using Decoder = WebApplication.Utilities.Decoder;
 
 
@@ -27,6 +36,8 @@ namespace WebApplication.Tests
         HomeService _homeService = new HomeService();
         Decoder _decoder = new Decoder();
         DesAlgo _desAlgo = new DesAlgo();
+        MetaDataAudio _metaDataAudio = new MetaDataAudio();
+
 
 
         [Test]
@@ -148,6 +159,40 @@ namespace WebApplication.Tests
 
             Console.WriteLine("Secret Massage Is: \n" + decryptedMessage);
         }
+        
+        [Test]
+        public void Mp3TestLsb()
+        {
+            AesAlgo aesAlgo = new AesAlgo();
+            using (AesManaged aes = new AesManaged())
+            {
+                aes.KeySize = 128;
+                aes.Padding = PaddingMode.PKCS7;
+                var path = @"C:/Users/Mike/Desktop/pruducta/file_example_MP3_2MG - Copy.mp3";
+                byte[] byteAudio = File.ReadAllBytes(path);
+                string message = "tmkescht";
+                byte[] encryptedMessage = aesAlgo.EncryptStringToBytes_Aes(message, aes.Key, aes.IV).Concat(aes.Key)
+                    .Concat(aes.IV).ToArray();
+                //var binMessage = _decoder.EncryptedByteArrayToBinary(encryptedMessage);
+                //byteAudio = _metaDataAudio.GenerateJunk(byteAudio);
+                byteAudio = _metaDataAudio.GenerateFrames(byteAudio);
+                _metaDataAudio.HideMp3(byteAudio, encryptedMessage);
+                byte[] cypherData = _metaDataAudio.SeekMp3(byteAudio);
+                byte[] key = _metaDataAudio.ExtractKeyMp3(byteAudio);
+                byte[] iv = _metaDataAudio.ExtractIvMp3(byteAudio);
+                // byteAudio = _lsbAudio.GenerateFrames(byteAudio);
+                // _lsbAudio.HideMp3(byteAudio, binMessage);
+                //
+                // byte[] cypherData = _lsbAudio.SeekMp3(byteAudio);
+                // byte[] key = _lsbAudio.ExtractKeyMp3(byteAudio);
+                // byte[] iv = _lsbAudio.ExtractIvMp3(byteAudio);
+                
+                var decryptedMessage = aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
+                
+                Console.WriteLine("Secret Massage Is: \n" + decryptedMessage);
+                File.WriteAllBytes("C:/Users/Mike/Desktop/pruducta/TEST.mp3", byteAudio);
+            }
+        }        
 
         [Test]
         public void WavTestLsb()
@@ -160,7 +205,7 @@ namespace WebApplication.Tests
                 var path = @"C:/Users/Mike/Desktop/pruducta/file_example_WAV_1MG - Copy.wav";
                 //FileStream file = File.OpenRead(path);
                 byte[] byteAudio = File.ReadAllBytes(path);
-                string message = "blalalalalalalalalalalalalal !!!!!!!!!!!!1 @#%% secert message";
+                string message = "TEST";
                 byte[] encryptedMessage = aesAlgo.EncryptStringToBytes_Aes(message, aes.Key, aes.IV).Concat(aes.Key)
                     .Concat(aes.IV).ToArray();
                 var binMessage = _decoder.EncryptedByteArrayToBinary(encryptedMessage);
