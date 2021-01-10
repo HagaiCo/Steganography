@@ -38,7 +38,7 @@ namespace WebApplication.ResponseModel
     public enum EncryptionMethod
     {
         Aes =0,
-        Des = 1
+        Serpent = 1
     }
 
     public enum HidingMethod

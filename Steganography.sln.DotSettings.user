@@ -29,10 +29,11 @@
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.Mp3TestLsb&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=36b039c0_002D341f_002D438e_002Da049_002D2718e1ef4b4c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="JpegHide #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=36b039c0_002D341f_002D438e_002Da049_002D2718e1ef4b4c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="JpegHide #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.JpegHide&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.DesTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.SerpentTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3d9fc293_002D4e3b_002D4b37_002Dadf7_002D4f68f2001965/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="bmpHide #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -56,7 +57,7 @@
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.MovTestLsb&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=84354c53_002D9080_002D4d8b_002Db283_002D0d8c3c9691f6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Mp3TestLsb" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=84354c53_002D9080_002D4d8b_002Db283_002D0d8c3c9691f6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Mp3TestLsb" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.Mp3TestLsb&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.WavTestLsb&lt;/TestId&gt;&#xD;
@@ -92,9 +93,10 @@
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.hagai&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fc3f4a57_002Dd5d8_002D4733_002D98cf_002D0b869b9af50f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Mp3TestLsb #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fc3f4a57_002Dd5d8_002D4733_002D98cf_002D0b869b9af50f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Mp3TestLsb #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.Mp3TestLsb&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FCFEA81F-6DB3-466E-8131-1886AB5B20B2::.NETFramework,Version=v4.8::WebApplication.Tests.UnitTests.SerpentTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fd665ae2_002D8ccc_002D48b6_002D83f3_002D45701ec38b66/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AviTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
