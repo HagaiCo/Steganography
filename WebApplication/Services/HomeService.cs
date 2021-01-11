@@ -26,6 +26,8 @@ using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Security;
 using WebApplication.RequestModel;
 using WebApplication.ResponseModel;
 using EncryptionMethod = WebApplication.ResponseModel.EncryptionMethod;
@@ -92,6 +94,21 @@ namespace WebApplication.Services
             return setResult.StatusCode == HttpStatusCode.OK;
         }
 
+        public byte[] Encrypt_Serpent(string plainMessage)
+        {
+            CipherKeyGenerator cipherKeyGenerator = new CipherKeyGenerator();
+            cipherKeyGenerator.Init(new KeyGenerationParameters(new SecureRandom(),128 ));
+            byte[] key = cipherKeyGenerator.GenerateKey();
+            byte [] iv = cipherKeyGenerator.GenerateKey();
+            byte[] encrptedDAta = SerpentAlgo.SerpentEncryption(plainMessage, key);
+            return encrptedDAta.Concat(key).Concat(iv).ToArray();
+        }
+        
+        public string Decrypt_Serpent(byte[] cypherData, byte[] key)
+        {
+            string plainText = SerpentAlgo.SerpentDecryption(cypherData, key);
+            return plainText;
+        }
         public byte[] Encrypt_Aes(string plainMessage)
         {
             
@@ -126,6 +143,8 @@ namespace WebApplication.Services
             AesAlgo aesAlgo = new AesAlgo();
             return aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
         }
+
+        
         
         public string Decrypt_Des(byte [] cypherData, byte[] key,byte[] iv)
         {
@@ -177,8 +196,10 @@ namespace WebApplication.Services
                 case EncryptionMethod.Aes: 
                     encryptedData = Encrypt_Aes(fileData.SecretMessage);
                     break;
-                case EncryptionMethod.Des:
-                    encryptedData = Encrypt_Des(fileData.SecretMessage);
+                case EncryptionMethod.Serpent:
+                    //encryptedData = Encrypt_Des(fileData.SecretMessage);
+                    ////*****************
+                    encryptedData = Encrypt_Serpent(fileData.SecretMessage);
                     break;
             }
 
@@ -212,8 +233,9 @@ namespace WebApplication.Services
                 case EncryptionMethod.Aes:
                     encryptedData = Encrypt_Aes(fileData.SecretMessage);
                     break;
-                case EncryptionMethod.Des:
-                    encryptedData = Encrypt_Des(fileData.SecretMessage);
+                case EncryptionMethod.Serpent:
+                    //encryptedData = Encrypt_Des(fileData.SecretMessage);
+                    encryptedData = Encrypt_Serpent(fileData.SecretMessage);
                     break;
             }
 
@@ -251,8 +273,9 @@ namespace WebApplication.Services
                 case EncryptionMethod.Aes:
                     encrypteMessage = Encrypt_Aes(fileData.SecretMessage);
                     break;
-                case EncryptionMethod.Des:
-                    encrypteMessage = Encrypt_Des(fileData.SecretMessage);
+                case EncryptionMethod.Serpent:
+                    //encrypteMessage = Encrypt_Des(fileData.SecretMessage);
+                    encrypteMessage = Encrypt_Serpent(fileData.SecretMessage);
                     break;
             }
 
@@ -294,8 +317,9 @@ namespace WebApplication.Services
                 case EncryptionMethod.Aes:
                     encrypteMessage = Encrypt_Aes(fileData.SecretMessage);
                     break;
-                case EncryptionMethod.Des:
-                    encrypteMessage = Encrypt_Des(fileData.SecretMessage);
+                case EncryptionMethod.Serpent:
+                    //encrypteMessage = Encrypt_Des(fileData.SecretMessage);
+                    encrypteMessage =Encrypt_Serpent(fileData.SecretMessage);
                     break;
             }
 
@@ -412,8 +436,8 @@ namespace WebApplication.Services
                 case EncryptionMethod.Aes:
                     decryptedMessage=Decrypt_Aes(cypherData,key,iv);
                     break;
-                case EncryptionMethod.Des: 
-                    decryptedMessage = Decrypt_Des(cypherData, key, iv);
+                case EncryptionMethod.Serpent:
+                    decryptedMessage = Decrypt_Serpent(cypherData, key);
                     break;
             }
             return decryptedMessage;
@@ -449,8 +473,10 @@ namespace WebApplication.Services
                 case EncryptionMethod.Aes:
                     decryptedMessage = Decrypt_Aes(cypherData, key, iv);
                     break;
-                case EncryptionMethod.Des:
-                    decryptedMessage = Decrypt_Des(cypherData, key, iv);
+                case EncryptionMethod.Serpent:
+                    //decryptedMessage = Decrypt_Des(cypherData, key, iv);
+                    ////*****************
+                    decryptedMessage = Decrypt_Serpent(cypherData,key);
                     break;
             }
 
@@ -506,8 +532,9 @@ namespace WebApplication.Services
                 case EncryptionMethod.Aes:
                     decryptedMessage=Decrypt_Aes(cypherData,key,iv);
                     break;
-                case EncryptionMethod.Des: 
-                    decryptedMessage = Decrypt_Des(cypherData, key, iv);
+                case EncryptionMethod.Serpent: 
+                    //decryptedMessage = Decrypt_Des(cypherData, key, iv);
+                    decryptedMessage = Decrypt_Serpent(cypherData, key);
                     break;
             }
 
@@ -561,8 +588,9 @@ namespace WebApplication.Services
                 case EncryptionMethod.Aes:
                     decryptedMessage=Decrypt_Aes(cypherData,key,iv);
                     break;
-                case EncryptionMethod.Des: 
-                    decryptedMessage = Decrypt_Des(cypherData, key, iv);
+                case EncryptionMethod.Serpent: 
+                    //decryptedMessage = Decrypt_Des(cypherData, key, iv);
+                    decryptedMessage = Decrypt_Serpent(cypherData, key);
                     break;
             }
             return decryptedMessage;

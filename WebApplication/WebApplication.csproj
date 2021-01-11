@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.8.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\BouncyCastle.NetCore.1.8.8\lib\net20\BouncyCastle.Crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="cs-ffmpeg-mp3-converter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\FFMPEG-MP3-Converter.1.0.2\lib\net461\Release\cs-ffmpeg-mp3-converter.dll</HintPath>
       <Private>True</Private>
@@ -609,6 +613,7 @@
     <Compile Include="Utilities\MetaDataAudio.cs" />
     <Compile Include="Utilities\MetaDataExe.cs" />
     <Compile Include="Utilities\MetaDataPicture.cs" />
+    <Compile Include="Utilities\SerpentAlgo.cs" />
     <Compile Include="Utilities\TransformationUtils.cs" />
   </ItemGroup>
   <ItemGroup>
