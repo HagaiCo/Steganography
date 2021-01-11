@@ -13,6 +13,8 @@ using NAudio.Lame;
 using NAudio.Wave;
 using NReco.VideoConverter;
 using NUnit.Framework;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Security;
 using RestSharp.Extensions;
 using WebApplication.ResponseModel;
 using WebApplication.Services;
@@ -39,7 +41,30 @@ namespace WebApplication.Tests
         MetaDataAudio _metaDataAudio = new MetaDataAudio();
 
 
+        [Test]
+        public void SerpentTest()
+        {
+            
+            CipherKeyGenerator cipherKeyGenerator = new CipherKeyGenerator();
+            cipherKeyGenerator.Init(new KeyGenerationParameters(new SecureRandom(),128 ));
+            byte[] key = cipherKeyGenerator.GenerateKey();
+            string message = "Hello World!";
 
+            // Encrypt the string to an in-memory buffer.
+            
+            byte[] encrptedDAta = SerpentAlgo.SerpentEncryption(message, key);
+
+            // Decrypt the buffer back to a string.
+            string plainText = SerpentAlgo.SerpentDecryption(encrptedDAta, key);
+
+            // Display the decrypted string to the console.
+            
+            Console.WriteLine(plainText);
+
+            
+        }
+        
+        
         [Test]
         public void DesTest()
         {
