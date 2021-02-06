@@ -98,7 +98,7 @@ namespace WebApplication.Utilities
                 }
             }
         }
-        //skeekMP3
+        //skeekmP3
 
         public byte[] SeekMp3(byte[] audio)
         {

@@ -48,6 +48,7 @@ namespace WebApplication.Services
         MetaDataVideo _metaDataVideo = new MetaDataVideo();
         MetaDataAudio _metaDataAudio = new MetaDataAudio();
         MetaDataPicture _metaDataPicture = new MetaDataPicture();
+        MetaDataExe _metaDataExe = new MetaDataExe();
         
 
         public async Task<bool> Upload(FileDataUploadRequestModel fileDataUploadRequestModel)
@@ -307,7 +308,7 @@ namespace WebApplication.Services
         public byte[] EncryptAndHideInBatchFile(FileDataUploadResponseModel fileData)
         {
             
-            byte[] byteAudio = fileData.File;
+            byte[] file = fileData.File;
             byte[] encrypteMessage = null;
             string encryptedBinary =null;
             
@@ -322,18 +323,27 @@ namespace WebApplication.Services
                     break;
             }
 
-            byte[] result = null;
             switch (fileData.HidingMethod)
             {
                 case HidingMethod.Lsb:
                     encryptedBinary = _decoder.EncryptedByteArrayToBinary(encrypteMessage);
-                    result = _lsbBatch.HideSecretMessage(byteAudio,encryptedBinary);
+                    if (fileData.FileExtension == ".exe")
+                    {
+                        _lsbBatch.HidePE(file,encryptedBinary);
+                    }
+                    else if (fileData.FileExtension == ".bat")
+                    {
+                        _lsbBatch.HideSecretMessage(file,encryptedBinary);
+                    }
                     break;
                 case HidingMethod.MetaData:
+                    if (fileData.FileExtension == ".exe")
+                    {
+                        _metaDataExe.HideMetaDataPE(file, encrypteMessage);
+                    }
                     break;
-                
             }
-            return result;
+            return file;
         }
         
         public List<FileDataUploadResponseModel> GetAllFilesData()
@@ -381,31 +391,55 @@ namespace WebApplication.Services
         {
             AesAlgo aesAlgo = new AesAlgo();
             
-            var fileData = GetFileById(fileId);
-            var ms = new MemoryStream(fileData.File);
+            var Data = GetFileById(fileId);
+            // var ms = new MemoryStream(fileData.File);
+            byte[] Exe = Data.File;
             byte[] cypherData = null;
             byte[] key = null;
             byte[] iv = null;
             string decryptedMessage = null;
-            cypherData = _lsbBatch.Seek(fileData.File);
 
-
-            switch (fileData.EncryptionMethod)
+            switch (Data.HidingMethod)
+            {
+                case HidingMethod.Lsb:
+                    if (Data.FileExtension == ".exe")
+                    {
+                        cypherData = _lsbBatch.SeekPE(Exe);
+                        key = _lsbBatch.ExtractKeyPE(Exe);
+                        iv = _lsbBatch.ExtractIvPE(Exe);
+                    }
+                    else if (Data.FileExtension == ".bat")
+                    {
+                        cypherData = _lsbBatch.Seek(Exe);
+                        key = _lsbBatch.ExtractKey(Exe);
+                        iv = _lsbBatch.ExtractIv(Exe);
+                    }
+                    break;
+                case HidingMethod.MetaData:
+                    if (Data.FileExtension == ".exe")
+                    {
+                        cypherData = _metaDataExe.SeekPE(Exe);
+                        key = _metaDataExe.ExtractKeyPE(Exe);
+                        iv = _metaDataExe.ExtractIvPE(Exe);
+                    }
+                    else if (Data.FileExtension == ".bat")
+                    {
+                        cypherData = _lsbBatch.Seek(Exe);
+                        key = _lsbBatch.ExtractKey(Exe);
+                        iv = _lsbBatch.ExtractIv(Exe);
+                    }
+                    break;
+            }
+            
+            switch (Data.EncryptionMethod)
             {
                 case EncryptionMethod.Aes:
-                    key = _lsbBatch.ExtractKey(fileData.File);
-                    iv = _lsbBatch.ExtractIv(fileData.File);
-                    decryptedMessage = Decrypt_Aes(cypherData, key, iv);
+                    decryptedMessage=Decrypt_Aes(cypherData,key,iv);
                     break;
                 case EncryptionMethod.Serpent:
-                    key = _lsbBatch.ExtractKey(fileData.File);
-                    iv = _lsbBatch.ExtractIv(fileData.File);
-                    //decryptedMessage = Decrypt_Des(cypherData, key, iv);
                     decryptedMessage = Decrypt_Serpent(cypherData, key);
                     break;
             }
-
-
             return decryptedMessage;
         }
         
