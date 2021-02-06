@@ -38,17 +38,16 @@ namespace WebApplication.Services
     public class HomeService : BaseService
     {
         private static readonly AccountService _accountService = new AccountService();
-        AesAlgo _aesAlgo= new AesAlgo(); 
-        DesAlgo _desAlgo = new DesAlgo();
+        AesAlgo _aesAlgo= new AesAlgo();
         Decoder _decoder = new Decoder();
         LsbPicture _lsbPicture = new LsbPicture();
         LsbVideo _lsbVideo = new LsbVideo();
         LsbAudio _lsbAudio = new LsbAudio();
-        LsbExe _lsbBatch = new LsbExe();
         MetaDataVideo _metaDataVideo = new MetaDataVideo();
         MetaDataAudio _metaDataAudio = new MetaDataAudio();
         MetaDataPicture _metaDataPicture = new MetaDataPicture();
         MetaDataExe _metaDataExe = new MetaDataExe();
+        private LsbExe _lsbExe = new LsbExe();
         
 
         public async Task<bool> Upload(FileDataUploadRequestModel fileDataUploadRequestModel)
@@ -93,7 +92,11 @@ namespace WebApplication.Services
             var setResult = await _client.SetAsync("Files/" + fileDataUploadResponseModel.Id, fileDataUploadResponseModel);
             return setResult.StatusCode == HttpStatusCode.OK;
         }
-
+        
+        /// ****************************************************************************
+        /// Encryption and Decryption Algorithms 
+        /// ****************************************************************************
+        
         public byte[] Encrypt_Serpent(string plainMessage)
         {
             CipherKeyGenerator cipherKeyGenerator = new CipherKeyGenerator();
@@ -109,6 +112,7 @@ namespace WebApplication.Services
             string plainText = SerpentAlgo.SerpentDecryption(cypherData, key);
             return plainText;
         }
+        
         public byte[] Encrypt_Aes(string plainMessage)
         {
             
@@ -124,66 +128,15 @@ namespace WebApplication.Services
             }
         }
         
-        public byte[] Encrypt_Des(string plainMessage)
-        {
-            using (TripleDESCryptoServiceProvider tDes = new TripleDESCryptoServiceProvider())
-            {
-                tDes.KeySize = 128;
-                tDes.Padding = PaddingMode.PKCS7;
-                byte[] encryptedData = _desAlgo.EncryptStringToBytes_Des(plainMessage, tDes.Key, tDes.IV).Concat(tDes.Key)
-                    .Concat(tDes.IV).ToArray();
-                return encryptedData;
-
-            }
-        }
-
-        
         public string Decrypt_Aes(byte [] cypherData, byte[] key,byte[] iv)
         {
             AesAlgo aesAlgo = new AesAlgo();
             return aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
         }
 
-        
-        
-        public string Decrypt_Des(byte [] cypherData, byte[] key,byte[] iv)
-        {
-            byte [] desIv = new byte[8];
-            byte [] desKey = new byte[16];
-            byte [] temp = new byte[8];
-            Array.Copy(key,temp,8); // completing cypher data
-            cypherData = cypherData.Concat(temp).ToArray();
-            
-            Array.Copy(key,8,desKey,0,8);// copying first 8 bytes of key from key 2nd half
-            
-            Array.Copy(iv,0,desKey,8,8); // copying 2nd 8 bytes of key from iv first half
-            
-            Array.Copy(iv,8,desIv,0,8); // copying desIv from last 8 bytes of iv
-            return _desAlgo.DecryptStringFromBytes_Des(cypherData, desKey, desIv);
-        }
-
-        public string ExtractMessage(string fileId)
-        {
-            var fileData = GetFileById(fileId);
-            if (fileData.FileType == FileType.Video)
-            {
-                return ExtractMessageFromVideo(fileId);
-            }
-            if (fileData.FileType == FileType.Image)
-            {
-                return ExtractMessageFromPicture(fileId);
-            }
-            if (fileData.FileType == FileType.Audio)
-            {
-                return ExtractMessageFromAudio(fileId);
-            }
-            if (fileData.FileType == FileType.Executable)
-            {
-                return ExtractMessageFromBatch(fileId);
-            }
-
-            return "No Suitable file type was uploaded";
-        }
+        /// ****************************************************************************
+        /// Encryption and hiding handlers by File type
+        /// ****************************************************************************
         
         public byte[] EncryptAndHideInPicture(FileDataUploadRequestModel fileData)
         {
@@ -207,7 +160,7 @@ namespace WebApplication.Services
             {
                 case HidingMethod.Lsb:
                     encryptedBinary = _decoder.EncryptedByteArrayToBinary(encryptedData);
-                    _lsbPicture.Hide(bmp,encryptedBinary);
+                    _lsbPicture.HideBitmap(bmp,encryptedBinary);
                     break;
                 case HidingMethod.MetaData:
                     return _metaDataPicture.HideJpeg(File.ReadAllBytes(fileData.FilePath), encryptedData); //(File.ReadAllBytes(fileData.FilePath) = byte [] of jpeg)
@@ -245,13 +198,13 @@ namespace WebApplication.Services
                 case HidingMethod.Lsb:
                     encryptedBinary = _decoder.EncryptedByteArrayToBinary(encryptedData);
                     if(fileData.FileExtension==".avi")
-                        _lsbVideo.Hide(byteVideo,encryptedBinary);
+                        _lsbVideo.HideAvi(byteVideo,encryptedBinary);
                     else if (fileData.FileExtension==".mov")
                         _lsbVideo.HideMov(byteVideo,encryptedBinary);
                     break;
                 case HidingMethod.MetaData:
                     if(fileData.FileExtension==".avi")
-                        _metaDataVideo.hide(byteVideo,encryptedData);
+                        _metaDataVideo.hideAvi(byteVideo,encryptedData);
                     else if (fileData.FileExtension==".mov")
                         _metaDataVideo.HideMov(byteVideo,encryptedData);
                     break;
@@ -274,7 +227,6 @@ namespace WebApplication.Services
                     encrypteMessage = Encrypt_Aes(fileData.SecretMessage);
                     break;
                 case EncryptionMethod.Serpent:
-                    //encrypteMessage = Encrypt_Des(fileData.SecretMessage);
                     encrypteMessage = Encrypt_Serpent(fileData.SecretMessage);
                     break;
             }
@@ -285,19 +237,19 @@ namespace WebApplication.Services
                 case HidingMethod.Lsb:
                     encryptedBinary = _decoder.EncryptedByteArrayToBinary(encrypteMessage);
                     if(fileData.FileExtension==".wav")
-                        _lsbAudio.Hide(byteAudio,encryptedBinary);
+                        _lsbAudio.HideWave(byteAudio,encryptedBinary);
                     else if (fileData.FileExtension == ".mp3")
                     {
-                        byteAudio = _lsbAudio.GenerateFrames(byteAudio);
+                        byteAudio = _lsbAudio.GenerateFramesMp3(byteAudio);
                         _lsbAudio.HideMp3(byteAudio, encryptedBinary);
                     }
                     break;
                 case HidingMethod.MetaData:
                     if(fileData.FileExtension==".wav")
-                        _metaDataAudio.Hide(byteAudio,encrypteMessage);
+                        _metaDataAudio.HideWave(byteAudio,encrypteMessage);
                     else if (fileData.FileExtension == ".mp3")
                     {
-                        byteAudio = _metaDataAudio.GenerateFrames(byteAudio);
+                        byteAudio = _metaDataAudio.GenerateFramesMp3(byteAudio);
                         _metaDataAudio.HideMp3(byteAudio, encrypteMessage);
                     }
                     break;
@@ -318,7 +270,6 @@ namespace WebApplication.Services
                     encrypteMessage = Encrypt_Aes(fileData.SecretMessage);
                     break;
                 case EncryptionMethod.Serpent:
-                    //encrypteMessage = Encrypt_Des(fileData.SecretMessage);
                     encrypteMessage =Encrypt_Serpent(fileData.SecretMessage);
                     break;
             }
@@ -329,22 +280,252 @@ namespace WebApplication.Services
                     encryptedBinary = _decoder.EncryptedByteArrayToBinary(encrypteMessage);
                     if (fileData.FileExtension == ".exe")
                     {
-                        _lsbBatch.HidePE(file,encryptedBinary);
+                        _lsbExe.HidePE(file,encryptedBinary);
                     }
-                    else if (fileData.FileExtension == ".bat")
-                    {
-                        _lsbBatch.HideSecretMessage(file,encryptedBinary);
-                    }
+                    
                     break;
                 case HidingMethod.MetaData:
                     if (fileData.FileExtension == ".exe")
                     {
                         _metaDataExe.HideMetaDataPE(file, encrypteMessage);
                     }
+                    else if (fileData.FileExtension == ".bat")
+                    {
+                        _metaDataExe.HideBatch(file,encryptedBinary);
+                    }
                     break;
             }
             return file;
         }
+        
+        /// ****************************************************************************
+        /// Decryption and Seeking handlers by File type
+        /// ****************************************************************************
+        
+        public string ExtractMessage(string fileId)
+        {
+            var fileData = GetFileById(fileId);
+            if (fileData.FileType == FileType.Video)
+            {
+                return ExtractMessageFromVideo(fileId);
+            }
+            if (fileData.FileType == FileType.Image)
+            {
+                return ExtractMessageFromPicture(fileId);
+            }
+            if (fileData.FileType == FileType.Audio)
+            {
+                return ExtractMessageFromAudio(fileId);
+            }
+            if (fileData.FileType == FileType.Executable)
+            {
+                return ExtractMessageFromExe(fileId);
+            }
+
+            return "No Suitable file type was uploaded";
+        }
+
+        public string ExtractMessageFromExe(string fileId)
+        {
+            AesAlgo aesAlgo = new AesAlgo();
+            
+            var Data = GetFileById(fileId);
+            // var ms = new MemoryStream(fileData.File);
+            byte[] Exe = Data.File;
+            byte[] cypherData = null;
+            byte[] key = null;
+            byte[] iv = null;
+            string decryptedMessage = null;
+
+            switch (Data.HidingMethod)
+            {
+                case HidingMethod.Lsb:
+                    if (Data.FileExtension == ".exe")
+                    {
+                        cypherData = _lsbExe.SeekPE(Exe);
+                        key = _lsbExe.ExtractKeyPE(Exe);
+                        iv = _lsbExe.ExtractIvPE(Exe);
+                    }
+                    break;
+                case HidingMethod.MetaData:
+                    if (Data.FileExtension == ".exe")
+                    {
+                        cypherData = _metaDataExe.SeekPE(Exe);
+                        key = _metaDataExe.ExtractKeyPE(Exe);
+                        iv = _metaDataExe.ExtractIvPE(Exe);
+                    }
+                    else if (Data.FileExtension == ".bat")
+                    {
+                        cypherData = _metaDataExe.SeekBatch(Exe);
+                        key = _metaDataExe.ExtractKeyBatch(Exe);
+                        iv = _metaDataExe.ExtractIvBatch(Exe);
+                    }
+                    break;
+            }
+            
+            switch (Data.EncryptionMethod)
+            {
+                case EncryptionMethod.Aes:
+                    decryptedMessage=Decrypt_Aes(cypherData,key,iv);
+                    break;
+                case EncryptionMethod.Serpent:
+                    decryptedMessage = Decrypt_Serpent(cypherData, key);
+                    break;
+            }
+            return decryptedMessage;
+        }
+        
+        public string ExtractMessageFromPicture(string fileId)
+        {
+            AesAlgo aesAlgo = new AesAlgo();
+            
+            var fileData = GetFileById(fileId);
+            var ms = new MemoryStream(fileData.File);
+            var bmp = new Bitmap(ms);
+            byte[] cypherData = null;
+            byte[] key = null;
+            byte[] iv = null;
+            string decryptedMessage = null;
+            switch (fileData.HidingMethod)
+            {
+                case HidingMethod.Lsb:
+                    cypherData = _lsbPicture.SeekBitmap(bmp);
+                    key = _lsbPicture.ExtractKeyBitmap(bmp);
+                    iv = _lsbPicture.ExtractIvBitmap(bmp);
+                    break;
+                case HidingMethod.MetaData:
+                    cypherData = _metaDataPicture.SeekJpeg(fileData.File);
+                    key = _metaDataPicture.ExtractKeyJpeg(fileData.File);
+                    iv = _metaDataPicture.ExtractIvJpeg(fileData.File);
+                    break;
+            }
+
+            switch (fileData.EncryptionMethod)
+            {
+                case EncryptionMethod.Aes:
+                    decryptedMessage = Decrypt_Aes(cypherData, key, iv);
+                    break;
+                case EncryptionMethod.Serpent:
+                    decryptedMessage = Decrypt_Serpent(cypherData,key);
+                    break;
+            }
+            return decryptedMessage;
+        }
+        
+        public string ExtractMessageFromVideo(string fileId)
+        {
+            AesAlgo aesAlgo = new AesAlgo();
+            
+            var data = GetFileById(fileId);
+            byte[] video = data.File;
+            byte[] cypherData = null;
+            byte[] key = null;
+            byte[] iv = null;
+            string decryptedMessage = null;
+            
+            switch (data.HidingMethod)
+            {
+                case HidingMethod.Lsb:
+                    if (data.FileExtension == ".avi")
+                    {
+                        cypherData = _lsbVideo.SeekAvi(video);
+                        key = _lsbVideo.ExtractKeyAvi(video);
+                        iv = _lsbVideo.ExtractIvAvi(video);
+                    }
+                    else
+                    {
+                        cypherData = _lsbVideo.SeekMov(video);
+                        key = _lsbVideo.ExtractKeyMov(video);
+                        iv = _lsbVideo.ExtractIvMov(video);
+                    }
+                    break;
+                case HidingMethod.MetaData:
+                    if (data.FileExtension == ".avi")
+                    {
+                        cypherData = _metaDataVideo.SeekAvi(video);
+                        key = _metaDataVideo.ExtractKeyAvi(video);
+                        iv = _metaDataVideo.ExtractIvAvi(video);
+                    }
+                    else
+                    {
+                        cypherData = _metaDataVideo.SeekMov(video);
+                        key = _metaDataVideo.ExtractKeyMov(video);
+                        iv = _metaDataVideo.ExtractIvMov(video);
+                    }
+                    break;
+            }
+
+            switch (data.EncryptionMethod)
+            {
+                case EncryptionMethod.Aes:
+                    decryptedMessage=Decrypt_Aes(cypherData,key,iv);
+                    break;
+                case EncryptionMethod.Serpent:
+                    decryptedMessage = Decrypt_Serpent(cypherData, key);
+                    break;
+            }
+
+            return decryptedMessage;
+        }
+        
+        public string ExtractMessageFromAudio(string fileId)
+        {
+            AesAlgo aesAlgo = new AesAlgo();
+            
+            var data = GetFileById(fileId);
+            byte[] audio = data.File;
+            byte[] cypherData = null;
+            byte[] key = null;
+            byte[] iv = null;
+            string decryptedMessage = null;
+            
+            switch (data.HidingMethod)
+            {
+                case HidingMethod.Lsb:
+                    if (data.FileExtension == ".wav")
+                    {
+                        cypherData = _lsbAudio.SeekWave(audio);
+                        key = _lsbAudio.ExtractKeyWave(audio);
+                        iv = _lsbAudio.ExtractIvWave(audio);   
+                    }
+                    else
+                    {
+                        cypherData = _lsbAudio.SeekMp3(audio);
+                        key = _lsbAudio.ExtractKeyMp3(audio);
+                        iv = _lsbAudio.ExtractIvMp3(audio);
+                    }
+                    break;
+                case HidingMethod.MetaData:
+                    if (data.FileExtension == ".wav")
+                    {
+                        cypherData = _metaDataAudio.SeekWave(audio);
+                        key = _metaDataAudio.ExtractKeyWave(audio);
+                        iv = _metaDataAudio.ExtractIvWave(audio);   
+                    }
+                    else
+                    {
+                        cypherData = _metaDataAudio.SeekMp3(audio);
+                        key = _metaDataAudio.ExtractKeyMp3(audio);
+                        iv = _metaDataAudio.ExtractIvMp3(audio);
+                    }
+                    break;
+            }
+            switch (data.EncryptionMethod)
+            {
+                case EncryptionMethod.Aes:
+                    decryptedMessage=Decrypt_Aes(cypherData,key,iv);
+                    break;
+                case EncryptionMethod.Serpent: 
+                    //decryptedMessage = Decrypt_Des(cypherData, key, iv);
+                    decryptedMessage = Decrypt_Serpent(cypherData, key);
+                    break;
+            }
+            return decryptedMessage;
+        }
+        
+        /// ****************************************************************************
+        /// Server Utilities 
+        /// ****************************************************************************
         
         public List<FileDataUploadResponseModel> GetAllFilesData()
         {
@@ -383,217 +564,8 @@ namespace WebApplication.Services
             var downloadPath = Environment.GetEnvironmentVariable("USERPROFILE")+@"\"+@"Downloads\";
             var pathString = Path.Combine(downloadPath, fileToDownload.FileName);
             Path.GetExtension(fileToDownload.FileName);
-            //todo: fileToDownload.file == > seek and decrypt
+            /// fileToDownload.file == > seek and decrypt
             File.WriteAllBytes(pathString, fileToDownload.File);
-        }
-
-        public string ExtractMessageFromBatch(string fileId)
-        {
-            AesAlgo aesAlgo = new AesAlgo();
-            
-            var Data = GetFileById(fileId);
-            // var ms = new MemoryStream(fileData.File);
-            byte[] Exe = Data.File;
-            byte[] cypherData = null;
-            byte[] key = null;
-            byte[] iv = null;
-            string decryptedMessage = null;
-
-            switch (Data.HidingMethod)
-            {
-                case HidingMethod.Lsb:
-                    if (Data.FileExtension == ".exe")
-                    {
-                        cypherData = _lsbBatch.SeekPE(Exe);
-                        key = _lsbBatch.ExtractKeyPE(Exe);
-                        iv = _lsbBatch.ExtractIvPE(Exe);
-                    }
-                    else if (Data.FileExtension == ".bat")
-                    {
-                        cypherData = _lsbBatch.Seek(Exe);
-                        key = _lsbBatch.ExtractKey(Exe);
-                        iv = _lsbBatch.ExtractIv(Exe);
-                    }
-                    break;
-                case HidingMethod.MetaData:
-                    if (Data.FileExtension == ".exe")
-                    {
-                        cypherData = _metaDataExe.SeekPE(Exe);
-                        key = _metaDataExe.ExtractKeyPE(Exe);
-                        iv = _metaDataExe.ExtractIvPE(Exe);
-                    }
-                    else if (Data.FileExtension == ".bat")
-                    {
-                        cypherData = _lsbBatch.Seek(Exe);
-                        key = _lsbBatch.ExtractKey(Exe);
-                        iv = _lsbBatch.ExtractIv(Exe);
-                    }
-                    break;
-            }
-            
-            switch (Data.EncryptionMethod)
-            {
-                case EncryptionMethod.Aes:
-                    decryptedMessage=Decrypt_Aes(cypherData,key,iv);
-                    break;
-                case EncryptionMethod.Serpent:
-                    decryptedMessage = Decrypt_Serpent(cypherData, key);
-                    break;
-            }
-            return decryptedMessage;
-        }
-        
-        public string ExtractMessageFromPicture(string fileId)
-        {
-            AesAlgo aesAlgo = new AesAlgo();
-            
-            var fileData = GetFileById(fileId);
-            var ms = new MemoryStream(fileData.File);
-            var bmp = new Bitmap(ms);
-            byte[] cypherData = null;
-            byte[] key = null;
-            byte[] iv = null;
-            string decryptedMessage = null;
-            switch (fileData.HidingMethod)
-            {
-                case HidingMethod.Lsb:
-                    cypherData = _lsbPicture.Seek(bmp);
-                    key = _lsbPicture.ExtractKey(bmp);
-                    iv = _lsbPicture.ExtractIv(bmp);
-                    break;
-                case HidingMethod.MetaData:
-                    cypherData = _metaDataPicture.SeekJpeg(fileData.File);
-                    key = _metaDataPicture.ExtractKey(fileData.File);
-                    iv = _metaDataPicture.ExtractIv(fileData.File);
-                    break;
-            }
-
-            switch (fileData.EncryptionMethod)
-            {
-                case EncryptionMethod.Aes:
-                    decryptedMessage = Decrypt_Aes(cypherData, key, iv);
-                    break;
-                case EncryptionMethod.Serpent:
-                    //decryptedMessage = Decrypt_Des(cypherData, key, iv);
-                    ////*****************
-                    decryptedMessage = Decrypt_Serpent(cypherData,key);
-                    break;
-            }
-
-
-            return decryptedMessage;
-        }
-        
-        public string ExtractMessageFromVideo(string fileId)
-        {
-            AesAlgo aesAlgo = new AesAlgo();
-            
-            var data = GetFileById(fileId);
-            byte[] video = data.File;
-            byte[] cypherData = null;
-            byte[] key = null;
-            byte[] iv = null;
-            string decryptedMessage = null;
-            
-            switch (data.HidingMethod)
-            {
-                case HidingMethod.Lsb:
-                    if (data.FileExtension == ".avi")
-                    {
-                        cypherData = _lsbVideo.Seek(video);
-                        key = _lsbVideo.ExtractKey(video);
-                        iv = _lsbVideo.ExtractIv(video);
-                    }
-                    else
-                    {
-                        cypherData = _lsbVideo.SeekMov(video);
-                        key = _lsbVideo.ExtractKeyMov(video);
-                        iv = _lsbVideo.ExtractIvMov(video);
-                    }
-                    break;
-                case HidingMethod.MetaData:
-                    if (data.FileExtension == ".avi")
-                    {
-                        cypherData = _metaDataVideo.Seek(video);
-                        key = _metaDataVideo.ExtractKey(video);
-                        iv = _metaDataVideo.ExtractIv(video);
-                    }
-                    else
-                    {
-                        cypherData = _metaDataVideo.SeekMov(video);
-                        key = _metaDataVideo.ExtractKeyMov(video);
-                        iv = _metaDataVideo.ExtractIvMov(video);
-                    }
-                    break;
-            }
-
-            switch (data.EncryptionMethod)
-            {
-                case EncryptionMethod.Aes:
-                    decryptedMessage=Decrypt_Aes(cypherData,key,iv);
-                    break;
-                case EncryptionMethod.Serpent: 
-                    //decryptedMessage = Decrypt_Des(cypherData, key, iv);
-                    decryptedMessage = Decrypt_Serpent(cypherData, key);
-                    break;
-            }
-
-            return decryptedMessage;
-        }
-        
-        public string ExtractMessageFromAudio(string fileId)
-        {
-            AesAlgo aesAlgo = new AesAlgo();
-            
-            var data = GetFileById(fileId);
-            byte[] audio = data.File;
-            byte[] cypherData = null;
-            byte[] key = null;
-            byte[] iv = null;
-            string decryptedMessage = null;
-            
-            switch (data.HidingMethod)
-            {
-                case HidingMethod.Lsb:
-                    if (data.FileExtension == ".wav")
-                    {
-                        cypherData = _lsbAudio.Seek(audio);
-                        key = _lsbAudio.ExtractKey(audio);
-                        iv = _lsbAudio.ExtractIv(audio);   
-                    }
-                    else
-                    {
-                        cypherData = _lsbAudio.SeekMp3(audio);
-                        key = _lsbAudio.ExtractKeyMp3(audio);
-                        iv = _lsbAudio.ExtractIvMp3(audio);
-                    }
-                    break;
-                case HidingMethod.MetaData:
-                    if (data.FileExtension == ".wav")
-                    {
-                        cypherData = _metaDataAudio.Seek(audio);
-                        key = _metaDataAudio.ExtractKey(audio);
-                        iv = _metaDataAudio.ExtractIv(audio);   
-                    }
-                    else
-                    {
-                        cypherData = _metaDataAudio.SeekMp3(audio);
-                        key = _metaDataAudio.ExtractKeyMp3(audio);
-                        iv = _metaDataAudio.ExtractIvMp3(audio);
-                    }
-                    break;
-            }
-            switch (data.EncryptionMethod)
-            {
-                case EncryptionMethod.Aes:
-                    decryptedMessage=Decrypt_Aes(cypherData,key,iv);
-                    break;
-                case EncryptionMethod.Serpent: 
-                    //decryptedMessage = Decrypt_Des(cypherData, key, iv);
-                    decryptedMessage = Decrypt_Serpent(cypherData, key);
-                    break;
-            }
-            return decryptedMessage;
         }
         
         public List<FileDataUploadResponseModel> GetPermittedFilesData()
@@ -604,10 +576,7 @@ namespace WebApplication.Services
             permittedFilesData = permittedFilesData?.OrderBy(x => x.FileType).ToList();
             return permittedFilesData;
         }
-
-        /// <summary>
-        /// This method used to get all existing users to allow current user to choose with who he want to share his data.
-        /// </summary>            
+        
         public static IEnumerable<SelectListItem> GetAllUsers()
         {
             var allUsers = _accountService.GetAllUsers();

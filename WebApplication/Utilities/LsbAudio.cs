@@ -6,7 +6,11 @@ namespace WebApplication.Utilities
 {
     public class LsbAudio
     {
-        public byte[] GenerateFrames(byte[] audio)
+        
+        /// **********************************************
+        /// Mp3 File Steganography Methods
+        /// **********************************************
+        public byte[] GenerateFramesMp3(byte[] audio)
         {
             var flagg = 1;
             var index = 0;
@@ -56,7 +60,7 @@ namespace WebApplication.Utilities
             return newfile;
         }
 
-        public int indexOfSecret(byte[] audio)
+        public int indexOfSecretMp3(byte[] audio)
         {
             int skeep = 2;
             for (int i = 0; i < audio.Length; i++)
@@ -79,7 +83,7 @@ namespace WebApplication.Utilities
         public void HideMp3(byte[] audio, String bin)
         {
             // audio = GenerateFrames(audio);
-            var indexSecret = indexOfSecret(audio);
+            var indexSecret = indexOfSecretMp3(audio);
             for (int j = 0; j < bin.Length; j++)
             {
                 if (bin[j] == '1')
@@ -105,7 +109,7 @@ namespace WebApplication.Utilities
             var bitsToProcess = GetByteCountMp3(audio)*8;
             string binText=null;
             var list= new List<int>();
-            var indexSecret = indexOfSecret(audio) + 16; //16 for first 16 bits of the length of the message
+            var indexSecret = indexOfSecretMp3(audio) + 16; //16 for first 16 bits of the length of the message
             for (int i = 0; i < bitsToProcess; i++)
             {
                 list.Add(audio[indexSecret + i] % 2 == 0 ? 0 : 1);
@@ -121,7 +125,7 @@ namespace WebApplication.Utilities
         {
             var firstByteList = new List<int>();
             string bin = null;
-            var indexSecret = indexOfSecret(audio);
+            var indexSecret = indexOfSecretMp3(audio);
             for (int i = 0; i < 16; i++)
             {
                 firstByteList.Add(audio[indexSecret + i] % 2 == 1 ? 1 : 0);
@@ -138,7 +142,7 @@ namespace WebApplication.Utilities
         {
             string binText = null;
             var bytesToSkip = GetByteCountMp3(audio);
-            var indexSecret = indexOfSecret(audio) + (bytesToSkip * 8) + 16;
+            var indexSecret = indexOfSecretMp3(audio) + (bytesToSkip * 8) + 16;
             var list = new List<int>();
             for (int i = 0; i < 128; i++)
             {
@@ -156,7 +160,7 @@ namespace WebApplication.Utilities
         {
             string binText = null;
             var bytesToSkip = GetByteCountMp3(audio);
-            int indexSecret = indexOfSecret(audio) + 16 + (bytesToSkip * 8) + 128;
+            int indexSecret = indexOfSecretMp3(audio) + 16 + (bytesToSkip * 8) + 128;
             var list = new List<int>();
             for (int i = 0; i < 128; i++)
             {
@@ -169,7 +173,10 @@ namespace WebApplication.Utilities
             return BinToByte(binText);
         }
 
-        public int WavStartPos(byte[] audio)
+        /// **********************************************
+        /// Wave File Steganography Methods
+        /// **********************************************
+        public int WaveStartPos(byte[] audio)
         {
             for (int i = 0; i < audio.Length; i++)
             {
@@ -182,9 +189,9 @@ namespace WebApplication.Utilities
             return 47;
         }
         
-        public void Hide(byte[] audio, String bin)
+        public void HideWave(byte[] audio, String bin)
         {
-            var audioData = WavStartPos(audio);
+            var audioData = WaveStartPos(audio);
             var index = 0;
             while (index < bin.Length)
             {
@@ -207,11 +214,11 @@ namespace WebApplication.Utilities
             }
         }
         
-        public byte[] Seek(byte[] audio)
+        public byte[] SeekWave(byte[] audio)
         {
-            var bitsToProcess = GetByteCount(audio)*8;
+            var bitsToProcess = GetByteCountWave(audio)*8;
             string binText=null;
-            int i = WavStartPos(audio)+16;
+            int i = WaveStartPos(audio)+16;
             int bitsProcessed = 0;
             var list= new List<int>();
             while (bitsProcessed<bitsToProcess)
@@ -228,11 +235,11 @@ namespace WebApplication.Utilities
             
         }
 
-        public int GetByteCount(byte[] audio)
+        public int GetByteCountWave(byte[] audio)
         {
             var firstByteList = new List<int>();
             string bin = null;
-            var audioData = WavStartPos(audio);
+            var audioData = WaveStartPos(audio);
             for (int j = 0; j < 16; j++)
             {
                 firstByteList.Add(audio[audioData + j] % 2 == 1 ? 1 : 0);
@@ -245,6 +252,44 @@ namespace WebApplication.Utilities
 
             return Convert.ToInt32(bin, 2);
         }
+
+        public  byte[] ExtractKeyWave(byte [] audio)
+        {
+            string binText = null;
+            var bytesToSkip = GetByteCountWave(audio);
+            int index = WaveStartPos(audio) + 16 + (bytesToSkip*8);
+            int iterations, i;
+            var list = new List<int>();
+            for (i = 0; i < 128; i++)
+            {
+                list.Add(audio[index+i] % 2 == 0 ? 0 : 1);
+                
+            }
+            foreach (var n in list)
+            {
+                binText += n % 2 == 1 ? 1 : 0;
+            }
+            return BinToByte(binText);
+        }
+        
+        public  byte[] ExtractIvWave(byte [] audio)
+        {
+            string binText = null;
+            var bytesToSkip = GetByteCountWave(audio);
+            int index = WaveStartPos(audio) + 16 + (bytesToSkip*8) + 128;
+            int iterations, i;
+            var list = new List<int>();
+            for (i = 0; i < 128; i++)
+            {
+                list.Add(audio[index+i] % 2 == 0 ? 0 : 1);
+                
+            }
+            foreach (var n in list)
+            {
+                binText += n % 2 == 1 ? 1 : 0;
+            }
+            return BinToByte(binText);
+        }
         
         public byte [] BinToByte(string bin)
         {
@@ -256,44 +301,6 @@ namespace WebApplication.Utilities
             }
             
             return list.ToArray(); ;
-        }
-
-        public  byte[] ExtractKey(byte [] audio)
-        {
-            string binText = null;
-            var bytesToSkip = GetByteCount(audio);
-            int index = WavStartPos(audio) + 16 + (bytesToSkip*8);
-            int iterations, i;
-            var list = new List<int>();
-            for (i = 0; i < 128; i++)
-            {
-                list.Add(audio[index+i] % 2 == 0 ? 0 : 1);
-                
-            }
-            foreach (var n in list)
-            {
-                binText += n % 2 == 1 ? 1 : 0;
-            }
-            return BinToByte(binText);
-        }
-        
-        public  byte[] ExtractIv(byte [] audio)
-        {
-            string binText = null;
-            var bytesToSkip = GetByteCount(audio);
-            int index = WavStartPos(audio) + 16 + (bytesToSkip*8) + 128;
-            int iterations, i;
-            var list = new List<int>();
-            for (i = 0; i < 128; i++)
-            {
-                list.Add(audio[index+i] % 2 == 0 ? 0 : 1);
-                
-            }
-            foreach (var n in list)
-            {
-                binText += n % 2 == 1 ? 1 : 0;
-            }
-            return BinToByte(binText);
         }
     }
 }

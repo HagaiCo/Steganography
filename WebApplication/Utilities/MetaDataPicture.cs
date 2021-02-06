@@ -11,8 +11,6 @@ namespace WebApplication.Utilities
     {
         public byte[] HideJpeg (byte[] jpegByteArray, byte[] encryptedData)
         {
-
-            
             //Image jpeg = (Bitmap)((new ImageConverter()).ConvertFrom(jpegByteArray));
             MemoryStream ms1 = new MemoryStream(jpegByteArray);
             Image jpeg = Image.FromStream(ms1);
@@ -50,7 +48,7 @@ namespace WebApplication.Utilities
             return encryptedData;
         }
 
-        public byte[] ExtractKey(byte[] jpegByteArray)
+        public byte[] ExtractKeyJpeg(byte[] jpegByteArray)
         {
             int j = 0;
             //Image jpeg = (Bitmap)((new ImageConverter()).ConvertFrom(jpegByteArray));
@@ -68,7 +66,7 @@ namespace WebApplication.Utilities
             return key;
         }
         
-        public byte[] ExtractIv(byte[] jpegByteArray)
+        public byte[] ExtractIvJpeg(byte[] jpegByteArray)
         {
             int j = 0;
             //Image jpeg = (Bitmap)((new ImageConverter()).ConvertFrom(jpegByteArray));
