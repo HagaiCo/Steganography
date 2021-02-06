@@ -603,8 +603,6 @@
     <Compile Include="Tests\UnitTests.cs" />
     <Compile Include="Utilities\AesAlgo.cs" />
     <Compile Include="Utilities\Decoder.cs" />
-    <Compile Include="Utilities\DesAlgo.cs" />
-    <Compile Include="Utilities\HideAndSeekLsb.cs" />
     <Compile Include="Utilities\MetaDataVideo.cs" />
     <Compile Include="Utilities\LsbAudio.cs" />
     <Compile Include="Utilities\LsbExe.cs" />

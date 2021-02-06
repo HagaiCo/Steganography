@@ -6,7 +6,7 @@ namespace WebApplication.Utilities
 {
     public class LsbPicture
     {
-        public void Hide(Bitmap bmp,String bin)
+        public void HideBitmap(Bitmap bmp,String bin)
         {
             
             var j = 0;
@@ -84,7 +84,7 @@ namespace WebApplication.Utilities
             }
         }
         
-        static int GetByteCount(Bitmap bmp) //returns decimal value of first 16 bits - length of cypher.
+        static int GetByteCountBitmap(Bitmap bmp) //returns decimal value of first 16 bits - length of cypher.
         {
             
             var firstByteList = new List<int>();
@@ -124,9 +124,9 @@ namespace WebApplication.Utilities
 
         }
         
-        public byte [] Seek(Bitmap bmp)
+        public byte [] SeekBitmap(Bitmap bmp)
         {
-            var bitsToProcess = GetByteCount(bmp)*8;
+            var bitsToProcess = GetByteCountBitmap(bmp)*8;
             string binText=null;
             var j = 0;
             var i = 0;
@@ -171,15 +171,15 @@ namespace WebApplication.Utilities
             {
                 binText += n % 2 == 1 ? 1 : 0;
             }
-            return BinToByte(binText);
+            return BinToByteBitmap(binText);
             
 
         }
 
-        public byte[] ExtractKey(Bitmap bmp)
+        public byte[] ExtractKeyBitmap(Bitmap bmp)
         {
             string binText = null;
-            var bitsToSkip = GetByteCount(bmp) * 8 + 16; //Starts reading key after cypherText is over
+            var bitsToSkip = GetByteCountBitmap(bmp) * 8 + 16; //Starts reading key after cypherText is over
             int iterations = 0, i, j;
             var list = new List<int>();
             for (i=bitsToSkip / bmp.Width; i < bmp.Height; i++)
@@ -222,15 +222,15 @@ namespace WebApplication.Utilities
             {
                 binText += n % 2 == 1 ? 1 : 0;
             }
-            return BinToByte(binText);
+            return BinToByteBitmap(binText);
             
 
         }
         
-        public byte[] ExtractIv(Bitmap bmp)
+        public byte[] ExtractIvBitmap(Bitmap bmp)
         {
             string binText = null;
-            var bitsToSkip = GetByteCount(bmp) * 8 + 144; // starts reading IV after key is over
+            var bitsToSkip = GetByteCountBitmap(bmp) * 8 + 144; // starts reading IV after key is over
             int iterations = 0, i, j;
             var list = new List<int>();
             for (i=bitsToSkip / bmp.Width; i < bmp.Height; i++)
@@ -271,31 +271,10 @@ namespace WebApplication.Utilities
             {
                 binText += n % 2 == 1 ? 1 : 0;
             }
-            return BinToByte(binText);
+            return BinToByteBitmap(binText);
         }
         
-        public string EncryptedDataToBin(byte [] encryptedData,byte [] key, byte[] iv)
-        {
-            string binText = null;
-            binText=Convert.ToString(encryptedData.Length, 2).PadLeft(16, '0'); //first 2 byte is the length of byts to read.
-            foreach (var byt in encryptedData)
-            {
-                binText += Convert.ToString(byt, 2).PadLeft(8, '0');
-            }
-            foreach (var byt in key)
-            {
-                binText += Convert.ToString(byt, 2).PadLeft(8, '0');
-            }
-            foreach (var byt in iv)
-            {
-                binText += Convert.ToString(byt, 2).PadLeft(8, '0');
-            }
-            
-            
-            
-            return binText;
-        }
-        static byte [] BinToByte(string bin)
+        static byte [] BinToByteBitmap(string bin)
         {
             var list= new List<byte>();
             for (var i = 0; i < bin.Length; i += 8)
