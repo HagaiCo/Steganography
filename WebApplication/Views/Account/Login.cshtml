@@ -3,9 +3,13 @@
 @{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    @Styles.Render("~/Content/Site.css")
+
 }
 
+<div class="login-h2">
 <h2>Login</h2>
+</div>
 
 @using (Html.BeginForm()) 
 {
@@ -37,3 +41,4 @@
         </div>
     </div>
 }
+

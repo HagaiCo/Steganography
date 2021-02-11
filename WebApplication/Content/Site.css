@@ -1,24 +1,95 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿/*body {*/
+/*    padding-top: 50px;*/
+/*    padding-bottom: 20px;*/
+/*}*/
+
+/*!* Set padding to keep content from hitting the edges *!*/
+/*.body-content {*/
+/*    padding-left: 15px;*/
+/*    padding-right: 15px;*/
+/*}*/
+
+/*!* Override the default bootstrap behavior where horizontal description lists */
+/*   will truncate terms that are too long to fit in the left column */
+/**!*/
+/*.dl-horizontal dt {*/
+/*    white-space: normal;*/
+/*}*/
+
+/*!* Set width on the form input elements since they're 100% wide by default *!*/
+/*input,*/
+/*select,*/
+/*textarea {*/
+/*    max-width: 280px;*/
+/*}*/
+
+:root{
+    --primary-color: rgba(13, 110, 139, 0.75);
+    --overlay-color: rgba(24, 39, 51, 0.85);
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+body{
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.4;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.container-body{
+    max-width: 960px;
+    margin: auto;
+    overflow: hidden;
+    padding: 0 3rem;
+}
+
+.showcase{
+    background-color: var(--primary-color);
+    color: #ffffff;
+    height: 100vh;
+    position: relative;
+    
+}
+
+.showcase:before {
+    content: '';
+    background: url("../Content/pexels-alex-andrews-861443.jpg") no-repeat center center/cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.showcase .body-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+}
+
+.login-h2{
+    font-size: 2rem;
+}
+
+.btn-default{
+    display: inline;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 2rem;
+    padding: 0.75rem 1.5rem;
+    margin-top: 1rem;
+    text-decoration: none;
+    transition: opacity 1s ease-in;
+}
+
+.btn-default:hover{
+    opacity: 0.7;
 }
