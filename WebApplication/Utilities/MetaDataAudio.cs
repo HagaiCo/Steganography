@@ -6,7 +6,10 @@ namespace WebApplication.Utilities
     public class MetaDataAudio
     {
         
-        public byte[] GenerateFrames(byte[] audio)
+        /// **********************************************
+        /// Mp3 File Steganography Methods
+        /// **********************************************
+        public byte[] GenerateFramesMp3(byte[] audio)
         {
             var flagg = 1;
             var index = 0;
@@ -76,7 +79,7 @@ namespace WebApplication.Utilities
             return 0;
         }
 
-        public long IndexOfSecretFromEnd(byte[] audio)
+        public long IndexOfSecretFromEndMp3(byte[] audio)
         {
             var index = 0;
             int flagg = 0;
@@ -91,9 +94,10 @@ namespace WebApplication.Utilities
 
             return index;
         }
+        
         public void HideMp3(byte[] audio, byte [] encryptedMessage)
         {
-            var audioMetaData = IndexOfSecretFromEnd(audio);
+            var audioMetaData = IndexOfSecretFromEndMp3(audio);
             byte[] length = BitConverter.GetBytes(encryptedMessage.Length-32) ;
             audio[audioMetaData++] = length[0];
             audio[audioMetaData++] = length[1];
@@ -108,7 +112,7 @@ namespace WebApplication.Utilities
         public byte[] SeekMp3(byte[] audio)
         {
             int j = 0;
-            var audioMetaData = IndexOfSecretFromEnd(audio);
+            var audioMetaData = IndexOfSecretFromEndMp3(audio);
             byte[] lengthBytes = {audio[audioMetaData],audio[audioMetaData+1],audio[audioMetaData+2],audio[audioMetaData+3]};
             int length = BitConverter.ToInt32(lengthBytes, 0);
             byte[] encryptedData=new byte[length];
@@ -124,7 +128,7 @@ namespace WebApplication.Utilities
         {
             byte [] key = new byte[16];
             int j = 0;
-            var audioMetaData = IndexOfSecretFromEnd(audio);
+            var audioMetaData = IndexOfSecretFromEndMp3(audio);
             byte[] lengthBytes = {audio[audioMetaData],audio[audioMetaData+1],audio[audioMetaData+2],audio[audioMetaData+3]};
             int length = BitConverter.ToInt32(lengthBytes, 0);
             var index = audioMetaData + 4 + length;
@@ -140,7 +144,7 @@ namespace WebApplication.Utilities
         {
             byte [] iv = new byte[16];
             int j = 0;
-            var audioMetaData = IndexOfSecretFromEnd(audio);
+            var audioMetaData = IndexOfSecretFromEndMp3(audio);
             byte[] lengthBytes = {audio[audioMetaData],audio[audioMetaData+1],audio[audioMetaData+2],audio[audioMetaData+3]};
             int length = BitConverter.ToInt32(lengthBytes, 0);
             var index = audioMetaData + 4 + length + 16;
@@ -151,9 +155,12 @@ namespace WebApplication.Utilities
             return iv;
         }
         
-        public void Hide(byte[] audio, byte [] encryptedMessage)
+        /// **********************************************
+        /// Wave File Steganography Methods
+        /// **********************************************
+        public void HideWave(byte[] audio, byte [] encryptedMessage)
         {
-            var audioMetaData = JunkPosition(audio);
+            var audioMetaData = JunkPositionWave(audio);
             byte[] length = BitConverter.GetBytes(encryptedMessage.Length-32) ;
             audio[audioMetaData++] = length[0];
             audio[audioMetaData++] = length[1];
@@ -165,10 +172,10 @@ namespace WebApplication.Utilities
             }
         }
 
-        public byte[] Seek(byte[] audio)
+        public byte[] SeekWave(byte[] audio)
         {
             int j = 0;
-            var audioMetaData = JunkPosition(audio);
+            var audioMetaData = JunkPositionWave(audio);
             byte[] lengthBytes = {audio[audioMetaData],audio[audioMetaData+1],audio[audioMetaData+2],audio[audioMetaData+3]};
             int length = BitConverter.ToInt32(lengthBytes, 0);
             byte[] encryptedData=new byte[length];
@@ -181,11 +188,11 @@ namespace WebApplication.Utilities
         }
         
         
-        public  byte[] ExtractKey(byte [] audio)
+        public  byte[] ExtractKeyWave(byte [] audio)
         {
             byte [] key = new byte[16];
             int j = 0;
-            var audioMetaData = JunkPosition(audio);
+            var audioMetaData = JunkPositionWave(audio);
             byte[] lengthBytes = {audio[audioMetaData],audio[audioMetaData+1],audio[audioMetaData+2],audio[audioMetaData+3]};
             int length = BitConverter.ToInt32(lengthBytes, 0);
             int index = audioMetaData + 4 + length;
@@ -197,11 +204,11 @@ namespace WebApplication.Utilities
             return key;
         }
         
-        public  byte[] ExtractIv(byte [] audio)
+        public  byte[] ExtractIvWave(byte [] audio)
         {
             byte [] iv = new byte[16];
             int j = 0;
-            var audioMetaData = JunkPosition(audio);
+            var audioMetaData = JunkPositionWave(audio);
             byte[] lengthBytes = {audio[audioMetaData],audio[audioMetaData+1],audio[audioMetaData+2],audio[audioMetaData+3]};
             int length = BitConverter.ToInt32(lengthBytes, 0);
             int index = audioMetaData + 4 + length + 16;
@@ -212,7 +219,7 @@ namespace WebApplication.Utilities
             return iv;
         }
         
-        public static int JunkPosition(byte[] audio)
+        public static int JunkPositionWave(byte[] audio)
         {
             string datal1 = audio[40].ToString("X").PadLeft(0);
             string datal2 = audio[41].ToString("X").PadLeft(0);

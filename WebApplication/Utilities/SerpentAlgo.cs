@@ -54,6 +54,7 @@ namespace WebApplication.Utilities
                 throw new CryptoException(ex.Message);
             }
         }
+        
         public static byte[] SerpentEncryption(string plain, byte[] key)
         {
             SerpentAlgo bcEngine = new SerpentAlgo(new SerpentEngine(), ASCIIEncoding.ASCII);

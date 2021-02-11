@@ -38,7 +38,7 @@ namespace WebApplication.Tests
         LsbExe _lsbPe = new LsbExe();
         HomeService _homeService = new HomeService();
         Decoder _decoder = new Decoder();
-        DesAlgo _desAlgo = new DesAlgo();
+        
         MetaDataAudio _metaDataAudio = new MetaDataAudio();
 
 
@@ -66,32 +66,7 @@ namespace WebApplication.Tests
         }
         
         
-        [Test]
-        public void DesTest()
-        {
-            
-            // Create a new TripleDESCryptoServiceProvider object
-            // to generate a key and initialization vector (IV).
-            TripleDESCryptoServiceProvider tDESalg = new TripleDESCryptoServiceProvider();
-            tDESalg.KeySize = 128;
-            tDESalg.Padding = PaddingMode.PKCS7;
-            // Create a string to encrypt.
-            string message = "Lebron James is the goat !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!00000u00";
-
-            // Encrypt the string to an in-memory buffer.
-            byte[] Data = _desAlgo.EncryptStringToBytes_Des(message, tDESalg.Key, tDESalg.IV);
-
-            // Decrypt the buffer back to a string.
-            string plainText = _desAlgo.DecryptStringFromBytes_Des(Data, tDESalg.Key, tDESalg.IV);
-
-            // Display the decrypted string to the console.
-            var index = plainText.IndexOf("\u0000", StringComparison.Ordinal);
-            if(index>0)
-                plainText = plainText.Substring(0, index);
-            Console.WriteLine(plainText);
-
-            
-        }
+        
         
         
         [Test]
@@ -125,8 +100,8 @@ namespace WebApplication.Tests
 
                 jpeg =_metaDataPicture.HideJpeg(jpeg, encryptedData);
                 byte[] cypherData = _metaDataPicture.SeekJpeg(jpeg);
-                byte[] key = _metaDataPicture.ExtractKey(jpeg);
-                byte[] iv = _metaDataPicture.ExtractIv(jpeg);
+                byte[] key = _metaDataPicture.ExtractKeyJpeg(jpeg);
+                byte[] iv = _metaDataPicture.ExtractIvJpeg(jpeg);
 
                 var decryptedMessage = aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
 
@@ -155,11 +130,11 @@ namespace WebApplication.Tests
 
                 var binMessage = _decoder.EncryptedByteArrayToBinary(encryptedData);
                 
-                _lsbPicture.Hide(bmp, binMessage);
+                _lsbPicture.HideBitmap(bmp, binMessage);
                 
-                byte[] cypherData = _lsbPicture.Seek(bmp);
-                byte[] key = _lsbPicture.ExtractKey(bmp);
-                byte[] iv = _lsbPicture.ExtractIv(bmp);
+                byte[] cypherData = _lsbPicture.SeekBitmap(bmp);
+                byte[] key = _lsbPicture.ExtractKeyBitmap(bmp);
+                byte[] iv = _lsbPicture.ExtractIvBitmap(bmp);
 
                 var decryptedMessage = aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
 
@@ -177,9 +152,9 @@ namespace WebApplication.Tests
             AesAlgo aesAlgo = new AesAlgo();
             var path1 = "C:/Users/mamis/Desktop/pica1.jpg";
             var bmp = (Bitmap) Image.FromFile(path1);
-            byte[] cypherData = _lsbPicture.Seek(bmp);
-            byte[] key = _lsbPicture.ExtractKey(bmp);
-            byte[] iv = _lsbPicture.ExtractIv(bmp);
+            byte[] cypherData = _lsbPicture.SeekBitmap(bmp);
+            byte[] key = _lsbPicture.ExtractKeyBitmap(bmp);
+            byte[] iv = _lsbPicture.ExtractIvBitmap(bmp);
 
             var decryptedMessage = aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
 
@@ -201,7 +176,7 @@ namespace WebApplication.Tests
                     .Concat(aes.IV).ToArray();
                 //var binMessage = _decoder.EncryptedByteArrayToBinary(encryptedMessage);
                 //byteAudio = _metaDataAudio.GenerateJunk(byteAudio);
-                byteAudio = _metaDataAudio.GenerateFrames(byteAudio);
+                byteAudio = _metaDataAudio.GenerateFramesMp3(byteAudio);
                 _metaDataAudio.HideMp3(byteAudio, encryptedMessage);
                 byte[] cypherData = _metaDataAudio.SeekMp3(byteAudio);
                 byte[] key = _metaDataAudio.ExtractKeyMp3(byteAudio);
@@ -237,11 +212,11 @@ namespace WebApplication.Tests
                 var binMessage = _decoder.EncryptedByteArrayToBinary(encryptedMessage);
                 
                 
-                _lsbAudio.Hide(byteAudio, binMessage);
+                _lsbAudio.HideWave(byteAudio, binMessage);
                 
-                byte[] cypherData = _lsbAudio.Seek(byteAudio);
-                byte[] key = _lsbAudio.ExtractKey(byteAudio);
-                byte[] iv = _lsbAudio.ExtractIv(byteAudio);
+                byte[] cypherData = _lsbAudio.SeekWave(byteAudio);
+                byte[] key = _lsbAudio.ExtractKeyWave(byteAudio);
+                byte[] iv = _lsbAudio.ExtractIvWave(byteAudio);
 
                 var decryptedMessage = aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
 
@@ -250,6 +225,7 @@ namespace WebApplication.Tests
 
             }
         }
+        
         
         [Test]
         public void PETestLsb()
@@ -302,11 +278,11 @@ namespace WebApplication.Tests
 
                 var binMessage = _decoder.EncryptedByteArrayToBinary(encryptedData);
                 
-                _lsbVideo.Hide(byteVideo, binMessage);
+                _lsbVideo.HideAvi(byteVideo, binMessage);
                 
-                byte[] cypherData = _lsbVideo.Seek(byteVideo);
-                byte[] key = _lsbVideo.ExtractKey(byteVideo);
-                byte[] iv = _lsbVideo.ExtractIv(byteVideo);
+                byte[] cypherData = _lsbVideo.SeekAvi(byteVideo);
+                byte[] key = _lsbVideo.ExtractKeyAvi(byteVideo);
+                byte[] iv = _lsbVideo.ExtractIvAvi(byteVideo);
 
                 var decryptedMessage = aesAlgo.DecryptStringFromBytes_Aes(cypherData, key, iv);
 
@@ -417,14 +393,14 @@ namespace WebApplication.Tests
                 byte[] encryptedData = aesAlgo.EncryptStringToBytes_Aes(message, aes.Key, aes.IV).Concat(aes.Key).Concat(aes.IV)
                     .ToArray();
                 //byte[] b = encryptedData.Concat(aes.Key).ToArray();
-                _metaDataVideo.hide(byteVideo, encryptedData);
+                _metaDataVideo.hideAvi(byteVideo, encryptedData);
                 
                 
                 
                 
-                byte[] cypherData = _metaDataVideo.Seek(byteVideo);
-                byte[] key = _metaDataVideo.ExtractKey(byteVideo);
-                byte[] iv = _metaDataVideo.ExtractIv(byteVideo);
+                byte[] cypherData = _metaDataVideo.SeekAvi(byteVideo);
+                byte[] key = _metaDataVideo.ExtractKeyAvi(byteVideo);
+                byte[] iv = _metaDataVideo.ExtractIvAvi(byteVideo);
 
                 var decryptedMessage = aesAlgo.DecryptStringFromBytes_Aes(cypherData, aes.Key, aes.IV);
 
