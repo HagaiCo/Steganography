@@ -1,47 +1,75 @@
 ﻿@using WebApplication.Controllers
 @using WebApplication.Services
 <!DOCTYPE html>
-<html>
+<html lang="">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
+    @* @Styles.Render("~/Content/css") *@
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet">
+    @Styles.Render("~/Content/Site.css")
+    @Styles.Render("~/Content/menu.css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
+    <div class="container-nav">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            @Html.ActionLink("Steganography", "UploadFileData", "Home", new {area = ""}, new {@class = "navbar-brand"})
+            @* <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> *@
+            @*     <span class="icon-bar"></span> *@
+            @*     <span class="icon-bar"></span> *@
+            @*     <span class="icon-bar"></span> *@
+            @* </button> *@
+            <input type="checkbox" class="toggler">
+                <div class="Hamburger"><div></div></div>
+            <div class="menu">
+                <div>
+                    <div>
+                        <ul class="nav-navbar-nav">
+                            @* <li> @Html.ActionLink("Steganography", "UploadFileData", "Home", new {area = ""}, new {@class = "navbar-brand"}) *@
+@* </li> *@
+                            <li>@Html.ActionLink("Home", "UploadFileData", "Home")</li>
+                            <li>@Html.ActionLink("My Files", "DownloadFileData", "Home")</li>
+                            @if (Request.IsAuthenticated)
+                            {
+                                <li>@Html.ActionLink("Log Out", "LogOut", "Account")</li>
+                            }
+                            else
+                            {
+                                <li>@Html.ActionLink("Sign Up", "SignUp", "Account")</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            @* @Html.ActionLink("Steganography", "UploadFileData", "Home", new {area = ""}, new {@class = "navbar-brand"}) *@
         </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Home", "UploadFileData", "Home")</li>
-                <li>@Html.ActionLink("My Files", "DownloadFileData", "Home")</li>
-                @if (Request.IsAuthenticated)
-                {
-                    <li>@Html.ActionLink("Log Out", "LogOut", "Account")</li>
-                }
-                else
-                {
-                    <li>@Html.ActionLink("Sign Up", "SignUp", "Account")</li>
-                }
-            </ul>
-        </div>
+        @*         <div class="navbar-collapse-collapse"> *@
+        @*             <ul class="nav-navbar-nav"> *@
+        @*                 <li>@Html.ActionLink("Home", "UploadFileData", "Home")</li> *@
+        @*                 <li>@Html.ActionLink("My Files", "DownloadFileData", "Home")</li> *@
+        @*                 @if (Request.IsAuthenticated) *@
+        @*                 { *@
+        @*                     <li>@Html.ActionLink("Log Out", "LogOut", "Account")</li> *@
+        @*                 } *@
+        @*                 else *@
+        @*                 { *@
+        @*                     <li>@Html.ActionLink("Sign Up", "SignUp", "Account")</li> *@
+        @*                 } *@
+        @*             </ul> *@
+        @*         </div> *@
     </div>
 </div>
-<div class="container body-content">
-    @RenderBody()
-    <hr/>
-    <footer>
-        <p>@DateTime.Now.2020 - &copy; All rights reserved</p>
-    </footer>
+<div class="showcase">
+    <div class="container-body body-content footer-rights">
+        @RenderBody()
+        <hr/>
+        <footer>
+            <p>@DateTime.Now.2020 - &copy; All rights reserved</p>
+        </footer>
+    </div>
 </div>
 
 @Scripts.Render("~/bundles/jquery")
