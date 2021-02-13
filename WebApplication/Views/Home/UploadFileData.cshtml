@@ -23,13 +23,13 @@
 
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-
         <div class="form-group">
-            @Html.LabelFor(model => model.File, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <input type="file" class="form-control" name="file" accept="image/*" required/>
-            </div>
+            @using (Html.BeginForm("UploadFileData", "Home", FormMethod.Post, new 
+                                       { enctype = "multipart/form-data" }))
+            {
+                @Html.TextBoxFor(m => m.File, new { type = "file" })
+                @Html.ValidationMessageFor(m => m.File)
+            }
         </div>
 
         <div class="form-group">
