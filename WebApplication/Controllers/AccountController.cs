@@ -65,14 +65,14 @@ namespace WebApplication.Controllers
         // GET: Account
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> Login(LoginRequestModel model, string returnUrl)
+        public async Task<ActionResult> Login(MainRequestModel model, string returnUrl)
         {
             try
             {
                 // Verification.
                 if (ModelState.IsValid)
                 {
-                    var result = await _accountService.Login(model.Email, model.Password);
+                    var result = await _accountService.Login(model.LoginRequestModel.Email, model.LoginRequestModel.Password);
                     if (result.FirebaseToken != "")
                     {
                         _accountService.SignInUser(result.User.Email, result.FirebaseToken, false, Request.GetOwinContext());
