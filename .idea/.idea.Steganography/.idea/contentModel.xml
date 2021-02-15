@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ContentModelStore">
     <e p="C:\Users\Mike\AppData\Local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Mike\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_Steganography.-1129787458.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Mike\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_Steganography.348043461.00" t="ExcludeRecursive" />
     <e p="C:\Users\Mike\AppData\Roaming\JetBrains\Rider2020.2\scratches" t="IncludeRecursive" />
-    <e p="C:\Users\Mike\RiderProjects\cloneStega" t="IncludeFlat">
-    <e p="C:\Users\mamis\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\mamis\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_Steganography.958923096.00" t="ExcludeRecursive" />
-    <e p="C:\Users\mamis\RiderProjects\Steganography" t="IncludeFlat">
+    <e p="C:\Users\Mike\RiderProjects\Steganography2" t="IncludeFlat">
       <e p="packages" t="ExcludeRecursive">
         <e p="NAudio.Lame.1.1.6\build\libmp3lame.32.dll" t="Include" />
         <e p="NAudio.Lame.1.1.6\build\libmp3lame.64.dll" t="Include" />
@@ -32,7 +29,10 @@
           <e p="bootstrap.css.map" t="Include" />
           <e p="bootstrap.min.css" t="Include" />
           <e p="bootstrap.min.css.map" t="Include" />
-          <e p="site.css" t="Include" />
+          <e p="menu.css" t="Include" />
+          <e p="pexels-alex-andrews-861443.jpg" t="Include" />
+          <e p="SignUpIn.css" t="Include" />
+          <e p="Site.css" t="Include" />
         </e>
         <e p="Controllers" t="Include">
           <e p="AccountController.cs" t="Include" />
@@ -57,6 +57,7 @@
         <e p="RequestModel" t="Include">
           <e p="FileDataUploadRequestModel.cs" t="Include" />
           <e p="LoginRequestModel.cs" t="Include" />
+          <e p="MainRequestModel.cs" t="Include" />
           <e p="SignUpRequestModel.cs" t="Include" />
         </e>
         <e p="ResponseModel" t="Include">
@@ -79,21 +80,20 @@
           <e p="jquery.validate.unobtrusive.js" t="Include" />
           <e p="jquery.validate.unobtrusive.min.js" t="Include" />
           <e p="modernizr-2.8.3.js" t="Include" />
+          <e p="SignUPIN.js" t="Include" />
         </e>
         <e p="Services" t="Include">
           <e p="AccountService.cs" t="Include" />
           <e p="BaseService.cs" t="Include" />
           <e p="HomeService.cs" t="Include" />
         </e>
-        <e p="Startup.cs" t="Include" />
+        <e p="StartUp.cs" t="Include" />
         <e p="Tests" t="Include">
           <e p="UnitTests.cs" t="Include" />
         </e>
         <e p="Utilities" t="Include">
           <e p="AesAlgo.cs" t="Include" />
           <e p="Decoder.cs" t="Include" />
-          <e p="DesAlgo.cs" t="Include" />
-          <e p="HideAndSeekLsb.cs" t="Include" />
           <e p="LsbAudio.cs" t="Include" />
           <e p="LsbExe.cs" t="Include" />
           <e p="LsbPicture.cs" t="Include" />
