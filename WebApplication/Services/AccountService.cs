@@ -45,12 +45,13 @@ namespace WebApplication.Services
             authenticationManager.SignIn(new AuthenticationProperties() {IsPersistent = isPersistent}, claimIdentities);
         }
 
-        public List<SignUpRequestModel> GetAllUsers()
+        public async Task<List<SignUpRequestModel>> GetAllUsers()
         {
             List<SignUpRequestModel> listOfFileData = null;
             try
             {
-                var resultAsJsonString = _client.Get("Users/").Body;
+                var result = await _client.GetAsync("Users/");
+                var resultAsJsonString = result.Body;
                 if(resultAsJsonString == "null")
                     return null;
                 

@@ -302,34 +302,34 @@ namespace WebApplication.Services
         /// Decryption and Seeking handlers by File type
         /// ****************************************************************************
         
-        public string ExtractMessage(string fileId)
+        public async Task<string> ExtractMessage(string fileId)
         {
-            var fileData = GetFileById(fileId);
+            var fileData =await GetFileById(fileId);
             if (fileData.FileType == FileType.Video)
             {
-                return ExtractMessageFromVideo(fileId);
+                return await ExtractMessageFromVideo(fileId);
             }
             if (fileData.FileType == FileType.Image)
             {
-                return ExtractMessageFromPicture(fileId);
+                return await ExtractMessageFromPicture(fileId);
             }
             if (fileData.FileType == FileType.Audio)
             {
-                return ExtractMessageFromAudio(fileId);
+                return await ExtractMessageFromAudio(fileId);
             }
             if (fileData.FileType == FileType.Executable)
             {
-                return ExtractMessageFromExe(fileId);
+                return await ExtractMessageFromExe(fileId);
             }
 
             return "No Suitable file type was uploaded";
         }
 
-        public string ExtractMessageFromExe(string fileId)
+        public async Task<string> ExtractMessageFromExe(string fileId)
         {
             AesAlgo aesAlgo = new AesAlgo();
             
-            var Data = GetFileById(fileId);
+            var Data = await GetFileById(fileId);
             // var ms = new MemoryStream(fileData.File);
             byte[] Exe = Data.File;
             byte[] cypherData = null;
@@ -375,11 +375,11 @@ namespace WebApplication.Services
             return decryptedMessage;
         }
         
-        public string ExtractMessageFromPicture(string fileId)
+        public async Task<string> ExtractMessageFromPicture(string fileId)
         {
             AesAlgo aesAlgo = new AesAlgo();
             
-            var fileData = GetFileById(fileId);
+            var fileData = await GetFileById(fileId);
             var ms = new MemoryStream(fileData.File);
             var bmp = new Bitmap(ms);
             byte[] cypherData = null;
@@ -412,11 +412,11 @@ namespace WebApplication.Services
             return decryptedMessage;
         }
         
-        public string ExtractMessageFromVideo(string fileId)
+        public async Task<string> ExtractMessageFromVideo(string fileId)
         {
             AesAlgo aesAlgo = new AesAlgo();
             
-            var data = GetFileById(fileId);
+            var data =await GetFileById(fileId);
             byte[] video = data.File;
             byte[] cypherData = null;
             byte[] key = null;
@@ -468,11 +468,11 @@ namespace WebApplication.Services
             return decryptedMessage;
         }
         
-        public string ExtractMessageFromAudio(string fileId)
+        public async Task<string> ExtractMessageFromAudio(string fileId)
         {
             AesAlgo aesAlgo = new AesAlgo();
             
-            var data = GetFileById(fileId);
+            var data = await GetFileById(fileId);
             byte[] audio = data.File;
             byte[] cypherData = null;
             byte[] key = null;
@@ -527,12 +527,13 @@ namespace WebApplication.Services
         /// Server Utilities 
         /// ****************************************************************************
         
-        public List<FileDataUploadResponseModel> GetAllFilesData()
+        public async Task<List<FileDataUploadResponseModel>> GetAllFilesData()
         {
             List<FileDataUploadResponseModel> listOfFileData = null;
             try
             {
-                var resultAsJsonString = _client.Get("Files/").Body;
+                var result = await _client.GetAsync("Files/");
+                var resultAsJsonString = result.Body;
                 if(resultAsJsonString == "null")
                     return null;
                 
@@ -549,17 +550,17 @@ namespace WebApplication.Services
             return listOfFileData;
         }
 
-        public FileDataUploadResponseModel GetFileById(string id)
+        public async Task<FileDataUploadResponseModel> GetFileById(string id)
         {
-            var allFiles = GetAllFilesData();
+            var allFiles = await GetAllFilesData();
             var requestedFile = allFiles.SingleOrDefault(x => x.Id == id);
             return requestedFile;
         }
         
-        public void DownloadFile(string fileId)
+        public async Task DownloadFile(string fileId)
         {
             if (fileId == null) return;
-            var fileToDownload = GetFileById(fileId);
+            var fileToDownload = await GetFileById(fileId);
             
             var downloadPath = Environment.GetEnvironmentVariable("USERPROFILE")+@"\"+@"Downloads\";
             var pathString = Path.Combine(downloadPath, fileToDownload.FileName);
@@ -568,28 +569,28 @@ namespace WebApplication.Services
             File.WriteAllBytes(pathString, fileToDownload.File);
         }
         
-        public List<FileDataUploadResponseModel> GetPermittedFilesData()
+        public async Task<List<FileDataUploadResponseModel>> GetPermittedFilesData()
         {
             var requestingUserEmail = HttpContext.Current.GetOwinContext().Authentication.User.Claims.First().Value;
-            var allFilesData = GetAllFilesData();
+            var allFilesData = await GetAllFilesData();
             var permittedFilesData = allFilesData?.Where(x => x.PermittedUsers.Contains(requestingUserEmail)).ToList();
             permittedFilesData = permittedFilesData?.OrderBy(x => x.FileType).ToList();
             return permittedFilesData;
         }
         
-        public static IEnumerable<SelectListItem> GetAllUsers()
+        public static async Task<IEnumerable<SelectListItem>> GetAllUsers()
         {
-            var allUsers = _accountService.GetAllUsers();
+            var allUsers = await _accountService.GetAllUsers();
             var emailsList = allUsers.Select(x => x.Email).ToList();
             var selectListItems = emailsList.Select(x => new SelectListItem(){ Value = x, Text = x }).ToList();
 
             return selectListItems.AsEnumerable();
         }
 
-        public void DeleteFileData(string fileId)
+        public async Task DeleteFileData(string fileId)
         {
             if (fileId == null) return;
-            var resultAsJsonString = _client.DeleteAsync("Files/" + fileId);
+            await _client.DeleteAsync("Files/" + fileId);
         }
         
         static string[] VideoFileExtensions = 

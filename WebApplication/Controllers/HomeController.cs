@@ -57,7 +57,7 @@ namespace WebApplication.Controllers
         [Authorize]
         public async Task<ActionResult> GetAllAssignedFileData()
         {
-            var allPermittedFilesData = _homeService.GetPermittedFilesData();
+            var allPermittedFilesData = await _homeService.GetPermittedFilesData();
             if (allPermittedFilesData == null) return View();
             var filesToPresent = new List<FileDataDownloadResponseModel>();
             foreach (var file in allPermittedFilesData)
@@ -75,9 +75,15 @@ namespace WebApplication.Controllers
             return View(filesToPresent);
         }
 
-        public ActionResult ShowSecretMessage(string fileId)
+        public async Task<string> getSecretMessage(string fileId)
         {
-            var message = _homeService.ExtractMessage(fileId);
+            var message = await _homeService.ExtractMessage(fileId);
+            return message;
+        }
+        
+        public async Task<ActionResult> ShowSecretMessage(string fileId)
+        {
+            var message = await _homeService.ExtractMessage(fileId);
             //var message = _homeService.GetSecretMessageFromVideo(fileId);
             
             return Content(message);
@@ -110,5 +116,7 @@ namespace WebApplication.Controllers
                 ModelState.AddModelError(string.Empty, ex.Message);
             }
             return RedirectToAction("GetAllAssignedFileData", "Home");        }
+
+        
     }
 }

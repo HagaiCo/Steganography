@@ -1,12 +1,13 @@
-﻿@using WebApplication.Controllers
+﻿@using System.Threading.Tasks
+@using WebApplication.Controllers
 @using WebApplication.Services
 @model WebApplication.RequestModel.FileDataUploadRequestModel
 
 @functions 
 {
-    private IEnumerable<SelectListItem> GetAllUsers()
+    private async Task<IEnumerable<SelectListItem>> GetAllUsers()
     {
-        return HomeService.GetAllUsers();
+        return await HomeService.GetAllUsers();
     }
 }
 
@@ -65,9 +66,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PermittedUsers, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PermittedUsers, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.DropDownListFor(model => model.PermittedUsers, GetAllUsers(), "Choose...", new { @class = "form-control", } )
-                @Html.ValidationMessageFor(model => model.PermittedUsers, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.PermittedUsers,new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.PermittedUsers,GetAllUsers().GetAwaiter().GetResult(), "Choose...", new { @class = "form-control", } )
+                @Html.ValidationMessageFor(model => model.PermittedUsers,"", new { @class = "text-danger" })
             </div>
         </div>
         
