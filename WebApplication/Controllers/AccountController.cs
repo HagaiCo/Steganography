@@ -14,11 +14,6 @@ namespace WebApplication.Controllers
     {
         private readonly AccountService _accountService = new AccountService();
 
-        public ActionResult SignUp()
-        {
-            return View();
-        }
-
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult> SignUp(MainRequestModel requestModel)
@@ -26,7 +21,7 @@ namespace WebApplication.Controllers
             try
             {
                 if (string.IsNullOrEmpty(requestModel.SignUpRequestModel.Email))
-                    return View();
+                    return RedirectToAction("Login", "Account");
 
                 await _accountService.SignUp(requestModel.SignUpRequestModel);
                 ModelState.AddModelError(string.Empty, "Please Verify your email then login.");
@@ -36,11 +31,9 @@ namespace WebApplication.Controllers
                 ModelState.AddModelError(string.Empty, e.Message);
                 Console.WriteLine(e);
             }
-            return View();
+            return RedirectToAction("Login", "Account");
         }
-
-        [AllowAnonymous]
-        [HttpGet]
+        
         public ActionResult Login(string returnUrl)
         {
             try
