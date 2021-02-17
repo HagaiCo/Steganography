@@ -13,6 +13,8 @@
 @{
     ViewBag.Title = "UploadFileData";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    @Styles.Render("~/Content/HomePage1.css")
+    @Scripts.Render("~/Scripts/uploadFile.js")
 }
 
 <h2></h2>
@@ -20,61 +22,93 @@
 @using (Html.BeginForm("UploadFileData","Home", FormMethod.Post, new { enctype = "multipart/form-data"}))
 {
     //@Html.AntiForgeryToken()
-
+    
     <div class="form-horizontal">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @using (Html.BeginForm("UploadFileData", "Home", FormMethod.Post, new 
-                                       { enctype = "multipart/form-data" }))
+        
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+
+        <div class="base first-base">
+
+            <div class="drop-zone">
+                @Html.LabelFor(model => model.File, htmlAttributes: new {@class = "control-label-drop"})
+                <input type="file" class="form-control-uploadfile" name="file"/>
+                @using (Html.BeginForm("UploadFileData", "Home", FormMethod.Post, new
+                {enctype = "multipart/form-data"}))
+                {
+                    @*@Html.TextBoxFor(m => m.File, new {type = "file"})*@
+                    @Html.ValidationMessageFor(m => m.File)
+                }
+            </div>
+        </div>
+        <div class="base second-base">
+
+            <div class="form-group-text">
+                @* <input type="text" name="name2" autocomplete="off"> *@
+                @Html.TextAreaFor(model => model.SecretMessage, new {onkeyup = "textCounter(this,'counter',50);", id = "message", maxlength = "50", placeholder = "Enter Text To Hide", rows = 10, cols = 40, htmlAttributes = new {@class = "form-control", type = "textarea", name = "name2", autocomplete = "off", id = "name2"}})
+                @Html.ValidationMessageFor(model => model.SecretMessage, "", new {@class = "text-danger"})
+                @Html.LabelFor(model => model.SecretMessage, htmlAttributes: new {@class = "control-label-text-hide col-md-2"})
+                <div class="front">
+                    <input disabled maxlength="1" size="1" value="50" id="counter" class="text-counter">
+                </div>
+                <script>
+            function textCounter(field,field2,maxlimit)
             {
-                @Html.TextBoxFor(m => m.File, new { type = "file" })
-                @Html.ValidationMessageFor(m => m.File)
+             var countfield = document.getElementById(field2);
+             if ( field.value.length > maxlimit ) {
+              field.value = field.value.substring( 0, maxlimit );
+              return false;
+             } else {
+              countfield.value = maxlimit - field.value.length;
+             }
             }
+            </script>
+            </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SecretMessage, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SecretMessage, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SecretMessage, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-                    @Html.LabelFor(model => model.EncryptionMethod, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.RadioButtonFor(model => model.EncryptionMethod, "Aes")
-                        @Html.LabelFor(model => model.EncryptionMethod, "AES")
-                        <br>
-                        @Html.RadioButtonFor(model => model.EncryptionMethod, "Serpent")
-                        @Html.LabelFor(model => model.EncryptionMethod, "SERPENT")
-                    </div>
-                    
+
+        <div class="base third-base">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EncryptionMethod, htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.RadioButtonFor(model => model.EncryptionMethod, "Aes", htmlAttributes: new {@class = "radio__input", type = "radio", id = "myRadio1", value = "option1", name = "myRadio"})
+                    @Html.LabelFor(model => model.EncryptionMethod, "AES", htmlAttributes: new {@class = "radio__label1", @for = "myRadio1", @type = "radio"})
+                    <br>
+                    @Html.RadioButtonFor(model => model.EncryptionMethod, "Serpent", htmlAttributes: new {@class = "radio__input", type = "radio", id = "myRadio2", value = "option2", name = "myRadio"})
+                    @Html.LabelFor(model => model.EncryptionMethod, "SERPENT", htmlAttributes: new {@class = "radio__label2", @for = "myRadio2", @type = "radio"})
                 </div>
-        
-        <div class="form-group">
-            @Html.LabelFor(model => model.HidingMethod, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.RadioButtonFor(model => model.HidingMethod, "Lsb")
-                @Html.LabelFor(model => model.HidingMethod, "Lsb")
-                <br>
-                @Html.RadioButtonFor(model => model.HidingMethod, "MetaData")
-                @Html.LabelFor(model => model.HidingMethod, "MetaData")
             </div>
-        </div>
-        
-        <div class="form-group">
-            @Html.LabelFor(model => model.PermittedUsers, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PermittedUsers, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.DropDownListFor(model => model.PermittedUsers, GetAllUsers(), "Choose...", new { @class = "form-control", } )
-                @Html.ValidationMessageFor(model => model.PermittedUsers, "", new { @class = "text-danger" })
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.HidingMethod, htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.RadioButtonFor(model => model.HidingMethod, "Lsb", htmlAttributes: new {@class = "radio__input", type = "radio", id = "myRadio3", value = "option3", name = "myRadio"})
+                    @Html.LabelFor(model => model.HidingMethod, "Lsb", htmlAttributes: new {@class = "radio__label3", @for = "myRadio3"})
+                    <br>
+                    @Html.RadioButtonFor(model => model.HidingMethod, "MetaData", htmlAttributes: new {@class = "radio__input", type = "radio", id = "myRadio4", value = "option1", name = "myRadio"})
+                    @Html.LabelFor(model => model.HidingMethod, "MetaData", htmlAttributes: new {@class = "radio__label4", @for = "myRadio4"})
+                </div>
             </div>
+
         </div>
-        
-        
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Upload" class="btn btn-default" />
+
+        <div class="base fourth-base">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PermittedUsers, htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PermittedUsers, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.DropDownListFor(model => model.PermittedUsers, GetAllUsers(), "Choose...", new {@class = "form-control",})
+                    @Html.ValidationMessageFor(model => model.PermittedUsers, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Upload" class="btn btn-default"/>
+                </div>
             </div>
         </div>
     </div>

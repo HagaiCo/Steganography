@@ -28,7 +28,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Steganography/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Steganography/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/config/applicationhost.config" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/config/applicationhost.config" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication/App_Start/BundleConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication/App_Start/BundleConfig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplication/Views/Account/Login.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication/Views/Account/Login.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication/Views/Home/UploadFileData.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication/Views/Home/UploadFileData.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication/Views/Shared/_Layout.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication/WebApplication.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication/WebApplication.csproj" afterDir="false" />
     </list>
@@ -52,18 +52,19 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/../Steganography2/WebApplication/Views/Home/UploadFileData.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/WebApplication/Content/Site.css" />
-        <option value="$PROJECT_DIR$/WebApplication/Content/menu.css" />
-        <option value="$PROJECT_DIR$/WebApplication/Views/Account/Login.cshtml" />
-        <option value="$PROJECT_DIR$/WebApplication/App_Start/BundleConfig.cs" />
-        <option value="$PROJECT_DIR$/WebApplication/Views/Shared/_Layout.cshtml" />
-        <option value="$PROJECT_DIR$/WebApplication/Scripts/SignUPIN.js" />
-        <option value="$PROJECT_DIR$/WebApplication/Content/SignUpIn.css" />
-      </list>
-    </option>
+    <changedPaths>
+      <option value="$PROJECT_DIR$/WebApplication/App_Start/BundleConfig.cs" />
+      <option value="$PROJECT_DIR$/WebApplication/Content/Site.css" />
+      <option value="$PROJECT_DIR$/WebApplication/Content/HomePage.css" />
+      <option value="$PROJECT_DIR$/WebApplication/Scripts/uploadFile.js" />
+      <option value="$PROJECT_DIR$/WebApplication/Views/Shared/_Layout.cshtml" />
+      <option value="$PROJECT_DIR$/WebApplication/Content/HomePage1.css" />
+      <option value="$PROJECT_DIR$/WebApplication/Views/Home/UploadFileData.cshtml" />
+    </changedPaths>
   </component>
   <component name="ProjectId" id="1oKUVhYEmTv6ykJc71KXZElhmqJ" />
   <component name="ProjectViewState">
@@ -106,6 +107,7 @@
       <updated>1613034805883</updated>
       <workItem from="1613034837586" duration="17201000" />
       <workItem from="1613373833208" duration="8001000" />
+      <workItem from="1613481610896" duration="15572000" />
     </task>
     <servers />
   </component>
@@ -126,26 +128,8 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
-  <component name="WindowStateProjectService">
-    <state width="1877" height="74" key="GridCell.Tab.0.bottom" timestamp="1613415063098">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="74" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1613415063098" />
-    <state width="1877" height="74" key="GridCell.Tab.0.center" timestamp="1613415063097">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="74" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1613415063097" />
-    <state width="1877" height="74" key="GridCell.Tab.0.left" timestamp="1613415063096">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="74" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1613415063095" />
-    <state width="1877" height="74" key="GridCell.Tab.0.right" timestamp="1613415063097">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="74" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1613415063097" />
-    <state x="198" y="244" key="run.anything.popup" timestamp="1613055162917">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="198" y="244" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1613055162917" />
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="nothing" />
+    <option name="LAST_COMMIT_MESSAGE" value="nothing" />
   </component>
 </project>

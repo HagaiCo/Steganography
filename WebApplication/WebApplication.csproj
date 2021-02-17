@@ -621,6 +621,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\HomePage1.css" />
     <Content Include="Content\menu.css" />
     <Content Include="Content\pexels-alex-andrews-861443.jpg" />
     <Content Include="Content\SignUpIn.css" />
@@ -642,6 +643,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\SignUPIN.js" />
+    <Content Include="Scripts\uploadFile.js" />
     <Content Include="Views\Home\GetAllAssignedFileData.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -654,6 +656,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\images" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
