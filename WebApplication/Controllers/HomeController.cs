@@ -30,9 +30,9 @@ namespace WebApplication.Controllers
             {
                 FileStream stream;
                 bool uploadSucceed;
-                if (fileDataUploadRequestModel.FileAsHttpPostedFileBase.ContentLength > 0)
+                if (fileDataUploadRequestModel.FileAsHttpPostedFileBase?.ContentLength > 0)
                 {
-                    var path = Path.Combine(Server.MapPath("~/Content/images/"),
+                    var path = Path.Combine(Server.MapPath("~/Content/images/"), 
                         fileDataUploadRequestModel.FileAsHttpPostedFileBase.FileName);
                     fileDataUploadRequestModel.FilePath = path;
                     fileDataUploadRequestModel.FileAsHttpPostedFileBase.SaveAs(path);
@@ -43,6 +43,10 @@ namespace WebApplication.Controllers
                     if (uploadSucceed)
                         ModelState.AddModelError(string.Empty, "Uploaded Successfully");
                     
+                }
+                else
+                {
+                    throw new Exception("File are empty");
                 }
             }
             catch (Exception ex)
