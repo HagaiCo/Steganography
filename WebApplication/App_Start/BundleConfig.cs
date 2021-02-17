@@ -25,6 +25,12 @@ namespace WebApplication
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap-SpaceLab.css",
                 "~/Content/site.css"));
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                "~/Scripts/jquery-{version}.js",
+                "~/Scripts/SignUPIN.JavaScript.File.js"));
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                "~/Scripts/jquery-{version}.js",
+                "~/Scripts/uploadFile.JavaScript.File.js"));
         }
     }
 }

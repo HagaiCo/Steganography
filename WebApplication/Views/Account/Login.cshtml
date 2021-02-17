@@ -1,39 +1,100 @@
-﻿@model WebApplication.RequestModel.LoginRequestModel
+﻿@using System.Web.UI.WebControls
+@model WebApplication.RequestModel.MainRequestModel
 
 @{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    @Styles.Render("~/Content/SignUpIn.css")
+
+}
+<div class="containerS" id="containerS">
+@* <h2>SignUp</h2> *@
+@using (Html.BeginForm("SignUp","Account", FormMethod.Post))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-container sign-up-container">
+        <h1>SignUp</h1>
+@*         @Html.LabelFor(model => model.SignUpRequestModel.Name, htmlAttributes: new { @class = "control-label col-md-2" }) *@
+@*         <div class="col-md-10"> *@
+            <span>or use your email for registration</span>
+            @Html.EditorFor(model => model.SignUpRequestModel.Name, new { htmlAttributes = new { @class = "form-control", type = "text", placeHolder = "Name"} })
+            @Html.ValidationMessageFor(model => model.SignUpRequestModel.Name, "", new { @class = "text-danger" })
+@*         </div> *@
+@*     </div> *@
+
+@*     <div class="form-group"> *@
+@*         @Html.LabelFor(model => model.SignUpRequestModel.Email, htmlAttributes: new { @class = "control-label col-md-2" }) *@
+@*         <div class="col-md-10"> *@
+            @Html.EditorFor(model => model.SignUpRequestModel.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeHolder = "Email" } })
+            @Html.ValidationMessageFor(model => model.SignUpRequestModel.Email, "", new { @class = "text-danger" })
+@*         </div> *@
+@*     </div> *@
+
+@*     <div class="form-group"> *@
+@*         @Html.LabelFor(model => model.SignUpRequestModel.Password, htmlAttributes: new { @class = "control-label col-md-2" }) *@
+@*         <div class="col-md-10"> *@
+            @Html.EditorFor(model => model.SignUpRequestModel.Password, new { htmlAttributes = new { @class = "form-control", type = "password", placeHolder = "Password" } })
+            @Html.ValidationMessageFor(model => model.SignUpRequestModel.Password, "", new { @class = "text-danger" })
+@*         </div> *@
+@*     </div> *@
+
+@*     <div class="form-group"> *@
+@*         <div class="col-md-offset-2 col-md-10"> *@
+            <button class="firstb"><input type="submit" value="Create" class="btnSIGNIN btn-default" />sign up</button>
+@*         </div> *@
+    </div>
 }
 
-<h2>Login</h2>
+@* <div class="login-h2"> *@
+@*     <h2>Login</h2> *@
+@* </div> *@
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Login","Account", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <div class="form-container sign-in-container">
+            <h1>Sign in</h1>
+        <hr/>
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+@*         <div class="form-group"> *@
+@*             @Html.LabelFor(model => model.LoginRequestModel.Email, htmlAttributes: new {@class = "control-label col-md-2"}) *@
+@*             <div class="col-md-10"> *@
+                @Html.EditorFor(model => model.LoginRequestModel.Email, new {htmlAttributes = new {@class = "form-control", type = "email", placeholder = "Email"}})
+                @Html.ValidationMessageFor(model => model.LoginRequestModel.Email, "", new {@class = "text-danger"})
+@*             </div> *@
+@*         </div> *@
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Log-in" class="btn btn-default" />
+@*         <div class="form-group"> *@
+@*             @Html.LabelFor(model => model.LoginRequestModel.Password, htmlAttributes: new {@class = "control-label col-md-2"}) *@
+@*             <div class="col-md-10"> *@
+                @Html.EditorFor(model => model.LoginRequestModel.Password, new {htmlAttributes = new {@class = "form-control", type = "password", placeHolder = "Password"}})
+                @Html.ValidationMessageFor(model => model.LoginRequestModel.Password, "", new {@class = "text-danger"})
+@*             </div> *@
+@*         </div> *@
+
+@*         <div class="form-group"> *@
+@*             <div class="col-md-offset-2 col-md-10"> *@
+                <button class="secondb"><input type="submit" value="Log-in" class="btnSIGNUP"/>Sign in</button>
+@*             </div> *@
+@*         </div> *@
+    </div>
+}
+<div class="overlay-container">
+    <div class="overlay">
+        <div class="overlay-panel overlay-left">
+            <h1>Welcome Back!</h1>
+            <p>
+                To keep connected with us please login with you personal info
+            </p>
+            <button class="ghost" id="signIn">Sign In</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+            <h1> Hello, Friend!</h1>
+            <p>Enter you personal details and start journey with us</p>
+            <button class="ghost" id="signUp">Sign Up</button>
             </div>
         </div>
     </div>
-}
+
+</div>
