@@ -8,6 +8,7 @@ using System.Web.Services;
 using WebApplication.RequestModel;
 using WebApplication.ResponseModel;
 using WebApplication.Services;
+using WebApplication.Utilities;
 
 namespace WebApplication.Controllers
 {
@@ -29,12 +30,12 @@ namespace WebApplication.Controllers
             {
                 FileStream stream;
                 bool uploadSucceed;
-                if (fileDataUploadRequestModel.File.ContentLength > 0)
+                if (fileDataUploadRequestModel.FileAsHttpPostedFileBase?.ContentLength > 0)
                 {
-                    var path = Path.Combine(Server.MapPath("~/Content/images/"),
-                        fileDataUploadRequestModel.File.FileName);
+                    var path = Path.Combine(Server.MapPath("~/Content/images/"), 
+                        fileDataUploadRequestModel.FileAsHttpPostedFileBase.FileName);
                     fileDataUploadRequestModel.FilePath = path;
-                    fileDataUploadRequestModel.File.SaveAs(path);
+                    fileDataUploadRequestModel.FileAsHttpPostedFileBase.SaveAs(path);
                     
                     uploadSucceed = await _homeService.Upload(fileDataUploadRequestModel);
                     
@@ -42,6 +43,10 @@ namespace WebApplication.Controllers
                     if (uploadSucceed)
                         ModelState.AddModelError(string.Empty, "Uploaded Successfully");
                     
+                }
+                else
+                {
+                    throw new Exception("File are empty");
                 }
             }
             catch (Exception ex)
@@ -53,15 +58,17 @@ namespace WebApplication.Controllers
             return View();
         }
 
-        //[HttpPost]
+        [HttpGet]
         [Authorize]
         public async Task<ActionResult> GetAllAssignedFileData()
         {
-            var allPermittedFilesData = _homeService.GetPermittedFilesData();
+            var allPermittedFilesData = await _homeService.GetPermittedFilesData();
             if (allPermittedFilesData == null) return View();
+            
             var filesToPresent = new List<FileDataDownloadResponseModel>();
             foreach (var file in allPermittedFilesData)
             {
+                var tt = file.Convert();
                 var obj = new FileDataDownloadResponseModel();
                 obj.File = file.File;
                 obj.FileName = file.FileName;
@@ -70,17 +77,15 @@ namespace WebApplication.Controllers
                 obj.FileType = file.FileType;
                 obj.EncryptionMethod = file.EncryptionMethod;
                 obj.HidingMethod = file.HidingMethod;
+                obj.SecretMessage = _homeService.ExtractMessage(tt);
                 filesToPresent.Add(obj);
             }
             return View(filesToPresent);
         }
 
-        public ActionResult ShowSecretMessage(string fileId)
+        public ActionResult ShowSecretMessage(FileDataUploadRequestModel fileData)
         {
-            var message = _homeService.ExtractMessage(fileId);
-            //var message = _homeService.GetSecretMessageFromVideo(fileId);
-            
-            return Content(message);
+            return Content(fileData.SecretMessage);
         }
         public ActionResult DownloadFileData(string fileId, string fileName)
         {
