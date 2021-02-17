@@ -21,14 +21,14 @@ namespace WebApplication.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> SignUp(SignUpRequestModel requestModel)
+        public async Task<ActionResult> SignUp(MainRequestModel requestModel)
         {
             try
             {
-                if (string.IsNullOrEmpty(requestModel.Email))
+                if (string.IsNullOrEmpty(requestModel.SignUpRequestModel.Email))
                     return View();
 
-                await _accountService.SignUp(requestModel);
+                await _accountService.SignUp(requestModel.SignUpRequestModel);
                 ModelState.AddModelError(string.Empty, "Please Verify your email then login.");
             }
             catch (Exception e)
