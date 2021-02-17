@@ -17,9 +17,7 @@ namespace WebApplication.ResponseModel
         public EncryptionMethod EncryptionMethod { get; set; }
         
         public HidingMethod HidingMethod { get; set; }
-       
-
+        
+        public string SecretMessage { get; set; }
     }
-    
-    
 }
