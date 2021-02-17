@@ -17,7 +17,7 @@ namespace WebApplication.Utilities
                 Id = data.Id,
                 FileName = data.FileAsHttpPostedFileBase.FileName,
                 PermittedUsers = data.PermittedUsers,
-                SecretMessage = data.SecretMessage,
+                //SecretMessage = data.SecretMessage,
                 EncryptionMethod = data.EncryptionMethod,
                 HidingMethod = data.HidingMethod,
                 FileExtension = Path.GetExtension(data.FilePath)
@@ -33,7 +33,7 @@ namespace WebApplication.Utilities
                 FileAsByteArray = data.File,
                 Id = data.Id,
                 PermittedUsers = data.PermittedUsers,
-                SecretMessage = data.SecretMessage,
+                //SecretMessage = data.SecretMessage,
                 EncryptionMethod = data.EncryptionMethod,
                 HidingMethod = data.HidingMethod,
                 FileType = data.FileType,
