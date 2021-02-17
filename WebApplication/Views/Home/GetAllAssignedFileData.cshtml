@@ -24,9 +24,8 @@
                 <img alt="Embedded Image" width="64" height="64" class="img-circle" src="data:image;base64,@homeService.GetGenericIconByFileType(@item.FileType)"/>
                 break;
         }
-        @item.FileName
+        @Html.ActionLink("Show Message |", "ShowSecretMessage", "Home", @item, null)
         @Html.ActionLink("Download |", "DownloadFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, null)
-        @Html.ActionLink("Show Message |", "ShowSecretMessage", "Home", new {fileId = item.Id}, null)
         @Html.ActionLink("Delete", "DeleteFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, null)
         <hr/>
     }
