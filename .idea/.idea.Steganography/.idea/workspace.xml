@@ -22,15 +22,15 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ffd7ff10-1fea-4ffc-a371-0ed2651ac724" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Steganography/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Steganography/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Steganography/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Steganography/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="ffd7ff10-1fea-4ffc-a371-0ed2651ac724" name="Default Changelist" comment="fixes made and rearrange of code">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Steganography/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Steganography/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/config/applicationhost.config" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/config/applicationhost.config" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplication/App_Start/BundleConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication/App_Start/BundleConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication/Content/HomePage1.css" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication/Content/HomePage1.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication/Controllers/HomeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication/RequestModel/FileDataUploadRequestModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication/RequestModel/FileDataUploadRequestModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication/ResponseModel/FileDataUploadResponseModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication/ResponseModel/FileDataUploadResponseModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication/Services/HomeService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication/Services/HomeService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication/Utilities/TransformationUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication/Utilities/TransformationUtils.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication/Views/Home/UploadFileData.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication/Views/Home/UploadFileData.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplication/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication/Views/Shared/_Layout.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplication/WebApplication.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication/WebApplication.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +53,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/../Steganography2/WebApplication/Views/Home/UploadFileData.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/mamis/RiderProjects/Steganography/WebApplication/Views/Home/UploadFileData.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/mamis/RiderProjects/Steganography/WebApplication/Views/Home/UploadFileData.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -62,8 +63,13 @@
       <option value="$PROJECT_DIR$/WebApplication/Content/HomePage.css" />
       <option value="$PROJECT_DIR$/WebApplication/Scripts/uploadFile.js" />
       <option value="$PROJECT_DIR$/WebApplication/Views/Shared/_Layout.cshtml" />
-      <option value="$PROJECT_DIR$/WebApplication/Content/HomePage1.css" />
+      <option value="$PROJECT_DIR$/WebApplication/RequestModel/FileDataUploadRequestModel.cs" />
+      <option value="$PROJECT_DIR$/WebApplication/ResponseModel/FileDataUploadResponseModel.cs" />
+      <option value="$PROJECT_DIR$/WebApplication/Utilities/TransformationUtils.cs" />
+      <option value="$PROJECT_DIR$/WebApplication/Controllers/HomeController.cs" />
       <option value="$PROJECT_DIR$/WebApplication/Views/Home/UploadFileData.cshtml" />
+      <option value="$PROJECT_DIR$/WebApplication/Content/HomePage1.css" />
+      <option value="$PROJECT_DIR$/WebApplication/Services/HomeService.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1oKUVhYEmTv6ykJc71KXZElhmqJ" />
@@ -72,6 +78,8 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.34994584" />
+    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="vue.rearranger.settings.migration" value="true" />

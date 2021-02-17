@@ -78,6 +78,7 @@ namespace WebApplication.Controllers
                 obj.EncryptionMethod = file.EncryptionMethod;
                 obj.HidingMethod = file.HidingMethod;
                 obj.SecretMessage = _homeService.ExtractMessage(tt);
+                
                 filesToPresent.Add(obj);
             }
             return View(filesToPresent);

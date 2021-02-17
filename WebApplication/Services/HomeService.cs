@@ -63,7 +63,7 @@ namespace WebApplication.Services
             };
             _client = new FirebaseClient(Config);
             var data = fileDataUploadRequestModel;
-            
+            data.FileExtension = Path.GetExtension(data.FilePath);
             var fileDataUploadResponseModel = data.Convert();
             SetFileType(fileDataUploadResponseModel);
 
@@ -76,13 +76,13 @@ namespace WebApplication.Services
                     fileDataUploadResponseModel.File = EncryptAndHideInPicture(data);
                     break;
                 case FileType.Video:
-                    fileDataUploadResponseModel.File = EncryptAndHideInVideo(fileDataUploadResponseModel);
+                    fileDataUploadResponseModel.File = EncryptAndHideInVideo(data);
                     break;
                 case FileType.Audio:
-                    fileDataUploadResponseModel.File = EncryptAndHideInAudio(fileDataUploadResponseModel);
+                    fileDataUploadResponseModel.File = EncryptAndHideInAudio(data);
                     break;
                 case FileType.Executable:
-                    fileDataUploadResponseModel.File = EncryptAndHideInBatchFile(fileDataUploadResponseModel);
+                    fileDataUploadResponseModel.File = EncryptAndHideInBatchFile(data);
                     break;
                 
             }
@@ -174,10 +174,10 @@ namespace WebApplication.Services
             }
         }
 
-        public byte[] EncryptAndHideInVideo(FileDataUploadResponseModel fileData)
+        public byte[] EncryptAndHideInVideo(FileDataUploadRequestModel fileData)
         {
             
-            byte[] byteVideo = fileData.File;
+            byte[] byteVideo = File.ReadAllBytes(fileData.FilePath);
             byte[] encryptedData = null;
             string encryptedBinary =null;
             
@@ -214,10 +214,10 @@ namespace WebApplication.Services
             
         }
         
-        public byte[] EncryptAndHideInAudio(FileDataUploadResponseModel fileData)
+        public byte[] EncryptAndHideInAudio(FileDataUploadRequestModel fileData)
         {
             
-            byte[] byteAudio = fileData.File;
+            byte[] byteAudio = File.ReadAllBytes(fileData.FilePath);
             byte[] encrypteMessage = null;
             string encryptedBinary =null;
             
@@ -257,10 +257,10 @@ namespace WebApplication.Services
             return byteAudio;
         }
         
-        public byte[] EncryptAndHideInBatchFile(FileDataUploadResponseModel fileData)
+        public byte[] EncryptAndHideInBatchFile(FileDataUploadRequestModel fileData)
         {
             
-            byte[] file = fileData.File;
+            byte[] file = File.ReadAllBytes(fileData.FilePath);
             byte[] encrypteMessage = null;
             string encryptedBinary =null;
             
@@ -410,8 +410,9 @@ namespace WebApplication.Services
         public string ExtractMessageFromVideo(FileDataUploadRequestModel fileData)
         {
             AesAlgo aesAlgo = new AesAlgo();
-            byte[] video = new byte[fileData.FileAsHttpPostedFileBase.ContentLength];
-            fileData.FileAsHttpPostedFileBase.InputStream.Read(video, 0, video.Length); 
+            //byte[] video = new byte[fileData.FileAsHttpPostedFileBase.ContentLength];
+            //fileData.FileAsHttpPostedFileBase.InputStream.Read(video, 0, video.Length); 
+            byte[] video = fileData.FileAsByteArray;
             byte[] cypherData = null;
             byte[] key = null;
             byte[] iv = null;

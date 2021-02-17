@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
+using FFMpegCore.Enums;
 using WebApplication.ResponseModel;
 
 namespace WebApplication.RequestModel
@@ -35,5 +36,7 @@ namespace WebApplication.RequestModel
         
         [Display(Name="Choose hiding method")]
         public HidingMethod HidingMethod { get; set; }
+
+        public string FileExtension { get; set; }
     }
 }

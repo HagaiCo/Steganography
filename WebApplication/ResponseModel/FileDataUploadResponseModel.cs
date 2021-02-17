@@ -18,7 +18,7 @@ namespace WebApplication.ResponseModel
         
         public string Id { get; set; }
 
-        public string SecretMessage { get; set; }
+        //public string SecretMessage { get; set; }
         
         public List<string> PermittedUsers { get; set; }
         
