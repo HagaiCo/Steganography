@@ -616,6 +616,7 @@
     <Compile Include="Utilities\TransformationUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\GetAllAssignedFileData.css" />
     <Content Include="Content\HomePage123.css" />
     <Content Include="Content\images\Capture122.PNG" />
     <Content Include="Content\bootstrap-SpaceLab.css" />
@@ -633,6 +634,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\GetAllAssignedFileData.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />

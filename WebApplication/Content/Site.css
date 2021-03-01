@@ -53,8 +53,9 @@ body{
 .showcase{
     background-color: var(--primary-color);
     color: #000000;
-    height: 100vh;
-    position: relative;
+    height: 80vh;
+    /*position: relative;*/
+    
     
 }
 
@@ -73,7 +74,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     text-align: center;
     height: 100%;
 }

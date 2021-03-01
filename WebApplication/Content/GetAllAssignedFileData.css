@@ -1,0 +1,21 @@
+﻿
+.files{
+    display: flex;
+    flex-direction: row;
+    width:100%;
+    justify-content: space-around;
+}
+
+.options{
+    display: flex;
+    flex-direction: row;
+}
+
+.left{
+    display: flex;
+    flex-direction: column;
+}
+
+body{
+    width:100%
+}

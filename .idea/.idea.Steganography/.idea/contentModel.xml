@@ -28,6 +28,7 @@
           <e p="bootstrap.css.map" t="Include" />
           <e p="bootstrap.min.css" t="Include" />
           <e p="bootstrap.min.css.map" t="Include" />
+          <e p="GetAllAssignedFileData.css" t="Include" />
           <e p="HomePage1.css" t="Include" />
           <e p="HomePage123.css" t="Include" />
           <e p="images" t="Include">
@@ -70,6 +71,7 @@
         <e p="Scripts" t="Include">
           <e p="bootstrap.js" t="Include" />
           <e p="bootstrap.min.js" t="Include" />
+          <e p="GetAllAssignedFileData.js" t="Include" />
           <e p="jquery-3.3.1.intellisense.js" t="Include" />
           <e p="jquery-3.3.1.js" t="Include" />
           <e p="jquery-3.3.1.min.js" t="Include" />

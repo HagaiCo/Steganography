@@ -1,8 +1,8 @@
 ﻿.drop-zone{
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px
     10px rgba(0, 0, 0, 0.22);
-    width: 400px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     padding: 25px;
     display: flex;
     align-items: center;
@@ -116,8 +116,10 @@
 .control-label {
     font-family: 'Roboto', sans-serif;
     font-size: 26px;
-    margin-top: 1em;
+    margin-top: 0em;
+    padding: 0px;
 }
+
 
 
 .radio{
@@ -290,24 +292,24 @@ label {
 
 
 .form-horizontal {
+    
     display: flex;
     text-align: left;
-    justify-self: left;
-    justify-content: left;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15), 0 5px
     5px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
     font-family: 'Roboto', sans-serif;
     font-wieght: 500;
     font-size: 20px;
-    margin-bottom: 25em;
+    /*margin-bottom: 25em;*/
 }
 
 .base {
     /*background: rgba(0,0,0,0.2);*/
     position: relative;
-    margin: 3em;
+    margin: 1em;
     justify-items: center;
     justify-content: center;
     justify-self: center;
@@ -316,12 +318,15 @@ label {
 }
 
 .second-base {
-    padding-top: 10px;
+    padding-top: 35px;
 }
 
 .third-base {
+    display: flex;
+    flex-direction: column;
     position: sticky;
-    padding-top: 10px;
+    /*padding-top: 10px;*/
+    
 }
 
 .fourth-base {
@@ -329,5 +334,6 @@ label {
 }
 
 .col-md-10 {
-    padding-left: 50px;
+    /*padding-left: 50px;*/
+    align-self: center;
 }
