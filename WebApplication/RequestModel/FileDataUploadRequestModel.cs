@@ -26,7 +26,7 @@ namespace WebApplication.RequestModel
         
         [Display(Name="Choose Encryption Method")]
         public EncryptionMethod EncryptionMethod { get; set; }
-        [Display(Name="Choose hiding method")]
+        [Display(Name="Choose Hiding Method")]
         public HidingMethod HidingMethod { get; set; }
         
      
