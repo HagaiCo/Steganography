@@ -28,19 +28,13 @@
           <e p="bootstrap.css.map" t="Include" />
           <e p="bootstrap.min.css" t="Include" />
           <e p="bootstrap.min.css.map" t="Include" />
-          <e p="Capture122.PNG" t="Include" />
-          <e p="Capture132.PNG" t="Include" />
           <e p="HomePage1.css" t="Include" />
           <e p="HomePage123.css" t="Include" />
           <e p="images" t="Include">
-            <e p="ProjectWorks.PNG" t="Include" />
+            <e p="Capture122.PNG" t="Include" />
+            <e p="pexels-alex-andrews-861443.jpg" t="Include" />
           </e>
-          <e p="linkedin_banner_image_1.jpg" t="Include" />
-          <e p="logo12.png" t="Include" />
-          <e p="logo123.PNG" t="Include" />
-          <e p="logo2.png" t="Include" />
           <e p="menu.css" t="Include" />
-          <e p="pexels-alex-andrews-861443.jpg" t="Include" />
           <e p="SignUpIn.css" t="Include" />
           <e p="Site.css" t="Include" />
         </e>
@@ -120,7 +114,6 @@
           <e p="_ViewStart.cshtml" t="Include" />
           <e p="Account" t="Include">
             <e p="Login.cshtml" t="Include" />
-            <e p="SignUp.cshtml" t="Include" />
           </e>
           <e p="Home" t="Include">
             <e p="GetAllAssignedFileData.cshtml" t="Include" />

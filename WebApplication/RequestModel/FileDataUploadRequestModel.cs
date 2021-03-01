@@ -40,7 +40,7 @@ namespace WebApplication.RequestModel
         [Display(Name="Choose Hiding Method")]
         public HidingMethod HidingMethod { get; set; }
         
-     
+        public string FileExtension { get; set; }
     }
     
     

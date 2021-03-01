@@ -38,7 +38,7 @@
                 @using (Html.BeginForm("UploadFileData", "Home", FormMethod.Post, new
                 {enctype = "multipart/form-data"}))
                 {
-                    @Html.TextBoxFor(m => m.FileAsHttpPostedFileBase, new {@class = "upload-btn-hidden",type = "file"})
+                    @*@Html.TextBoxFor(m => m.FileAsHttpPostedFileBase, new {@class = "upload-btn-hidden",type = "file"})*@
                     @Html.ValidationMessageFor(m => m.FileAsHttpPostedFileBase)
                 }
             </div>
