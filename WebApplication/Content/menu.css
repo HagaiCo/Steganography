@@ -83,7 +83,7 @@
     position: relative;
     width: 100%;
     height: 2px;
-    background-color: white;
+    background-color: #242222;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -117,6 +117,7 @@
 .navbar-header .toggler:checked + .Hamburger > div:after{
     top: 0;
     transform: rotate(90deg);
+    
 }
 
 /*Rotate on gover when checked*/
@@ -175,7 +176,7 @@
 
 .navbar-header .menu > div > div > ul > li{
     list-style: none;
-    color: white;
+    color: #1a1717;
     font-size: 1.5rem;
     padding: 1rem;
 }

@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using FFMpegCore.Enums;
 using WebApplication.ResponseModel;
 
 namespace WebApplication.RequestModel
 {
     public class FileDataUploadRequestModel
     {
+        [Required]
+        [Display(Name = "Choose file to upload")] 
+        public HttpPostedFileBase File { get; set; }
+        
         [Key] 
         public string Id { get; set; }
         
@@ -31,12 +34,14 @@ namespace WebApplication.RequestModel
         
         public FileType FileType { get; set; }
         
+        
         [Display(Name="Choose Encryption Method")]
         public EncryptionMethod EncryptionMethod { get; set; }
-        
-        [Display(Name="Choose hiding method")]
+        [Display(Name="Choose Hiding Method")]
         public HidingMethod HidingMethod { get; set; }
-
+        
         public string FileExtension { get; set; }
     }
+    
+    
 }

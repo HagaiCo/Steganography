@@ -9,6 +9,9 @@
     @* @Styles.Render("~/Content/css") *@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Chewy" />
     @Styles.Render("~/Content/Site.css")
     @Styles.Render("~/Content/menu.css")
     @Scripts.Render("~/bundles/modernizr")
@@ -23,13 +26,13 @@
             @*     <span class="icon-bar"></span> *@
             @* </button> *@
             <input type="checkbox" class="toggler">
-                <div class="Hamburger"><div></div></div>
+            <div class="Hamburger"><div></div></div>
             <div class="menu">
                 <div>
                     <div>
                         <ul class="nav-navbar-nav">
                             @* <li> @Html.ActionLink("Steganography", "UploadFileData", "Home", new {area = ""}, new {@class = "navbar-brand"}) *@
-@* </li> *@
+                            @* </li> *@
                             <li>@Html.ActionLink("Home", "UploadFileData", "Home")</li>
                             <li>@Html.ActionLink("My Files", "DownloadFileData", "Home")</li>
                             @if (Request.IsAuthenticated)
@@ -61,6 +64,28 @@
         @*             </ul> *@
         @*         </div> *@
     </div>
+            <div class="logo2">
+                @* <img src="C:\Users\Avi\RiderProjects\Steganography5\WebApplication\Content\pexels-alex-andrews-861443.jpg" alt="logo" width="300" height="300"> *@
+                <img class="img-logo" id="img_logo" alt="Logo" src="@Url.Content("~/Content/images/Capture122.png")" />
+                <style>
+                    .logo2 {
+                        background-color: #f0f7f8;
+                        justify-self: center;
+                        justify-items: center;
+                        justify-content: center;
+                    }
+                    .img-logo {
+                        width: 50%;
+                        height: 50%;
+                        display: block;
+                        margin-left: auto;
+                        margin-right: auto;
+                        padding-top: 10em;
+                        margin-bottom: 0;
+                        padding-bottom: 0;
+                    }
+                </style>
+            </div>
 </div>
 <div class="showcase">
     <div class="container-body body-content footer-rights">
@@ -71,6 +96,7 @@
         </footer>
     </div>
 </div>
+
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")

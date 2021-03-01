@@ -13,7 +13,7 @@
     font-size: 20px;
     cursor: pointer;
     color: #cccccc;
-    border: 4px dashed #009578;
+    border: 4px dashed #a23538;
     border-radius: 10px;
 }
 
@@ -122,101 +122,105 @@
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
 }
 
-.radio__input{
-    display: none;
-}
+/*.radio__input{*/
+/*    display: none;*/
+/*}*/
 
-.radio__label1{
-    overflow: hidden;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
-    padding: 8px 14px;
-    font-size: 14px;
-    font-family: sans-serif;
-    color: #ffffff;
-    background: #009578;
-    cursor: pointer;
-    transition: background 0.2s;
-    border-bottom-left-radius: 15px;
-    border-top-left-radius: 15px;
-}
+/*.radio__label1{*/
+/*    overflow: hidden;*/
+/*    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);*/
+/*    padding: 8px 14px;*/
+/*    font-size: 14px;*/
+/*    font-family: sans-serif;*/
+/*    color: #ffffff;*/
+/*    background: #a23538;*/
+/*    cursor: pointer;*/
+/*    transition: background 0.2s;*/
+/*    border-bottom-left-radius: 15px;*/
+/*    border-top-left-radius: 15px;*/
+/*}*/
 
-.radio__label2{
-    overflow: hidden;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
-    padding: 8px 14px;
-    font-size: 14px;
-    font-family: sans-serif;
-    color: #ffffff;
-    background: #009578;
-    cursor: pointer;
-    transition: background 0.2s;
-    border-bottom-right-radius: 15px;
-    border-top-right-radius: 15px;
-}
-.radio__label3{
-    overflow: hidden;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
-    padding: 8px 14px;
-    font-size: 14px;
-    font-family: sans-serif;
-    color: #ffffff;
-    background: #009578;
-    cursor: pointer;
-    transition: background 0.2s;
-    border-bottom-left-radius: 15px;
-    border-top-left-radius: 15px;
-}
-.radio__label4{
-    overflow: hidden;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
-    padding: 8px 14px;
-    font-size: 14px;
-    font-family: sans-serif;
-    color: #ffffff;
-    background: #009578;
-    cursor: pointer;
-    transition: background 0.2s;
-    border-bottom-right-radius: 15px;
-    border-top-right-radius: 15px;
-}
+/*.radio__label2{*/
+/*    overflow: hidden;*/
+/*    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);*/
+/*    padding: 8px 14px;*/
+/*    font-size: 14px;*/
+/*    font-family: sans-serif;*/
+/*    color: #ffffff;*/
+/*    background: #a23538;*/
+/*    cursor: pointer;*/
+/*    transition: background 0.2s;*/
+/*    border-bottom-right-radius: 15px;*/
+/*    border-top-right-radius: 15px;*/
+/*}*/
+/*.radio__label3{*/
+/*    overflow: hidden;*/
+/*    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);*/
+/*    padding: 8px 14px;*/
+/*    font-size: 14px;*/
+/*    font-family: sans-serif;*/
+/*    color: #ffffff;*/
+/*    background: #a23538;*/
+/*    cursor: pointer;*/
+/*    transition: background 0.2s;*/
+/*    border-bottom-left-radius: 15px;*/
+/*    border-top-left-radius: 15px;*/
+/*}*/
+/*.radio__label4{*/
+/*    overflow: hidden;*/
+/*    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);*/
+/*    padding: 8px 14px;*/
+/*    font-size: 14px;*/
+/*    font-family: sans-serif;*/
+/*    color: #ffffff;*/
+/*    background: #a23538;*/
+/*    cursor: pointer;*/
+/*    transition: background 0.2s;*/
+/*    border-bottom-right-radius: 15px;*/
+/*    border-top-right-radius: 15px;*/
+/*}*/
 
-.radio__label1:not(:last-of-type){
-    border-right: 1px solid #006B56;
-}
-.radio__label2:not(:last-of-type){
-    border-right: 1px solid #006B56;
-}
-.radio__label3:not(:last-of-type){
-    border-right: 1px solid #006B56;
-}
-.radio__label4:not(:last-of-type){
-    border-right: 1px solid #006B56;
-}
+/*.radio__label1:not(:last-of-type){*/
+/*    border-right: 1px solid #a23538;*/
+/*}*/
+/*.radio__label2:not(:last-of-type){*/
+/*    border-right: 1px solid #a23538;*/
+/*}*/
+/*.radio__label3:not(:last-of-type){*/
+/*    border-right: 1px solid #a23538;*/
+/*}*/
+/*.radio__label4:not(:last-of-type){*/
+/*    border-right: 1px solid #a23538;*/
+/*}*/
 
-.radio__input:checked + .radio__label1 {
-    background: #006B56;
-}
-.radio__input:checked + .radio__label2 {
-    background: #006B56;
-}
-.radio__input:checked + .radio__label3 {
-    background: #006B56;
-}
-.radio__input:checked + .radio__label4 {
-    background: #006B56;
-}
-label {
-    float: left;
-    clear: none;
-    display: block;
-    padding: 0px 1em 0px 8px;
-}
-input[type=radio],
-input.radio {
-    float: left;
-    clear: none;
-    margin: 2px 0 0 2px;
-}
+/*.radio__input:checked + .radio__label1 {*/
+/*    background: #a23538;*/
+/*}*/
+/*.radio__input:checked + .radio__label2 {*/
+/*    background: #a23538;*/
+/*}*/
+/*.radio__input:checked + .radio__label3 {*/
+/*    background: #a23538;*/
+/*}*/
+/*.radio__input:checked + .radio__label4 {*/
+/*    background: #a23538;*/
+/*}*/
+
+
+/*input[type=radio],*/
+/*input.radio {*/
+/*    float: left;*/
+/*    clear: none;*/
+/*    margin: 2px 0 0 2px;*/
+/*}*/
+
+/*label {*/
+/*    float: left;*/
+/*    clear: none;*/
+/*    display: block;*/
+/*    padding: 0px 1em 0px 8px;*/
+/*}*/
+
 
 .form-group {
     text-align: center;
@@ -224,24 +228,45 @@ input.radio {
     justify-items: center;
 }
 
-.col-md-10 {
-    text-align: center;
-    justify-content: center;
-    justify-items: center;
-}
 
 .form-horizontal {
     display: flex;
-    flex-direction: column;
+    text-align: left;
+    justify-self: left;
+    justify-content: left;
+    align-items: flex-start;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15), 0 5px
+    5px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    font-family: 'Quicksand', sans-serif;
+    font-wieght: 500;
+    font-size: 20px;
 }
 
 .base {
-    background: rgba(0,0,0,0.5);
-    padding: 3em;
-    border-radius: 50%;
+    /*background: rgba(0,0,0,0.2);*/
+    position: relative;
+    /*padding: 3em;*/
+    justify-items: center;
+    justify-content: center;
+    justify-self: center;
+    text-align: center;
+    /*border-radius: 50%;*/
 }
 
 .second-base {
-    text-align: center;
+    padding-top: 100px;
 }
 
+.third-base {
+    position: sticky;
+    padding-top: 100px;
+}
+
+.fourth-base {
+    padding-top: 100px;
+}
+
+.col-md-10 {
+    padding-left: 50px;
+}

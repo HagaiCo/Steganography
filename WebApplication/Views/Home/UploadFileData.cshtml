@@ -13,29 +13,32 @@
 @{
     ViewBag.Title = "UploadFileData";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    @Styles.Render("~/Content/HomePage1.css")
+    @Styles.Render("~/Content/HomePage123.css")
     @Scripts.Render("~/Scripts/uploadFile.js")
 }
 
-<h2></h2>
+
 
 @using (Html.BeginForm("UploadFileData","Home", FormMethod.Post, new { enctype = "multipart/form-data"}))
 {
     //@Html.AntiForgeryToken()
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@600&family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet">
+
     
     <div class="form-horizontal">
         
         @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-
+        
         <div class="base first-base">
-
+            
             <div class="drop-zone">
                 @Html.LabelFor(model => model.FileAsHttpPostedFileBase, htmlAttributes: new {@class = "control-label-drop"})
                 <input type="file" class="form-control-uploadfile" name="fileAsHttpPostedFileBase"/> 
                 @using (Html.BeginForm("UploadFileData", "Home", FormMethod.Post, new
                 {enctype = "multipart/form-data"}))
                 {
-                    @Html.TextBoxFor(m => m.FileAsHttpPostedFileBase, new {@class = "upload-btn-hidden",type = "file"})
+                    @*@Html.TextBoxFor(m => m.FileAsHttpPostedFileBase, new {@class = "upload-btn-hidden",type = "file"})*@
                     @Html.ValidationMessageFor(m => m.FileAsHttpPostedFileBase)
                 }
             </div>
@@ -53,7 +56,7 @@
                 <script>
             function textCounter(field,field2,maxlimit)
             {
-             var countfield = document.getElementById(field2);
+             let countfield = document.getElementById(field2);
              if ( field.value.length > maxlimit ) {
               field.value = field.value.substring( 0, maxlimit );
               return false;
@@ -72,6 +75,7 @@
                 @Html.LabelFor(model => model.EncryptionMethod, htmlAttributes: new {@class = "control-label col-md-2"})
                 <div class="col-md-10">
                     @Html.RadioButtonFor(model => model.EncryptionMethod, "Aes", htmlAttributes: new {@class = "radio__input", type = "radio", id = "myRadio1", value = "option1", name = "myRadio"})
+                            
                     @Html.LabelFor(model => model.EncryptionMethod, "AES", htmlAttributes: new {@class = "radio__label1", @for = "myRadio1", @type = "radio"})
                     <br>
                     @Html.RadioButtonFor(model => model.EncryptionMethod, "Serpent", htmlAttributes: new {@class = "radio__input", type = "radio", id = "myRadio2", value = "option2", name = "myRadio"})
@@ -84,10 +88,10 @@
                 @Html.LabelFor(model => model.HidingMethod, htmlAttributes: new {@class = "control-label col-md-2"})
                 <div class="col-md-10">
                     @Html.RadioButtonFor(model => model.HidingMethod, "Lsb", htmlAttributes: new {@class = "radio__input", type = "radio", id = "myRadio3", value = "option3", name = "myRadio"})
-                    @Html.LabelFor(model => model.HidingMethod, "Lsb", htmlAttributes: new {@class = "radio__label3", @for = "myRadio3"})
+                    @Html.LabelFor(model => model.HidingMethod, "LSB", htmlAttributes: new {@class = "radio__label3", @for = "myRadio3"})
                     <br>
                     @Html.RadioButtonFor(model => model.HidingMethod, "MetaData", htmlAttributes: new {@class = "radio__input", type = "radio", id = "myRadio4", value = "option1", name = "myRadio"})
-                    @Html.LabelFor(model => model.HidingMethod, "MetaData", htmlAttributes: new {@class = "radio__label4", @for = "myRadio4"})
+                    @Html.LabelFor(model => model.HidingMethod, "METADATA", htmlAttributes: new {@class = "radio__label4", @for = "myRadio4"})
                 </div>
             </div>
 
@@ -95,19 +99,19 @@
 
         <div class="base fourth-base">
 
-            <div class="form-group">
+            <div class="select">
                 @Html.LabelFor(model => model.PermittedUsers, htmlAttributes: new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
+                <div class="col-md-10 choose">
                     @Html.EditorFor(model => model.PermittedUsers, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.DropDownListFor(model => model.PermittedUsers, GetAllUsers(), "Choose...", new {@class = "form-control",})
+                    @Html.DropDownListFor(model => model.PermittedUsers, GetAllUsers(), "Choose...", new {@class = "dropdown",})
                     @Html.ValidationMessageFor(model => model.PermittedUsers, "", new {@class = "text-danger"})
                 </div>
             </div>
 
 
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Upload" class="btn btn-default"/>
+                <div class="col-md-offset-2 col-md-10 uploadbtn">
+                    <input type="submit" value="Upload" class="btn btn-default uploadbtn1"/>
                 </div>
             </div>
         </div>
