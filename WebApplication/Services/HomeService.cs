@@ -63,7 +63,7 @@ namespace WebApplication.Services
             };
             _client = new FirebaseClient(Config);
             var data = fileDataUploadRequestModel;
-            
+            data.FileExtension = Path.GetExtension(data.FilePath);
             var fileDataUploadResponseModel = data.Convert();
             SetFileType(fileDataUploadResponseModel);
 
@@ -76,13 +76,13 @@ namespace WebApplication.Services
                     fileDataUploadResponseModel.File = EncryptAndHideInPicture(data);
                     break;
                 case FileType.Video:
-                    fileDataUploadResponseModel.File = EncryptAndHideInVideo(fileDataUploadResponseModel);
+                    fileDataUploadResponseModel.File = EncryptAndHideInVideo(data);
                     break;
                 case FileType.Audio:
-                    fileDataUploadResponseModel.File = EncryptAndHideInAudio(fileDataUploadResponseModel);
+                    fileDataUploadResponseModel.File = EncryptAndHideInAudio(data);
                     break;
                 case FileType.Executable:
-                    fileDataUploadResponseModel.File = EncryptAndHideInBatchFile(fileDataUploadResponseModel);
+                    fileDataUploadResponseModel.File = EncryptAndHideInBatchFile(data);
                     break;
                 
             }
@@ -140,7 +140,7 @@ namespace WebApplication.Services
         
         public byte[] EncryptAndHideInPicture(FileDataUploadRequestModel fileData)
         {
-            Bitmap bmp = (Bitmap) Image.FromStream(fileData.File.InputStream, true, false);
+            Bitmap bmp = (Bitmap) Image.FromStream(fileData.FileAsHttpPostedFileBase.InputStream, true, false);
             byte[] encryptedData = null;
             string encryptedBinary =null;
             
@@ -174,10 +174,10 @@ namespace WebApplication.Services
             }
         }
 
-        public byte[] EncryptAndHideInVideo(FileDataUploadResponseModel fileData)
+        public byte[] EncryptAndHideInVideo(FileDataUploadRequestModel fileData)
         {
             
-            byte[] byteVideo = fileData.File;
+            byte[] byteVideo = File.ReadAllBytes(fileData.FilePath);
             byte[] encryptedData = null;
             string encryptedBinary =null;
             
@@ -214,10 +214,10 @@ namespace WebApplication.Services
             
         }
         
-        public byte[] EncryptAndHideInAudio(FileDataUploadResponseModel fileData)
+        public byte[] EncryptAndHideInAudio(FileDataUploadRequestModel fileData)
         {
             
-            byte[] byteAudio = fileData.File;
+            byte[] byteAudio = File.ReadAllBytes(fileData.FilePath);
             byte[] encrypteMessage = null;
             string encryptedBinary =null;
             
@@ -257,10 +257,10 @@ namespace WebApplication.Services
             return byteAudio;
         }
         
-        public byte[] EncryptAndHideInBatchFile(FileDataUploadResponseModel fileData)
+        public byte[] EncryptAndHideInBatchFile(FileDataUploadRequestModel fileData)
         {
             
-            byte[] file = fileData.File;
+            byte[] file = File.ReadAllBytes(fileData.FilePath);
             byte[] encrypteMessage = null;
             string encryptedBinary =null;
             
@@ -302,45 +302,42 @@ namespace WebApplication.Services
         /// Decryption and Seeking handlers by File type
         /// ****************************************************************************
         
-        public string ExtractMessage(string fileId)
+        public string ExtractMessage(FileDataUploadRequestModel fileData)
         {
-            var fileData = GetFileById(fileId);
             if (fileData.FileType == FileType.Video)
             {
-                return ExtractMessageFromVideo(fileId);
+                return ExtractMessageFromVideo(fileData);
             }
             if (fileData.FileType == FileType.Image)
             {
-                return ExtractMessageFromPicture(fileId);
+                return ExtractMessageFromPicture(fileData);
             }
             if (fileData.FileType == FileType.Audio)
             {
-                return ExtractMessageFromAudio(fileId);
+                return ExtractMessageFromAudio(fileData);
             }
             if (fileData.FileType == FileType.Executable)
             {
-                return ExtractMessageFromExe(fileId);
+                return ExtractMessageFromExe(fileData);
             }
 
             return "No Suitable file type was uploaded";
         }
 
-        public string ExtractMessageFromExe(string fileId)
+        public string ExtractMessageFromExe(FileDataUploadRequestModel fileData)
         {
             AesAlgo aesAlgo = new AesAlgo();
-            
-            var Data = GetFileById(fileId);
             // var ms = new MemoryStream(fileData.File);
-            byte[] Exe = Data.File;
+            byte[] Exe = fileData.FileAsByteArray;
             byte[] cypherData = null;
             byte[] key = null;
             byte[] iv = null;
             string decryptedMessage = null;
 
-            switch (Data.HidingMethod)
+            switch (fileData.HidingMethod)
             {
                 case HidingMethod.Lsb:
-                    if (Data.FileExtension == ".exe")
+                    if (fileData.FileName.EndsWith(".exe"))
                     {
                         cypherData = _lsbExe.SeekPE(Exe);
                         key = _lsbExe.ExtractKeyPE(Exe);
@@ -348,13 +345,13 @@ namespace WebApplication.Services
                     }
                     break;
                 case HidingMethod.MetaData:
-                    if (Data.FileExtension == ".exe")
+                    if (fileData.FileName.EndsWith(".exe"))
                     {
                         cypherData = _metaDataExe.SeekPE(Exe);
                         key = _metaDataExe.ExtractKeyPE(Exe);
                         iv = _metaDataExe.ExtractIvPE(Exe);
                     }
-                    else if (Data.FileExtension == ".bat")
+                    else if (fileData.FileName.EndsWith(".bat"))
                     {
                         cypherData = _metaDataExe.SeekBatch(Exe);
                         key = _metaDataExe.ExtractKeyBatch(Exe);
@@ -363,10 +360,10 @@ namespace WebApplication.Services
                     break;
             }
             
-            switch (Data.EncryptionMethod)
+            switch (fileData.EncryptionMethod)
             {
                 case EncryptionMethod.Aes:
-                    decryptedMessage=Decrypt_Aes(cypherData,key,iv);
+                    decryptedMessage = Decrypt_Aes(cypherData,key,iv);
                     break;
                 case EncryptionMethod.Serpent:
                     decryptedMessage = Decrypt_Serpent(cypherData, key);
@@ -375,12 +372,10 @@ namespace WebApplication.Services
             return decryptedMessage;
         }
         
-        public string ExtractMessageFromPicture(string fileId)
+        public string ExtractMessageFromPicture(FileDataUploadRequestModel fileData)
         {
             AesAlgo aesAlgo = new AesAlgo();
-            
-            var fileData = GetFileById(fileId);
-            var ms = new MemoryStream(fileData.File);
+            var ms = new MemoryStream(fileData.FileAsByteArray);
             var bmp = new Bitmap(ms);
             byte[] cypherData = null;
             byte[] key = null;
@@ -394,9 +389,9 @@ namespace WebApplication.Services
                     iv = _lsbPicture.ExtractIvBitmap(bmp);
                     break;
                 case HidingMethod.MetaData:
-                    cypherData = _metaDataPicture.SeekJpeg(fileData.File);
-                    key = _metaDataPicture.ExtractKeyJpeg(fileData.File);
-                    iv = _metaDataPicture.ExtractIvJpeg(fileData.File);
+                    cypherData = _metaDataPicture.SeekJpeg(fileData.FileAsByteArray);
+                    key = _metaDataPicture.ExtractKeyJpeg(fileData.FileAsByteArray);
+                    iv = _metaDataPicture.ExtractIvJpeg(fileData.FileAsByteArray);
                     break;
             }
 
@@ -412,21 +407,21 @@ namespace WebApplication.Services
             return decryptedMessage;
         }
         
-        public string ExtractMessageFromVideo(string fileId)
+        public string ExtractMessageFromVideo(FileDataUploadRequestModel fileData)
         {
             AesAlgo aesAlgo = new AesAlgo();
-            
-            var data = GetFileById(fileId);
-            byte[] video = data.File;
+            //byte[] video = new byte[fileData.FileAsHttpPostedFileBase.ContentLength];
+            //fileData.FileAsHttpPostedFileBase.InputStream.Read(video, 0, video.Length); 
+            byte[] video = fileData.FileAsByteArray;
             byte[] cypherData = null;
             byte[] key = null;
             byte[] iv = null;
             string decryptedMessage = null;
             
-            switch (data.HidingMethod)
+            switch (fileData.HidingMethod)
             {
                 case HidingMethod.Lsb:
-                    if (data.FileExtension == ".avi")
+                    if (fileData.FileName.EndsWith(".avi"))
                     {
                         cypherData = _lsbVideo.SeekAvi(video);
                         key = _lsbVideo.ExtractKeyAvi(video);
@@ -440,7 +435,7 @@ namespace WebApplication.Services
                     }
                     break;
                 case HidingMethod.MetaData:
-                    if (data.FileExtension == ".avi")
+                    if (fileData.FileName.EndsWith(".avi"))
                     {
                         cypherData = _metaDataVideo.SeekAvi(video);
                         key = _metaDataVideo.ExtractKeyAvi(video);
@@ -455,7 +450,7 @@ namespace WebApplication.Services
                     break;
             }
 
-            switch (data.EncryptionMethod)
+            switch (fileData.EncryptionMethod)
             {
                 case EncryptionMethod.Aes:
                     decryptedMessage=Decrypt_Aes(cypherData,key,iv);
@@ -468,21 +463,19 @@ namespace WebApplication.Services
             return decryptedMessage;
         }
         
-        public string ExtractMessageFromAudio(string fileId)
+        public string ExtractMessageFromAudio(FileDataUploadRequestModel fileData)
         {
             AesAlgo aesAlgo = new AesAlgo();
-            
-            var data = GetFileById(fileId);
-            byte[] audio = data.File;
+            byte[] audio = fileData.FileAsByteArray;
             byte[] cypherData = null;
             byte[] key = null;
             byte[] iv = null;
             string decryptedMessage = null;
             
-            switch (data.HidingMethod)
+            switch (fileData.HidingMethod)
             {
                 case HidingMethod.Lsb:
-                    if (data.FileExtension == ".wav")
+                    if (fileData.FileName.EndsWith(".wav"))
                     {
                         cypherData = _lsbAudio.SeekWave(audio);
                         key = _lsbAudio.ExtractKeyWave(audio);
@@ -496,7 +489,7 @@ namespace WebApplication.Services
                     }
                     break;
                 case HidingMethod.MetaData:
-                    if (data.FileExtension == ".wav")
+                    if (fileData.FileName.EndsWith(".wav"))
                     {
                         cypherData = _metaDataAudio.SeekWave(audio);
                         key = _metaDataAudio.ExtractKeyWave(audio);
@@ -510,7 +503,7 @@ namespace WebApplication.Services
                     }
                     break;
             }
-            switch (data.EncryptionMethod)
+            switch (fileData.EncryptionMethod)
             {
                 case EncryptionMethod.Aes:
                     decryptedMessage=Decrypt_Aes(cypherData,key,iv);
@@ -527,17 +520,18 @@ namespace WebApplication.Services
         /// Server Utilities 
         /// ****************************************************************************
         
-        public List<FileDataUploadResponseModel> GetAllFilesData()
+        public async Task<List<FileDataUploadResponseModel>> GetAllFilesDataAsync()
         {
             List<FileDataUploadResponseModel> listOfFileData = null;
             try
             {
-                var resultAsJsonString = _client.Get("Files/").Body;
-                if(resultAsJsonString == "null")
+                var resultAsJsonString = await _client.GetAsync("Files/");
+                
+                if(resultAsJsonString.Body == "null")
                     return null;
                 
                 
-                dynamic data = JsonConvert.DeserializeObject<dynamic>(resultAsJsonString);
+                dynamic data = JsonConvert.DeserializeObject<dynamic>(resultAsJsonString.Body);
                 listOfFileData = ((IDictionary<string, JToken>)data).Select(k => 
                     JsonConvert.DeserializeObject<FileDataUploadResponseModel>(k.Value.ToString())).ToList();
                 
@@ -549,17 +543,17 @@ namespace WebApplication.Services
             return listOfFileData;
         }
 
-        public FileDataUploadResponseModel GetFileById(string id)
+        public async Task<FileDataUploadResponseModel> GetFileById(string id)
         {
-            var allFiles = GetAllFilesData();
+            var allFiles = await GetAllFilesDataAsync();
             var requestedFile = allFiles.SingleOrDefault(x => x.Id == id);
             return requestedFile;
         }
         
-        public void DownloadFile(string fileId)
+        public async Task DownloadFile(string fileId)
         {
             if (fileId == null) return;
-            var fileToDownload = GetFileById(fileId);
+            var fileToDownload = await GetFileById(fileId);
             
             var downloadPath = Environment.GetEnvironmentVariable("USERPROFILE")+@"\"+@"Downloads\";
             var pathString = Path.Combine(downloadPath, fileToDownload.FileName);
@@ -568,10 +562,10 @@ namespace WebApplication.Services
             File.WriteAllBytes(pathString, fileToDownload.File);
         }
         
-        public List<FileDataUploadResponseModel> GetPermittedFilesData()
+        public async Task<List<FileDataUploadResponseModel>> GetPermittedFilesData()
         {
             var requestingUserEmail = HttpContext.Current.GetOwinContext().Authentication.User.Claims.First().Value;
-            var allFilesData = GetAllFilesData();
+            var allFilesData = await GetAllFilesDataAsync();
             var permittedFilesData = allFilesData?.Where(x => x.PermittedUsers.Contains(requestingUserEmail)).ToList();
             permittedFilesData = permittedFilesData?.OrderBy(x => x.FileType).ToList();
             return permittedFilesData;

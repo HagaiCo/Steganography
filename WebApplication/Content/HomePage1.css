@@ -27,8 +27,14 @@
 
 .form-control-uploadfile{
     display: none;
-    cursor: pointer;
-    /*visibility: hidden;*/
+    /*cursor: pointer;*/
+    visibility: hidden;
+}
+
+.upload-btn-hidden{
+    display: none;
+    /*cursor: pointer;*/
+    visibility: hidden;
 }
 
 .drop-zone__thumb{
