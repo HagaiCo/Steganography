@@ -14,24 +14,13 @@
 @if (Model != null && Model.GetEnumerator().MoveNext())
 {
     
-    <button id="btn1" class="btn1">Press me</button>
-    <label id="txt1">text</label>
-    <style>
-        .txt1{font-size: 20px;
-              transition: 0.5s;
-              opacity: 1;
-              }
-        .txt2{font-size: 20px;
-              transition: 0.5s;
-              opacity: 0;
-              }
-              
-            
-    </style>
-    <h1>All files that assigned to you</h1>
     
+   
+    <h1>All files that assigned to you</h1>
+    var id = 0;
         foreach (var item in Model)
         {
+            id++;
             <div class="files">
             <div class="left">
                 @switch (@item.FileType)
@@ -47,11 +36,13 @@
                                 @Html.ActionLink("Show Message |", "ShowSecretMessage", "Home", @item, null)
                                 @Html.ActionLink("Download |", "DownloadFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, null)
                                 @Html.ActionLink("Delete", "DeleteFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, null)
+                                <button class="btn1" id="@id">Show Secret Message</button>
                             </div>
             </div>
             
                 <div class="right">
-                    <p>Secert message</p>
+                    <p id="text @id" class="txt1">@item.SecretMessage</p>
+                    
                 </div>
                 </div>
         }
