@@ -31,6 +31,12 @@ namespace WebApplication
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/uploadFile.JavaScript.File.js"));
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                "~/Scripts/jquery-{version}.js",
+                "~/Scripts/GetAllAssignedFileData.JavaScript.File.js"));
+            
+            
+            
         }
     }
 }

@@ -71,29 +71,26 @@
 
         <div class="base third-base">
 
-            <div class="form-group">
+            
                 @Html.LabelFor(model => model.EncryptionMethod, htmlAttributes: new {@class = "control-label col-md-2"})
                 <div class="col-md-10">
                     @Html.RadioButtonFor(model => model.EncryptionMethod, "Aes", htmlAttributes: new {@class = "radio__input", type = "radio", id = "myRadio1", value = "option1", name = "myRadio"})
-                            
                     @Html.LabelFor(model => model.EncryptionMethod, "AES", htmlAttributes: new {@class = "radio__label1", @for = "myRadio1", @type = "radio"})
-                    <br>
                     @Html.RadioButtonFor(model => model.EncryptionMethod, "Serpent", htmlAttributes: new {@class = "radio__input", type = "radio", id = "myRadio2", value = "option2", name = "myRadio"})
                     @Html.LabelFor(model => model.EncryptionMethod, "SERPENT", htmlAttributes: new {@class = "radio__label2", @for = "myRadio2", @type = "radio"})
                 </div>
-            </div>
+            
 
 
-            <div class="form-group">
+            
                 @Html.LabelFor(model => model.HidingMethod, htmlAttributes: new {@class = "control-label col-md-2"})
                 <div class="col-md-10">
                     @Html.RadioButtonFor(model => model.HidingMethod, "Lsb", htmlAttributes: new {@class = "radio__input", type = "radio", id = "myRadio3", value = "option3", name = "myRadio"})
                     @Html.LabelFor(model => model.HidingMethod, "LSB", htmlAttributes: new {@class = "radio__label3", @for = "myRadio3"})
-                    <br>
                     @Html.RadioButtonFor(model => model.HidingMethod, "MetaData", htmlAttributes: new {@class = "radio__input", type = "radio", id = "myRadio4", value = "option1", name = "myRadio"})
                     @Html.LabelFor(model => model.HidingMethod, "METADATA", htmlAttributes: new {@class = "radio__label4", @for = "myRadio4"})
                 </div>
-            </div>
+            
 
         </div>
 

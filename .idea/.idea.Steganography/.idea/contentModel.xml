@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\Avi\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Avi\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_Steganography.1801996150.00" t="ExcludeRecursive" />
-    <e p="C:\Users\Avi\RiderProjects\Steganography5" t="IncludeFlat">
+    <e p="C:\Users\mamis\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\mamis\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_Steganography.958923096.00" t="ExcludeRecursive" />
+    <e p="C:\Users\mamis\RiderProjects\Steganography" t="IncludeFlat">
       <e p="packages" t="ExcludeRecursive">
         <e p="NAudio.Lame.1.1.6\build\libmp3lame.32.dll" t="Include" />
         <e p="NAudio.Lame.1.1.6\build\libmp3lame.64.dll" t="Include" />
@@ -28,11 +28,11 @@
           <e p="bootstrap.css.map" t="Include" />
           <e p="bootstrap.min.css" t="Include" />
           <e p="bootstrap.min.css.map" t="Include" />
+          <e p="GetAllAssignedFileData.css" t="Include" />
           <e p="HomePage1.css" t="Include" />
           <e p="HomePage123.css" t="Include" />
           <e p="images" t="Include">
             <e p="Capture122.PNG" t="Include" />
-            <e p="pexels-alex-andrews-861443.jpg" t="Include" />
           </e>
           <e p="menu.css" t="Include" />
           <e p="SignUpIn.css" t="Include" />
@@ -71,6 +71,7 @@
         <e p="Scripts" t="Include">
           <e p="bootstrap.js" t="Include" />
           <e p="bootstrap.min.js" t="Include" />
+          <e p="GetAllAssignedFileData.js" t="Include" />
           <e p="jquery-3.3.1.intellisense.js" t="Include" />
           <e p="jquery-3.3.1.js" t="Include" />
           <e p="jquery-3.3.1.min.js" t="Include" />
