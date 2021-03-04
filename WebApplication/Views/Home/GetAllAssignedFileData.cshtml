@@ -14,9 +14,6 @@
 @if (Model != null && Model.GetEnumerator().MoveNext())
 {
     
-    
-   
-    <h1>All files that assigned to you</h1>
     var id = 0;
         foreach (var item in Model)
         {
@@ -26,17 +23,17 @@
                 @switch (@item.FileType)
                             {
                                 case FileType.Image:
-                                    <img alt="Embedded Image" width="64" height="64" class="img-circle" src="data:image;base64,@Convert.ToBase64String(item.File)"/>
+                                    <img alt="Embedded Image"  class="file-icon" src="data:image;base64,@Convert.ToBase64String(item.File)"/>
                                     break;
                                 default:
-                                    <img alt="Embedded Image" width="64" height="64" class="img-circle" src="data:image;base64,@homeService.GetGenericIconByFileType(@item.FileType)"/>
+                                    <img alt="Embedded Image"  class="file-icon" src="data:image;base64,@homeService.GetGenericIconByFileType(@item.FileType)"/>
                                     break;
                             }
                             <div class="options">
-                                @Html.ActionLink("Show Message |", "ShowSecretMessage", "Home", @item, null)
-                                @Html.ActionLink("Download |", "DownloadFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, null)
-                                @Html.ActionLink("Delete", "DeleteFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, null)
-                                <button class="btn1" id="@id">Show Secret Message</button>
+                               
+                                @Html.ActionLink("Download", "DownloadFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, new {@class = "download", name = "download"})
+                                @Html.ActionLink("Delete", "DeleteFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, new {@class = "delete", name = "delete"})
+                                <button class="btn1" id="@id">Show Secret</button>
                             </div>
             </div>
             
