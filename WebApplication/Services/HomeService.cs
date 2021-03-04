@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration.Internal;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -14,18 +12,9 @@ using System.Web.Mvc;
 using Firebase.Auth;
 using Firebase.Storage.Options;
 using FireSharp;
-using FireSharp.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WebApplication.Utilities;
-using Microsoft.Owin.Host.SystemWeb;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Compilation;
-using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Security;
 using WebApplication.RequestModel;
@@ -62,9 +51,10 @@ namespace WebApplication.Services
                 ThrowOnCancel = true     
             };
             _client = new FirebaseClient(Config);
-            var data = fileDataUploadRequestModel;
-            data.FileExtension = Path.GetExtension(data.FilePath);
-            var fileDataUploadResponseModel = data.Convert();
+            
+            fileDataUploadRequestModel.SharingUser = HttpContext.Current.GetOwinContext().Authentication.User.Claims.First().Value;
+            fileDataUploadRequestModel.FileExtension = Path.GetExtension(fileDataUploadRequestModel.FilePath);
+            var fileDataUploadResponseModel = fileDataUploadRequestModel.Convert();
             SetFileType(fileDataUploadResponseModel);
 
             Console.WriteLine(fileDataUploadRequestModel.HidingMethod);
@@ -73,16 +63,16 @@ namespace WebApplication.Services
             {
                 case FileType.Image:
                     
-                    fileDataUploadResponseModel.File = EncryptAndHideInPicture(data);
+                    fileDataUploadResponseModel.File = EncryptAndHideInPicture(fileDataUploadRequestModel);
                     break;
                 case FileType.Video:
-                    fileDataUploadResponseModel.File = EncryptAndHideInVideo(data);
+                    fileDataUploadResponseModel.File = EncryptAndHideInVideo(fileDataUploadRequestModel);
                     break;
                 case FileType.Audio:
-                    fileDataUploadResponseModel.File = EncryptAndHideInAudio(data);
+                    fileDataUploadResponseModel.File = EncryptAndHideInAudio(fileDataUploadRequestModel);
                     break;
                 case FileType.Executable:
-                    fileDataUploadResponseModel.File = EncryptAndHideInBatchFile(data);
+                    fileDataUploadResponseModel.File = EncryptAndHideInBatchFile(fileDataUploadRequestModel);
                     break;
                 
             }

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.Services;
 using WebApplication.RequestModel;
 using WebApplication.ResponseModel;
 using WebApplication.Services;
