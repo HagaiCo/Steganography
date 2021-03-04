@@ -36,11 +36,11 @@ body{
 }
 
 .txt1{font-size: 20px;
-    transition: 0.5s;
+    transition: 0.4s;
     opacity: 0;
 }
 .txt2{font-size: 20px;
-    transition: 0.5s;
+    transition: 0.4s;
     opacity: 1;
     background-color: #fff;
     padding: 1.125em 1.5em;
@@ -55,7 +55,9 @@ body{
     width: 160px;
     object-fit: cover;
     align-self: center;
-    
+    transition: 0.3s;
+
+
 }
 .file-icon:hover{
     /*border-radius: 50%;*/
