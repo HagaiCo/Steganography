@@ -21,8 +21,7 @@ namespace WebApplication.ResponseModel
         //public string SecretMessage { get; set; }
         
         public List<string> PermittedUsers { get; set; }
-        
-        
+        public string SharingUser { get; set; }
     }
 
     public enum FileType
