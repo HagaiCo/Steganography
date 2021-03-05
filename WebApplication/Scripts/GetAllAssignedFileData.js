@@ -9,7 +9,7 @@ for (const btn of myButton) {
         
         const btnID = btn.id;
         const p = document.getElementById("text "+btnID)
-        console.log(btnID + "text")
+        
         if (p.className == "txt1")
             p.className = "txt2";
         else p.className = "txt1";

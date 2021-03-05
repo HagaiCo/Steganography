@@ -19,5 +19,6 @@ namespace WebApplication.ResponseModel
         public HidingMethod HidingMethod { get; set; }
         
         public string SecretMessage { get; set; }
+        public string SharingUser { get; set; }
     }
 }

@@ -11,7 +11,8 @@
     display: flex;
     flex-direction: column;
     padding: 10px;
-    align-self: center;
+    justify-content: space-evenly;
+    margin-right: 15px;
 }
 
 .left{
@@ -73,8 +74,20 @@ body{
     
 }
 
+.contact{
+    background-image: url("../Content/images/contact.png");
+    background-repeat: no-repeat;
+    color: transparent;
+    transition: 0.3s;
+    background-position: center;
+    height: 32px;
+    width: 32px;
+    padding: 2px;
+    
+}
+
 .delete{
-    font-size: 19px;
+    /*font-size: 19px;
     font-family: 'Roboto', sans-serif;
     color: #ffffff;
     background: #2192a5;
@@ -82,11 +95,19 @@ body{
     border-radius: 10px;
     text-decoration: none;
     transition: 0.3s;
-    padding: 5px;
+    padding: 5px;*/
+    background-image: url("../Content/images/trash.png");
+    background-repeat: no-repeat;
+    color: transparent;
+    transition: 0.3s;
+    background-position: center;
+    height: 32px;
+    width: 32px;
+    padding: 2px;
 }
 
 .download{
-    font-size: 19px;
+    /*font-size: 19px;
     font-family: 'Roboto', sans-serif;
     color: #ffffff;
     background: #2192a5;
@@ -94,11 +115,19 @@ body{
     border-radius: 10px;
     text-decoration: none;
     transition: 0.3s;
-    padding: 5px;
+    padding: 5px;*/
+    background-image: url("../Content/images/download.png");
+    background-repeat: no-repeat;
+    color: transparent;
+    transition: 0.3s;
+    background-position: center;
+    height: 32px;
+    width: 32px;
+    padding: 2px;
 }
 
 .btn1{
-    font-size: 19px;
+    /*font-size: 19px;
     font-family: 'Roboto', sans-serif;
     color: #ffffff;
     background: #2192a5;
@@ -108,11 +137,22 @@ body{
     cursor: pointer;
     border: none;
     transition: 0.3s;
-    padding: 5px;
+    padding: 5px;*/
+    background-image: url("../Content/images/showMessage.png");
+    background-repeat: no-repeat;
+    color: transparent;
+    transition: 0.3s;
+    background-position: center;
+    cursor: pointer;
+    border: none;
+    height: 32px;
+    
+    width: 32px;
+    padding: 2px;
 }
 
 .delete:hover{
-    font-size: 19px;
+    /*font-size: 19px;
     font-family: 'Roboto', sans-serif;
     color: #ffffff;
     background: #a23538;
@@ -120,11 +160,20 @@ body{
     border-radius: 10px;
     text-decoration: none;
     transition: 0.3s;
-    padding: 5px;
+    padding: 5px;*/
+    background-image: url("../Content/images/trash.png");
+    background-repeat: no-repeat;
+    color: transparent;
+    transition: 0.3s;
+    transform: scale(1.2);
+    background-position: center;
+    height: 32px;
+    width: 32px;
+    padding: 2px;
 }
 
 .download:hover{
-    font-size: 19px;
+   /* font-size: 19px;
     font-family: 'Roboto', sans-serif;
     color: #ffffff;
     background: #54a521;
@@ -132,11 +181,20 @@ body{
     border-radius: 10px;
     text-decoration: none;
     transition: 0.3s;
-    padding: 5px;
+    padding: 5px;*/
+    background-image: url("../Content/images/download.png");
+    background-repeat: no-repeat;
+    color: transparent;
+    transition: 0.3s;
+    transform: scale(1.2);
+    background-position: center;
+    height: 32px;
+    width: 32px;
+    padding: 2px;
 }
 
 .btn1:hover{
-    font-size: 19px;
+    /*font-size: 19px;
     font-family: 'Roboto', sans-serif;
     color: #ffffff;
     background: #8e97a0;
@@ -146,7 +204,17 @@ body{
     cursor: pointer;
     border: none;
     transition: 0.3s;
-    padding: 5px;
-    
+    padding: 5px;*/
+    background-image: url("../Content/images/showMessage.png");
+    background-repeat: no-repeat;
+    color: transparent;
+    transition: 0.3s;
+    transform: scale(1.2);
+    background-position: center;
+    cursor: pointer;
+    border: none;
+    height: 32px;
+    width: 32px;
+    padding: 2px;
 }
 
