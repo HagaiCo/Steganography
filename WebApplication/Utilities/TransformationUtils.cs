@@ -20,7 +20,8 @@ namespace WebApplication.Utilities
                 //SecretMessage = data.SecretMessage,
                 EncryptionMethod = data.EncryptionMethod,
                 HidingMethod = data.HidingMethod,
-                FileExtension = Path.GetExtension(data.FilePath)
+                FileExtension = Path.GetExtension(data.FilePath),
+                SharingUser = data.SharingUser
             };
             return obj;
         }
