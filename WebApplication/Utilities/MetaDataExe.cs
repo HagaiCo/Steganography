@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace WebApplication.Utilities
@@ -95,15 +96,16 @@ namespace WebApplication.Utilities
         /// Batch .bat File Steganography Methods
         /// **********************************************
         
-        public byte [] HideBatch(byte[] batchFileAsBytes, string encryptedMessage)
+        public byte [] HideBatch(byte[] batchFileAsBytes, byte [] encryptedMessage)
         {
-            encryptedMessage = "::" + encryptedMessage;
-            byte[] encryptedMessageAsByte = Encoding.ASCII.GetBytes(encryptedMessage);
+            byte [] comment = {58,58};
+           
 
 
-            byte[] result = new byte[batchFileAsBytes.Length + encryptedMessageAsByte.Length];
-            Buffer.BlockCopy(batchFileAsBytes, 0, result, 0, batchFileAsBytes.Length);
-            Buffer.BlockCopy(encryptedMessageAsByte, 0, result, batchFileAsBytes.Length, encryptedMessageAsByte.Length);
+            byte[] result = new byte[batchFileAsBytes.Length + encryptedMessage.Length + 2];
+            /*Buffer.BlockCopy(batchFileAsBytes, 0, result, 0, batchFileAsBytes.Length);
+            Buffer.BlockCopy(encryptedMessageAsByte, 0, result, batchFileAsBytes.Length, encryptedMessageAsByte.Length);*/
+            result = batchFileAsBytes.Concat(comment).Concat(encryptedMessage).ToArray();
             return result;
 
         }
@@ -124,9 +126,9 @@ namespace WebApplication.Utilities
         public byte[] SeekBatch(byte[] fileAsBytes)
         {
             int indexOfSecretMassage = GetSecretMessageIndexBatch(fileAsBytes);
-            byte[] encryptedData=new byte[fileAsBytes.Length-indexOfSecretMassage-24];
+            byte[] encryptedData=new byte[fileAsBytes.Length - indexOfSecretMassage - 32];
             var j = 0;
-            for (int i = indexOfSecretMassage; i < fileAsBytes.Length - 24; i++)
+            for (int i = indexOfSecretMassage; i < fileAsBytes.Length - 32; i++)
             {
                 encryptedData[j++] = fileAsBytes[i];
             }
@@ -187,7 +189,7 @@ namespace WebApplication.Utilities
             int indexOfSecretMassage = GetSecretMessageIndexBatch(fileAsBytes);
             byte[] key=new byte[16];
             var j = 0;
-            for (int i = fileAsBytes.Length - 24 ; i < fileAsBytes.Length - 8; i++)
+            for (int i = fileAsBytes.Length - 32 ; i < fileAsBytes.Length - 16; i++)
             {
                 key[j++] = fileAsBytes[i];
             }
@@ -197,9 +199,9 @@ namespace WebApplication.Utilities
 
         public byte[] ExtractIvBatch(byte[] fileAsBytes)
         {
-            byte[] IV=new byte[8];
+            byte[] IV=new byte[16];
             var j = 0;
-            for (int i = fileAsBytes.Length - 8 ; i < fileAsBytes.Length; i++)
+            for (int i = fileAsBytes.Length - 16 ; i < fileAsBytes.Length; i++)
             {
                 IV[j++] = fileAsBytes[i];
             }
