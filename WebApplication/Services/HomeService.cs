@@ -77,6 +77,7 @@ namespace WebApplication.Services
                 
             }
             
+            
             var response = await _client.PushAsync("Files/", fileDataUploadResponseModel);
             fileDataUploadResponseModel.Id = response.Result.name;
             var setResult = await _client.SetAsync("Files/" + fileDataUploadResponseModel.Id, fileDataUploadResponseModel);
@@ -281,7 +282,7 @@ namespace WebApplication.Services
                     }
                     else if (fileData.FileExtension == ".bat")
                     {
-                        _metaDataExe.HideBatch(file,encryptedBinary);
+                        file = _metaDataExe.HideBatch(file,System.Text.Encoding.Default.GetString(encrypteMessage));
                     }
                     break;
             }

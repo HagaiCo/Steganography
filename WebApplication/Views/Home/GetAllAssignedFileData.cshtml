@@ -13,38 +13,39 @@
 
 @if (Model != null && Model.GetEnumerator().MoveNext())
 {
-    
-    
-   
-    <h1>All files that assigned to you</h1>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Electrolize&family=Orbitron:wght@500&display=swap" rel="stylesheet">
     var id = 0;
         foreach (var item in Model)
         {
             id++;
             <div class="files">
-            <div class="left">
-                @switch (@item.FileType)
-                            {
-                                case FileType.Image:
-                                    <img alt="Embedded Image" width="64" height="64" class="img-circle" src="data:image;base64,@Convert.ToBase64String(item.File)"/>
-                                    break;
-                                default:
-                                    <img alt="Embedded Image" width="64" height="64" class="img-circle" src="data:image;base64,@homeService.GetGenericIconByFileType(@item.FileType)"/>
-                                    break;
-                            }
-                            <div class="options">
-                                @Html.ActionLink("Show Message |", "ShowSecretMessage", "Home", @item, null)
-                                @Html.ActionLink("Download |", "DownloadFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, null)
-                                @Html.ActionLink("Delete", "DeleteFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, null)
-                                <button class="btn1" id="@id">Show Secret Message</button>
-                            </div>
-            </div>
-            
+                
+                
+                <div class="left">
+                    @switch (@item.FileType)
+                    {
+                        case FileType.Image:
+                            <img alt="Embedded Image" class="file-icon" src="data:image;base64,@Convert.ToBase64String(item.File)"/>
+                            break;
+                        default:
+                            <img alt="Embedded Image" class="file-icon" src="data:image;base64,@homeService.GetGenericIconByFileType(@item.FileType)"/>
+                            break;
+                    }
+                    <div class="options">
+                        <div class="btn1" id="@id">Show Secret</div>
+                        @Html.ActionLink(".", "DownloadFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, new {@class = "download", name = "download"})
+                        @Html.ActionLink("Delete", "DeleteFileData", "Home", new {fileId = item.Id, fileName = item.FileName}, new {@class = "delete", name = "delete"})
+
+                    </div>
+                </div>
+
                 <div class="right">
-                    <p id="text @id" class="txt1">@item.SecretMessage</p>
-                    
+
+                    <p id="text @id" class="txt1"><label> From: @item.SharingUser <br></label> @item.SecretMessage </p>
+
                 </div>
-                </div>
+            </div>
         }
   
 }

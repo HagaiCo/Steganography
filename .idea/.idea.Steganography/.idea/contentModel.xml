@@ -33,6 +33,10 @@
           <e p="HomePage123.css" t="Include" />
           <e p="images" t="Include">
             <e p="Capture122.PNG" t="Include" />
+            <e p="contact.png" t="Include" />
+            <e p="download.png" t="Include" />
+            <e p="showMessage.png" t="Include" />
+            <e p="trash.png" t="Include" />
           </e>
           <e p="menu.css" t="Include" />
           <e p="SignUpIn.css" t="Include" />

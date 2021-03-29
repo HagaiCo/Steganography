@@ -23,37 +23,45 @@
 {
     //@Html.AntiForgeryToken()
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Electrolize&family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Train+One&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@600&family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet">
-
-    
-    <div class="form-horizontal">
+    <div class="myBody">
         
-        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+        <div class="form-horizontal">
         
-        <div class="base first-base">
+            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+        
+            <div class="base first-base">
             
-            <div class="drop-zone">
-                @Html.LabelFor(model => model.FileAsHttpPostedFileBase, htmlAttributes: new {@class = "control-label-drop"})
-                <input type="file" class="form-control-uploadfile" name="fileAsHttpPostedFileBase"/> 
-                @using (Html.BeginForm("UploadFileData", "Home", FormMethod.Post, new
-                {enctype = "multipart/form-data"}))
-                {
+                <div class="drop-zone">
+                    @Html.LabelFor(model => model.FileAsHttpPostedFileBase, htmlAttributes: new {@class = "control-label-drop"})
+                    <input type="file" class="form-control-uploadfile" name="fileAsHttpPostedFileBase"/> 
+                    @using (Html.BeginForm("UploadFileData", "Home", FormMethod.Post, new
+                    {enctype = "multipart/form-data"}))
+                    {
                     @*@Html.TextBoxFor(m => m.FileAsHttpPostedFileBase, new {@class = "upload-btn-hidden",type = "file"})*@
-                    @Html.ValidationMessageFor(m => m.FileAsHttpPostedFileBase)
-                }
-            </div>
-        </div>
-        <div class="base second-base">
-
-            <div class="form-group-text">
-                @* <input type="text" name="name2" autocomplete="off"> *@
-                @Html.TextAreaFor(model => model.SecretMessage, new {onkeyup = "textCounter(this,'counter',50);", id = "message", maxlength = "50", placeholder = "Enter Text To Hide", rows = 10, cols = 40, htmlAttributes = new {@class = "form-control", type = "textarea", name = "name2", autocomplete = "off", id = "name2"}})
-                @Html.ValidationMessageFor(model => model.SecretMessage, "", new {@class = "text-danger"})
-                @Html.LabelFor(model => model.SecretMessage, htmlAttributes: new {@class = "control-label-text-hide col-md-2"})
-                <div class="front">
-                    <input disabled maxlength="1" size="1" value="50" id="counter" class="text-counter">
+                        @Html.ValidationMessageFor(m => m.FileAsHttpPostedFileBase)
+                    }
                 </div>
-                <script>
+            </div>
+            <div class="base second-base">
+
+                <div class="form-group-text">
+                    @* <input type="text" name="name2" autocomplete="off"> *@
+                    @Html.TextAreaFor(model => model.SecretMessage, new {onkeyup = "textCounter(this,'counter',60);", id = "message", maxlength = "60", placeholder = "Enter Text To Hide", rows = 10, cols = 40, htmlAttributes = new {@class = "form-control", type = "textarea", name = "name2", autocomplete = "off", id = "name2"}})
+                    @Html.ValidationMessageFor(model => model.SecretMessage, "", new {@class = "text-danger"})
+                    @Html.LabelFor(model => model.SecretMessage, htmlAttributes: new {@class = "control-label-text-hide col-md-2"})
+                    <div class="front">
+                        <input disabled maxlength="1" size="1" value="60" id="counter" class="text-counter">
+                    </div>
+                    <script>
             function textCounter(field,field2,maxlimit)
             {
              let countfield = document.getElementById(field2);
@@ -65,11 +73,11 @@
              }
             }
             </script>
+                </div>
             </div>
-        </div>
 
 
-        <div class="base third-base">
+            <div class="base third-base">
 
             
                 @Html.LabelFor(model => model.EncryptionMethod, htmlAttributes: new {@class = "control-label col-md-2"})
@@ -92,25 +100,74 @@
                 </div>
             
 
-        </div>
-
-        <div class="base fourth-base">
-
-            <div class="select">
-                @Html.LabelFor(model => model.PermittedUsers, htmlAttributes: new {@class = "control-label col-md-2"})
-                <div class="col-md-10 choose">
-                    @Html.EditorFor(model => model.PermittedUsers, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.DropDownListFor(model => model.PermittedUsers, GetAllUsers(), "Choose...", new {@class = "dropdown",})
-                    @Html.ValidationMessageFor(model => model.PermittedUsers, "", new {@class = "text-danger"})
-                </div>
             </div>
 
+            <div class="base fourth-base">
+            
+                <div class="select">
+                    @Html.LabelFor(model => model.PermittedUsers, htmlAttributes: new {@class = "control-label col-md-2"})
+                    <div class="col-md-10 choose">
+                        @Html.EditorFor(model => model.PermittedUsers, new {htmlAttributes = new {@class = "form-control"}})
+                        @Html.DropDownListFor(model => model.PermittedUsers, GetAllUsers(), "Choose...", new {@class = "dropdown",})
+                        @Html.ValidationMessageFor(model => model.PermittedUsers, "", new {@class = "text-danger"})
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10 uploadbtn">
-                    <input type="submit" value="Upload" class="btn btn-default uploadbtn1"/>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10 uploadbtn">
+                        <input type="submit" value="Upload" class="btn btn-default uploadbtn1"/>
+                    </div>
                 </div>
             </div>
         </div>
+        
+        <div class="info">
+            <h1> Encrypt and Hide messages in Files. </h1>
+            <h4> Protect your private messages by encryping them and Hiding in files. </h4>
+            <h4> How to Encrypt and hide: </h4>
+            <ol>
+                <li> Choose a supported file type and drag it to the box.</li>
+                <li> Enter a secret mesage you wish to decrypt.</li>
+                <li> Choose encryption method.</li>
+                <li> Choose hiding method.</li>
+                <li> Choose your recipient.</li>
+            </ol>
+            <br>
+            <div class="extra-info1">
+                <H4> AES </h4>
+                <h5> The Advanced Encryption Standard - used officialy by the U.S. goverment <br> A symetric key algorithem  also known by its original name Rijndael.</h5>
+                <br>
+                <H4> SERPENT  </h4>
+                <h5> Serpent is a symmetric key block cipher which was the second finalist <br>in the Advanced Encryption Standard (AES) contest.</h5>
+            </div>
+            <div class="extra-info2">
+                <H4> LSB </h4>
+                <h5> LSB stands for least significant bit and it refers to the process of <br> replacing the least significant bit of the bytes that create a container file  <br> with the bits that form the data we want to hide. </h5>
+                <br>
+                <H4> Metadata  </h4>
+                <h5> Hiding in Metadata means hiding within the information fields of your file.</h5>
+            </div>
+        </div>
+        
+        <div class="supported-files">
+            <h5>only shared people who are <br> signed to the site will be <br> able to access to the file, <br>decrypt it, and view the message </h5>
+            <br>
+            <h5>supported files LSB</h5>
+            <h6>Image: jpeg, png, bmp</h6>
+            <h6>Audio: mp3, wave</h6>
+            <h6>Video: avi, mov</h6>
+            <h6>Executalbe: pe</h6>
+            <br>
+            <h5>supported files MetaData</h5>
+            <h6>Image: jpeg, tiff</h6>
+            <h6>Audio: mp3, wave</h6>
+            <h6>Video: avi, mov</h6>
+            <h6>Executalbe: pe, bat</h6>
+            <br>
+            <h5>any quastions? please contact us at</h5>
+            <a class="email" href="chamaeliion_support@gmail.com"> chamaeliion_support@gmail.com </a>
+        </div>
+    
     </div>
-}
+    }

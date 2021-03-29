@@ -95,7 +95,7 @@ namespace WebApplication.Utilities
         /// Batch .bat File Steganography Methods
         /// **********************************************
         
-        public void HideBatch(byte[] batchFileAsBytes, string encryptedMessage)
+        public byte [] HideBatch(byte[] batchFileAsBytes, string encryptedMessage)
         {
             encryptedMessage = "::" + encryptedMessage;
             byte[] encryptedMessageAsByte = Encoding.ASCII.GetBytes(encryptedMessage);
@@ -104,7 +104,8 @@ namespace WebApplication.Utilities
             byte[] result = new byte[batchFileAsBytes.Length + encryptedMessageAsByte.Length];
             Buffer.BlockCopy(batchFileAsBytes, 0, result, 0, batchFileAsBytes.Length);
             Buffer.BlockCopy(encryptedMessageAsByte, 0, result, batchFileAsBytes.Length, encryptedMessageAsByte.Length);
-            
+            return result;
+
         }
 
         public int GetSecretMessageIndexBatch(byte[] fileAsBytes)
@@ -123,8 +124,15 @@ namespace WebApplication.Utilities
         public byte[] SeekBatch(byte[] fileAsBytes)
         {
             int indexOfSecretMassage = GetSecretMessageIndexBatch(fileAsBytes);
+            byte[] encryptedData=new byte[fileAsBytes.Length-indexOfSecretMassage-24];
+            var j = 0;
+            for (int i = indexOfSecretMassage; i < fileAsBytes.Length - 24; i++)
+            {
+                encryptedData[j++] = fileAsBytes[i];
+            }
 
-            var bitsToProcess = GetByteCountBatch(fileAsBytes, indexOfSecretMassage)*8;
+            return encryptedData;
+            /*var bitsToProcess = GetByteCountBatch(fileAsBytes, indexOfSecretMassage)*8;
             string binText = null;
             int i = indexOfSecretMassage+16;
             int bitsProcessed = 0;
@@ -139,7 +147,7 @@ namespace WebApplication.Utilities
             {
                 binText += n % 2 == 1 ? 1 : 0;
             }
-            return BinToByte(binText);
+            return BinToByte(binText);*/
         }
         
         static int GetByteCountBatch(byte[] fileAsBytes, int indexOfSecretMassage)
@@ -161,7 +169,7 @@ namespace WebApplication.Utilities
 
         public byte[] ExtractKeyBatch(byte[] fileAsBytes)
         {
-            string binText = null;
+            /*string binText = null;
             var indexOfMessage = GetSecretMessageIndexBatch(fileAsBytes);
             var bytesToSkip = GetByteCountBatch(fileAsBytes, indexOfMessage);
             int indexOfKey = indexOfMessage + 16 + bytesToSkip * 8;
@@ -175,14 +183,31 @@ namespace WebApplication.Utilities
             {
                 binText += n % 2 == 1 ? 1 : 0;
             }
-            return BinToByte(binText);
+            return BinToByte(binText);*/
+            int indexOfSecretMassage = GetSecretMessageIndexBatch(fileAsBytes);
+            byte[] key=new byte[16];
+            var j = 0;
+            for (int i = fileAsBytes.Length - 24 ; i < fileAsBytes.Length - 8; i++)
+            {
+                key[j++] = fileAsBytes[i];
+            }
+
+            return key;
         }
 
         public byte[] ExtractIvBatch(byte[] fileAsBytes)
         {
-            string binText = null;
+            byte[] IV=new byte[8];
+            var j = 0;
+            for (int i = fileAsBytes.Length - 8 ; i < fileAsBytes.Length; i++)
+            {
+                IV[j++] = fileAsBytes[i];
+            }
+
+            return IV;
+            /*string binText = null;
             var indexOfMessage = GetSecretMessageIndexBatch(fileAsBytes);
-            var bytesToSkip = GetByteCountBatch(fileAsBytes, indexOfMessage);
+            var bytesToSkip = GetByteCountBatckeyh(fileAsBytes, indexOfMessage);
             int indexOfIv = indexOfMessage + 16 + bytesToSkip * 8 + 128;
             var list = new List<int>();
                 
@@ -195,7 +220,8 @@ namespace WebApplication.Utilities
             {
                 binText += n % 2 == 1 ? 1 : 0;
             }
-            return BinToByte(binText);
+            return BinToByte(binText);*/
+            
         }
         
         static byte [] BinToByte(string bin)
