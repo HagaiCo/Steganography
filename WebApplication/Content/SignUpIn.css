@@ -47,6 +47,7 @@ a{
     10px rgba(0, 0, 0, 0.22);
     /*position: absolute;
     top : 5px;*/
+    align-self: center;
     position: relative;
     overflow: hidden;
     width: 768px;
