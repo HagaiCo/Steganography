@@ -282,7 +282,7 @@ namespace WebApplication.Services
                     }
                     else if (fileData.FileExtension == ".bat")
                     {
-                        file = _metaDataExe.HideBatch(file,System.Text.Encoding.Default.GetString(encrypteMessage));
+                        file = _metaDataExe.HideBatch(file,encrypteMessage);
                     }
                     break;
             }
