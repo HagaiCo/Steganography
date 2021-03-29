@@ -39,6 +39,7 @@ namespace WebApplication.Utilities
                 HidingMethod = data.HidingMethod,
                 FileType = data.FileType,
                 FileName = data.FileName
+                
             };
             return obj;
         }
