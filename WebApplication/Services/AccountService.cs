@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using Firebase.Auth;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
@@ -18,10 +18,14 @@ namespace WebApplication.Services
     {
         public async Task SignUp(SignUpRequestModel signUpRequest)
         {
+            //todo - make sure the user view the error message so he will understand what's wrong with his password.
+            if (!ValidatePassword(signUpRequest.Password, out var errorMessage))
+            {
+                throw new Exception(errorMessage);
+            }
             var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey)); 
             var a = await auth.CreateUserWithEmailAndPasswordAsync(signUpRequest.Email, signUpRequest.Password, signUpRequest.Name, true);
-            var response = await _client.PushAsync("Users/", signUpRequest);
-
+            await _client.PushAsync("Users/", signUpRequest);
         }
         
         public async Task<FirebaseAuthLink> Login(string email, string password)
@@ -64,6 +68,52 @@ namespace WebApplication.Services
                 Console.WriteLine(e);
             }
             return listOfFileData;
+        }
+        
+        private bool ValidatePassword(string password, out string errorMessage)
+        {
+            var input = password;
+            errorMessage = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                throw new Exception("Password should not be empty");
+            }
+
+            var hasNumber = new Regex(@"[0-9]+");
+            var hasUpperChar = new Regex(@"[A-Z]+");
+            var hasMiniMaxChars = new Regex(@".{8,15}");
+            var hasLowerChar = new Regex(@"[a-z]+");
+            var hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]");
+
+            if (!hasLowerChar.IsMatch(input))
+            {
+                errorMessage = "Password should contain at least one lower case letter.";
+                return false;
+            }
+
+            if (!hasUpperChar.IsMatch(input))
+            {
+                errorMessage = "Password should contain at least one upper case letter.";
+                return false;
+            }
+            if (!hasMiniMaxChars.IsMatch(input))
+            {
+                errorMessage = "Password should not be lesser than 8 or greater than 15 characters.";
+                return false;
+            }
+            if (!hasNumber.IsMatch(input))
+            {
+                errorMessage = "Password should contain at least one numeric value.";
+                return false;
+            }
+
+            if (!hasSymbols.IsMatch(input))
+            {
+                errorMessage = "Password should contain at least one special case character.";
+                return false;
+            }
+            return true;
         }
     }
 }
