@@ -1,8 +1,9 @@
 ﻿
 :root{
-    --primary-color: #f0f7f8;
-    --overlay-color: #dddfe5;
-    background-color: #f0f7f8;
+    --primary-color: linear-gradient(to right, #396ac5 ,#6e5da6 ) no-repeat 0 0 / cover;;
+    --overlay-color: linear-gradient(to right, #396ac5 ,#6e5da6 ) no-repeat 0 0 / cover;;
+    /*background-color: #f0f7f8;*/
+    background: linear-gradient(to right, #396ac5 ,#6e5da6 ) no-repeat 0 0 / cover;
 }
 
 *{
@@ -12,7 +13,7 @@
 }
 
 body{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto Slab', sans-serif;
     line-height: 1.4;
     margin: 0;
     padding: 0;

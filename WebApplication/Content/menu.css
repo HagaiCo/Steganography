@@ -182,7 +182,13 @@
 }
 
 .navbar-header .menu > div > div > ul > li > a {
-    color: inherit;
+    color: bisque;
     text-decoration: none;
     transition: color 0.4s ease;
+}
+
+a{
+    color: bisque;
+    font-size: xx-large;
+    font-weight: 600;
 }

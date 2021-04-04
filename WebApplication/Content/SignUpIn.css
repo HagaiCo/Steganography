@@ -5,7 +5,7 @@
 }
 
 body{
-    font-family: 'Montserrat', 'sans-serif';
+    font-family: 'Roboto Slab', 'sans-serif';
     /*background: #f6f5f7;*/
     /*display: flex;*/
     /*flex-direction: column;*/
@@ -141,8 +141,9 @@ button.ghost {
 
 .overlay {
     background: #ff416c;
-    background: linear-gradient(to right, #ff4b2b,
-    #ff416c) no-repeat 0 0 / cover;
+    /*background: linear-gradient(to right, #ff4b2b,
+    #ff416c) no-repeat 0 0 / cover;*/
+    background: linear-gradient(to right,#fcae1b,  #f05557, #eb0a8d) no-repeat 0 0 / cover;
     color: #fff;
     position: relative;
     left: -100%;
