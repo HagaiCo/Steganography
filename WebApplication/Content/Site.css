@@ -4,6 +4,7 @@
     --overlay-color: linear-gradient(to right, #396ac5 ,#6e5da6 ) no-repeat 0 0 / cover;;
     /*background-color: #f0f7f8;*/
     background: linear-gradient(to right, #396ac5 ,#6e5da6 ) no-repeat 0 0 / cover;
+    
 }
 
 *{
@@ -72,6 +73,8 @@ body{
     margin-top: 1rem;
     text-decoration: none;
     transition: opacity 1s ease-in;
+    font-family: "Roboto Slab", sans-serif;
+    font-weight: bold;
 }
 
 .btn-default:hover{
@@ -87,3 +90,5 @@ body{
     position: absolute;
    
 }
+
+
