@@ -13,7 +13,7 @@
     font-size: 20px;
     cursor: pointer;
     color: #cccccc;
-    border: 2px dashed #a23538;
+    border: 2px dashed #f05557;
     border-radius: 10px;
 }
 
@@ -113,6 +113,7 @@
     border-radius: 15px;
     text-align: center;
     border: none;
+    color: #fcae1b;
 }
 
 
@@ -123,6 +124,8 @@
     font-size: 14px;
     margin-top: 0em;
     padding: 0px;
+    color: bisque;
+    margin: 1px;
 }
 
 
@@ -148,11 +151,12 @@
     font-size: 14px;
     /*font-family: 'Roboto', sans-serif;*/
     color: #ffffff;
-    background: #2192a5;
+    background: #f05557;
     cursor: pointer;
     transition: background 0.2s;
     border-bottom-left-radius: 5px;
     border-top-left-radius: 5px;
+    font-weight: bold;
 }
 
 .radio__label2{
@@ -162,11 +166,12 @@
     font-size: 14px;
     /*font-family: 'Roboto', sans-serif;*/
     color: #ffffff;
-    background: #2192a5;
+    background: #f05557;
     cursor: pointer;
     transition: background 0.2s;
     border-bottom-right-radius: 5px;
     border-top-right-radius: 5px;
+    font-weight: bold;
 }
 .radio__label3{
     overflow: hidden;
@@ -175,11 +180,12 @@
     font-size: 14px;
     /*font-family: 'Roboto', sans-serif;*/
     color: #ffffff;
-    background: #2192a5;
+    background: #f05557;
     cursor: pointer;
     transition: background 0.2s;
     border-bottom-left-radius: 5px;
     border-top-left-radius: 5px;
+    font-weight: bold;
 }
 .radio__label4{
     overflow: hidden;
@@ -188,11 +194,12 @@
     font-size: 14px;
     /*font-family: 'Orbitron', cursive;*/
     color: #ffffff;
-    background: #2192a5;
+    background: #f05557;
     cursor: pointer;
     transition: background 0.2s;
     border-bottom-right-radius: 5px;
     border-top-right-radius: 5px;
+    font-weight: bold;
 }
 
 .radio__label1:not(:last-of-type){
@@ -224,10 +231,11 @@
 
 input[type=radio],
 input.radio {
-    /*float: left;*/
-    /*clear: none;*/
+    float: left;
+    clear: none;
     margin: 2px 0 0 2px;
 }
+
 
 
 
@@ -271,8 +279,8 @@ input.radio {
 }
 
 .uploadbtn1 {
-    font-size: 18px;
-    background: #2192a5;
+    font-size: 16px;
+    background: #f05557;
     color: white;
     cursor: pointer;
     transition: transform 300ms cubic-bezier(.5, 0, .5, 1),
@@ -287,7 +295,7 @@ label {
     float: left;
     clear: none;
     display: block;
-    padding: 0px 1em 0px 8px;
+   /* padding: 0px 1em 0px 8px;*/
 }
 
 
@@ -324,11 +332,7 @@ label {
     justify-content: center;
     justify-self: center;
     text-align: center;
-    margin-bottom: 5em;
     /*border-radius: 50%;*/
-}
-.first-base{
-    
 }
 
 .second-base {
@@ -369,7 +373,7 @@ label {
 }
 
 .extra-info1{
-    height: 200px;
+    height: 150px;
     width: 100%;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15), 0 5px
     5px rgba(0, 0, 0, 0.15);
@@ -377,7 +381,7 @@ label {
 }
 
 .extra-info2{
-    height: 200px;
+    height: 150px;
     width: 100%;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15), 0 5px
     5px rgba(0, 0, 0, 0.15);
@@ -413,6 +417,10 @@ h6, h1{
     margin-left: 5px;
 }
 
+li{
+    color: bisque;
+}
+
 /*.field-validation-valid {*/
 /*    display: none;*/
 /*}*/
@@ -422,4 +430,7 @@ h6, h1{
 .text-danger {
     transition: color 0.5s ease-in-out;
 }
+
+
+
 
