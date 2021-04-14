@@ -7,29 +7,38 @@ namespace WebApplication.RequestModel
 {
     public class FileDataUploadRequestModel
     {
-        [Required]
-        [Display(Name = "Choose file to upload")] 
+        // [Required(ErrorMessage = "File is required.")]
+        // [Display(Name = "Choose file to upload")] 
         public HttpPostedFileBase File { get; set; }
-        [Key] 
+        [Key]
         public string Id { get; set; }
-        [Required]
-        [Display(Name = "Choose file to upload")] 
+        [Required(ErrorMessage = "File is required.")]
+        [Display(Name = "Choose file to upload")]
         public HttpPostedFileBase FileAsHttpPostedFileBase { get; set; }
+        [Required]
+
         public byte[] FileAsByteArray { get; set; }
         public string FileName { get; set; }
-        [Required]
-        [Display(Name = "Type text to hide")] 
+        [Required(ErrorMessage = "Text to hide is required.")]
+        [Display(Name = " ")] 
         public string SecretMessage { get; set; }
-        [Required] 
+        [Required(ErrorMessage = "Permitted user is required.")]
         [Display(Name = "Choose permitted users")] 
         public List<string> PermittedUsers { get; set; }
+
         public string SharingUser { get; set; }
+        [Required]
         public string FilePath { get; set; }
         public FileType FileType { get; set; }
+        [Required(ErrorMessage = "Encryption Method is required.")]
         [Display(Name="Choose Encryption Method")]
         public EncryptionMethod EncryptionMethod { get; set; }
+        [Required(ErrorMessage = "Hiding Method is required.")]
         [Display(Name="Choose Hiding Method")]
         public HidingMethod HidingMethod { get; set; }
+        [Required]
         public string FileExtension { get; set; }
+        
+        
     }
 }

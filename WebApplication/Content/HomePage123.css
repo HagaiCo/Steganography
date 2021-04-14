@@ -25,10 +25,14 @@
     border-style: solid;
 }
 
+.upload-btn-hidden {
+    visibility: hidden;
+}
+
 .form-control-uploadfile{
-    display: none;
+    /*display: none;*/
     cursor: pointer;
-    /*visibility: hidden;*/
+    visibility: hidden;
 }
 
 .drop-zone__thumb{
@@ -58,7 +62,8 @@
 /*!*Secret message text box style*/
 
 .control-label-text-hide{
-    display: none;
+    /*display: none;*/
+    visibility: hidden;
 }
 
 
@@ -130,7 +135,10 @@
 }
 
 .radio__input{
-    display: none;
+    /*overflow: hidden;*/
+    /*display: none;*/
+    visibility: hidden;
+    margin-left: 5em;
 }
 
 .radio__label1{
@@ -216,11 +224,10 @@
 
 input[type=radio],
 input.radio {
-    float: left;
-    clear: none;
+    /*float: left;*/
+    /*clear: none;*/
     margin: 2px 0 0 2px;
 }
-
 
 
 
@@ -317,7 +324,11 @@ label {
     justify-content: center;
     justify-self: center;
     text-align: center;
+    margin-bottom: 5em;
     /*border-radius: 50%;*/
+}
+.first-base{
+    
 }
 
 .second-base {
@@ -401,3 +412,14 @@ h6, h1{
     font-size: 14px;
     margin-left: 5px;
 }
+
+/*.field-validation-valid {*/
+/*    display: none;*/
+/*}*/
+
+/*Validation messages organization and style*/
+
+.text-danger {
+    transition: color 0.5s ease-in-out;
+}
+

@@ -37,7 +37,7 @@ namespace WebApplication.Controllers
                     
                     uploadSucceed = await _homeService.Upload(fileDataUploadRequestModel);
                     
-
+            
                     if (uploadSucceed)
                         ModelState.AddModelError(string.Empty, "Uploaded Successfully");
                     
