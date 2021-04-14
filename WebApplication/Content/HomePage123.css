@@ -25,15 +25,19 @@
     border-style: solid;
 }
 
+.upload-btn-hidden {
+    visibility: hidden;
+}
+
 .form-control-uploadfile{
-    display: none;
+    /*display: none;*/
     cursor: pointer;
-    /*visibility: hidden;*/
+    visibility: hidden;
 }
 
 .drop-zone__thumb{
-    width: 100%;
-    height: 100%;
+    width: 1000000%;
+    height: 150%;
     border-radius: 10px;
     overflow: hidden;
     background-color: #cccccc;
@@ -58,7 +62,8 @@
 /*!*Secret message text box style*/
 
 .control-label-text-hide{
-    display: none;
+    /*display: none;*/
+    visibility: hidden;
 }
 
 
@@ -120,7 +125,7 @@
     margin-top: 0em;
     padding: 0px;
     color: bisque;
-    margin: 1px;
+    /*margin: 1px;*/
 }
 
 
@@ -133,7 +138,10 @@
 }
 
 .radio__input{
-    display: none;
+    /*overflow: hidden;*/
+    /*display: none;*/
+    visibility: hidden;
+    margin-left: 5em;
 }
 
 .radio__label1{
@@ -225,7 +233,7 @@ input[type=radio],
 input.radio {
     float: left;
     clear: none;
-    margin: 2px 0 0 2px;
+    margin: -14px 0 0 -14px;
 }
 
 
@@ -412,4 +420,17 @@ h6, h1{
 li{
     color: bisque;
 }
+
+/*.field-validation-valid {*/
+/*    display: none;*/
+/*}*/
+
+/*Validation messages organization and style*/
+
+.text-danger {
+    transition: color 0.5s ease-in-out;
+}
+
+
+
 
