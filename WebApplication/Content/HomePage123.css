@@ -36,8 +36,8 @@
 }
 
 .drop-zone__thumb{
-    width: 100%;
-    height: 100%;
+    width: 1000000%;
+    height: 150%;
     border-radius: 10px;
     overflow: hidden;
     background-color: #cccccc;
@@ -125,7 +125,7 @@
     margin-top: 0em;
     padding: 0px;
     color: bisque;
-    margin: 1px;
+    /*margin: 1px;*/
 }
 
 
@@ -233,7 +233,7 @@ input[type=radio],
 input.radio {
     float: left;
     clear: none;
-    margin: 2px 0 0 2px;
+    margin: -14px 0 0 -14px;
 }
 
 
