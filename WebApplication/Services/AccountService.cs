@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using Firebase.Auth;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
@@ -18,23 +19,61 @@ namespace WebApplication.Services
     {
         public async Task SignUp(SignUpRequestModel signUpRequest)
         {
-            //todo - make sure the user view the error message so he will understand what's wrong with his password.
-            if (!ValidatePassword(signUpRequest.Password, out var errorMessage))
-            {
-                throw new Exception(errorMessage);
-            }
             var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey)); 
-            var a = await auth.CreateUserWithEmailAndPasswordAsync(signUpRequest.Email, signUpRequest.Password, signUpRequest.Name, true);
+            var a = await auth.CreateUserWithEmailAndPasswordAsync(signUpRequest.Email, signUpRequest.Password.First().Password, signUpRequest.Name, true);
             await _client.PushAsync("Users/", signUpRequest);
         }
         
         public async Task<FirebaseAuthLink> Login(string email, string password)
         {
+            //Validate password:
+            var allUsers = GetAllUsers();
+            var currentUser = allUsers.FirstOrDefault(user => user.Email == email);
+            var monthsAgo = DateTime.Now.AddMonths(-int.Parse(PasswordMonthTimeStamp));
+            var isPasswordNeedToChange = currentUser?.Password.First(pass => pass.IsCurrentPassword).CreationTime < monthsAgo;
+            if (isPasswordNeedToChange)
+            {
+                throw new Exception("Your password was expired!");
+            }
+            //--------------------------------------------------------
+            
             var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
             var result = await auth.SignInWithEmailAndPasswordAsync(email, password);
             return  result;
         }
 
+        public async Task ChangePassword(string oldPassword, string newPassword)
+        {
+            var allUsers = GetAllUsers();
+            var currentUserEmail = HttpContext.Current.GetOwinContext().Authentication.User.Claims.First().Value;
+            var currentUser = allUsers.First(user => user.Email == currentUserEmail);
+            var oldPass = currentUser.Password.First(p => p.IsCurrentPassword);
+            //Validate old Password:
+            if (oldPass.Password != oldPassword)
+            {
+                throw new Exception("Your current password is incorrect!");
+            }
+            
+            foreach (var password in currentUser.Password)
+            {
+                if (password.Password == newPassword)
+                {
+                    throw new Exception("Please use a new password!");
+                }
+            }
+
+            currentUser.Password.ForEach(pass => pass.IsCurrentPassword = false);
+                var passObj = new PasswordData()
+            {
+                Password = newPassword,
+                CreationTime = DateTime.Now,
+                IsCurrentPassword = true
+            };
+            currentUser.Password.Add(passObj);
+            await _client.UpdateAsync("Users/", currentUser);
+            _client.ChangePassword(currentUser.Email, oldPass.Password, newPassword);
+        }
+        
         public void SignInUser(string email, string token, bool isPersistent, IOwinContext context)
         {
             // Initialization.

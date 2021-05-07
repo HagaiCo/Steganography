@@ -85,6 +85,25 @@ namespace WebApplication.Controllers
             return View(model);
         }
 
+        public async Task<ActionResult> ChangePassword(ChangePasswordRequest changePasswordRequest)
+        {
+            try
+            {
+                // Verification.
+                if (ModelState.IsValid)
+                {
+                    await _accountService.ChangePassword(changePasswordRequest.OldPassword, changePasswordRequest.NewPassword);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Info
+                Console.Write(ex);
+                ModelState.AddModelError(string.Empty, "Some error occured while trying to change user password.");
+            }
+            return RedirectToAction("UploadFileData", "Home");
+        }
+        
         private void ClaimIdentities(string userName, string isPersistent)
         {
             //Initialization
@@ -125,7 +144,7 @@ namespace WebApplication.Controllers
             }
 
             //info
-            return this.RedirectToAction("LogOut", "Account");
+            return RedirectToAction("LogOut", "Account");
         }
 
         [AllowAnonymous]
