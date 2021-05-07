@@ -9,10 +9,11 @@ namespace WebApplication.Services
 {
     public class BaseService
     {
-        public string ApiKey = ConfigurationManager.AppSettings["ApiKey"];
+        protected string ApiKey = ConfigurationManager.AppSettings["ApiKey"];
         public string Bucket = ConfigurationManager.AppSettings["Bucket"];
-        public string AdminEmail = ConfigurationManager.AppSettings["adminEmail"];
-        public string AdminPass = ConfigurationManager.AppSettings["adminPass"];
+        protected string AdminEmail = ConfigurationManager.AppSettings["adminEmail"];
+        protected string AdminPass = ConfigurationManager.AppSettings["adminPass"];
+        protected string PasswordMonthTimeStamp = ConfigurationManager.AppSettings["passwordTimeStamp"];
         private static readonly string AuthSecret = ConfigurationManager.AppSettings["AuthSecret"];
         private static readonly string BasePath = ConfigurationManager.AppSettings["BasePath"];
 

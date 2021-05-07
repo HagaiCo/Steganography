@@ -42,14 +42,6 @@ namespace WebApplication.Services
         public async Task<bool> Upload(FileDataUploadRequestModel fileDataUploadRequestModel)
         {
             var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
-            var a = await auth.SignInWithEmailAndPasswordAsync(AdminEmail, AdminPass);
-
-            var cancellation = new CancellationTokenSource();
-            var firebaseStorageOptions = new FirebaseStorageOptions 
-            {
-                AuthTokenAsync = () => Task.FromResult(a.FirebaseToken),
-                ThrowOnCancel = true     
-            };
             _client = new FirebaseClient(Config);
             
             fileDataUploadRequestModel.SharingUser = HttpContext.Current.GetOwinContext().Authentication.User.Claims.First().Value;

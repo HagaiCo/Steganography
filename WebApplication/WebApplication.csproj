@@ -590,7 +590,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="RequestModel\ChangePasswordRequest.cs" />
     <Compile Include="RequestModel\MainRequestModel.cs" />
+    <Compile Include="RequestModel\PasswordPolicy.cs" />
     <Compile Include="ResponseModel\FileDataDownloadResponseModel.cs" />
     <Compile Include="ResponseModel\FileDataUploadResponseModel.cs" />
     <Compile Include="RequestModel\FileDataUploadRequestModel.cs" />
