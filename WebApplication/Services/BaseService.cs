@@ -22,6 +22,6 @@ namespace WebApplication.Services
             AuthSecret = AuthSecret,
             BasePath = BasePath
         };
-        protected FirebaseClient _client = new FirebaseClient(Config);
+        protected FirebaseClient Client = new FirebaseClient(Config);
     }
 }  

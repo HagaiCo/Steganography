@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using Firebase.Auth;
+using FireSharp.Extensions;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
@@ -19,21 +21,28 @@ namespace WebApplication.Services
     {
         public async Task SignUp(SignUpRequestModel signUpRequest)
         {
-            var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey)); 
-            var a = await auth.CreateUserWithEmailAndPasswordAsync(signUpRequest.Email, signUpRequest.Password.First().Password, signUpRequest.Name, true);
-            await _client.PushAsync("Users/", signUpRequest);
+            var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
+            signUpRequest.Password.First().CreationTime = DateTime.Now;
+            signUpRequest.Password.First().IsCurrentPassword = true;
+
+            await auth.CreateUserWithEmailAndPasswordAsync(signUpRequest.Email, signUpRequest.Password.First().Password, signUpRequest.Name, true);
+            await Client.PushAsync("InternalUsers/", signUpRequest);
         }
         
         public async Task<FirebaseAuthLink> Login(string email, string password)
         {
             //Validate password:
             var allUsers = GetAllUsers();
-            var currentUser = allUsers.FirstOrDefault(user => user.Email == email);
-            var monthsAgo = DateTime.Now.AddMonths(-int.Parse(PasswordMonthTimeStamp));
-            var isPasswordNeedToChange = currentUser?.Password.First(pass => pass.IsCurrentPassword).CreationTime < monthsAgo;
-            if (isPasswordNeedToChange)
+            if (allUsers != null)
             {
-                throw new Exception("Your password was expired!");
+                var currentUser = allUsers.FirstOrDefault(user => user.Value.Email == email);
+                var monthsAgo = DateTime.Now.AddMonths(-int.Parse(PasswordMonthTimeStamp));
+                var isPasswordNeedToChange =
+                    currentUser.Value.Password.First(pass => pass.IsCurrentPassword).CreationTime < monthsAgo;
+                if (isPasswordNeedToChange)
+                {
+                    throw new Exception("Your password was expired!");
+                }
             }
             //--------------------------------------------------------
             
@@ -46,15 +55,15 @@ namespace WebApplication.Services
         {
             var allUsers = GetAllUsers();
             var currentUserEmail = HttpContext.Current.GetOwinContext().Authentication.User.Claims.First().Value;
-            var currentUser = allUsers.First(user => user.Email == currentUserEmail);
-            var oldPass = currentUser.Password.First(p => p.IsCurrentPassword);
+            var currentUser = allUsers.First(user => user.Value.Email == currentUserEmail);
+            var oldPass = currentUser.Value.Password.First(p => p.IsCurrentPassword);
             //Validate old Password:
             if (oldPass.Password != oldPassword)
             {
                 throw new Exception("Your current password is incorrect!");
             }
             
-            foreach (var password in currentUser.Password)
+            foreach (var password in currentUser.Value.Password)
             {
                 if (password.Password == newPassword)
                 {
@@ -62,16 +71,19 @@ namespace WebApplication.Services
                 }
             }
 
-            currentUser.Password.ForEach(pass => pass.IsCurrentPassword = false);
-                var passObj = new PasswordData()
+            currentUser.Value.Password.ForEach(pass => pass.IsCurrentPassword = false);
+            var passObj = new PasswordData()
             {
                 Password = newPassword,
                 CreationTime = DateTime.Now,
                 IsCurrentPassword = true
             };
-            currentUser.Password.Add(passObj);
-            await _client.UpdateAsync("Users/", currentUser);
-            _client.ChangePassword(currentUser.Email, oldPass.Password, newPassword);
+            currentUser.Value.Password.Add(passObj);
+
+            await Client.DeleteAsync($"InternalUsers/{currentUser.Key}");
+            await Client.PushAsync("InternalUsers/", currentUser.Value);
+            
+            Client.ChangePassword(currentUser.Value.Email, oldPassword, newPassword);
         }
         
         public void SignInUser(string email, string token, bool isPersistent, IOwinContext context)
@@ -88,25 +100,22 @@ namespace WebApplication.Services
             authenticationManager.SignIn(new AuthenticationProperties() {IsPersistent = isPersistent}, claimIdentities);
         }
 
-        public List<SignUpRequestModel> GetAllUsers()
+        public Dictionary<string, SignUpRequestModel> GetAllUsers()
         {
-            List<SignUpRequestModel> listOfFileData = null;
+            Dictionary<string, SignUpRequestModel> dicOfFileData = null;
             try
             {
-                var resultAsJsonString = _client.Get("Users/").Body;
-                if(resultAsJsonString == "null")
+                var resultAsJsonString = Client.Get("InternalUsers/").Body;
+                if (resultAsJsonString == "null")
                     return null;
-                
-                
-                dynamic data = JsonConvert.DeserializeObject<dynamic>(resultAsJsonString);
-                listOfFileData = ((IDictionary<string, JToken>)data).Select(k => 
-                    JsonConvert.DeserializeObject<SignUpRequestModel>(k.Value.ToString())).ToList();
+                dicOfFileData = JsonConvert.DeserializeObject<Dictionary<string, SignUpRequestModel>>(resultAsJsonString);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
             }
-            return listOfFileData;
+
+            return dicOfFileData;
         }
         
         private bool ValidatePassword(string password, out string errorMessage)

@@ -42,7 +42,7 @@ namespace WebApplication.Services
         public async Task<bool> Upload(FileDataUploadRequestModel fileDataUploadRequestModel)
         {
             var auth = new FirebaseAuthProvider(new FirebaseConfig(ApiKey));
-            _client = new FirebaseClient(Config);
+            Client = new FirebaseClient(Config);
             
             fileDataUploadRequestModel.SharingUser = HttpContext.Current.GetOwinContext().Authentication.User.Claims.First().Value;
             fileDataUploadRequestModel.FileExtension = Path.GetExtension(fileDataUploadRequestModel.FilePath);
@@ -70,9 +70,9 @@ namespace WebApplication.Services
             }
             
             
-            var response = await _client.PushAsync("Files/", fileDataUploadResponseModel);
+            var response = await Client.PushAsync("Files/", fileDataUploadResponseModel);
             fileDataUploadResponseModel.Id = response.Result.name;
-            var setResult = await _client.SetAsync("Files/" + fileDataUploadResponseModel.Id, fileDataUploadResponseModel);
+            var setResult = await Client.SetAsync("Files/" + fileDataUploadResponseModel.Id, fileDataUploadResponseModel);
             return setResult.StatusCode == HttpStatusCode.OK;
         }
         
@@ -508,7 +508,7 @@ namespace WebApplication.Services
             List<FileDataUploadResponseModel> listOfFileData = null;
             try
             {
-                var resultAsJsonString = await _client.GetAsync("Files/");
+                var resultAsJsonString = await Client.GetAsync("Files/");
                 
                 if(resultAsJsonString.Body == "null")
                     return null;
@@ -557,16 +557,16 @@ namespace WebApplication.Services
         public static IEnumerable<SelectListItem> GetAllUsers()
         {
             var allUsers = _accountService.GetAllUsers();
-            var emailsList = allUsers.Select(x => x.Email).ToList();
-            var selectListItems = emailsList.Select(x => new SelectListItem(){ Value = x, Text = x }).ToList();
+            var emailsList = allUsers?.Select(x => x.Value.Email).ToList();
+            var selectListItems = emailsList?.Select(x => new SelectListItem(){ Value = x, Text = x });
 
-            return selectListItems.AsEnumerable();
+            return selectListItems ?? Enumerable.Empty<SelectListItem>();
         }
 
         public void DeleteFileData(string fileId)
         {
             if (fileId == null) return;
-            var resultAsJsonString = _client.DeleteAsync("Files/" + fileId);
+            Client.DeleteAsync($"Files/{fileId}");
         }
         
         static string[] VideoFileExtensions = 

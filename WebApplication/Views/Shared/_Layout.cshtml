@@ -22,21 +22,14 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-nav">
         <div class="navbar-header">
-            @* <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> *@
-            @*     <span class="icon-bar"></span> *@
-            @*     <span class="icon-bar"></span> *@
-            @*     <span class="icon-bar"></span> *@
-            @* </button> *@
             <input type="checkbox" class="toggler">
             <div class="Hamburger"><div></div></div>
             <div class="menu">
                 <div>
                     <div>
                         <ul class="nav-navbar-nav">
-                            @* <li> @Html.ActionLink("Steganography", "UploadFileData", "Home", new {area = ""}, new {@class = "navbar-brand"}) *@
-                            @* </li> *@
                             <li>@Html.ActionLink("Home", "UploadFileData", "Home")</li>
-                            <li>@Html.ActionLink("My Files", "DownloadFileData", "Home")</li>
+                            <li>@Html.ActionLink("My Files", "GetAllAssignedFileData", "Home")</li>
                             @if (Request.IsAuthenticated)
                             {
                                 <li>@Html.ActionLink("Log Out", "LogOut", "Account")</li>
@@ -45,6 +38,7 @@
                             {
                                 <li>@Html.ActionLink("Sign Up", "SignUp", "Account")</li>
                             }
+                            <li>@Html.ActionLink("Change Password", "ChangePassword", "Account")</li>
                         </ul>
                     </div>
                 </div>

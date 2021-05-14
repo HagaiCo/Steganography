@@ -10,6 +10,7 @@
       </e>
       <e p="Steganography.sln" t="IncludeFlat" />
       <e p="WebApplication" t="IncludeRecursive">
+        <e p=".dockerignore" t="Include" />
         <e p="App_Data" t="Include" />
         <e p="App_Start" t="Include">
           <e p="BundleConfig.cs" t="Include" />
@@ -28,6 +29,7 @@
           <e p="bootstrap.css.map" t="Include" />
           <e p="bootstrap.min.css" t="Include" />
           <e p="bootstrap.min.css.map" t="Include" />
+          <e p="ChangePassword.css" t="Include" />
           <e p="GetAllAssignedFileData.css" t="Include" />
           <e p="HomePage1.css" t="Include" />
           <e p="HomePage123.css" t="Include" />
@@ -51,6 +53,7 @@
           <e p="BaseController.cs" t="Include" />
           <e p="HomeController.cs" t="Include" />
         </e>
+        <e p="Dockerfile" t="Include" />
         <e p="favicon.ico" t="Include" />
         <e p="fonts" t="Include">
           <e p="glyphicons-halflings-regular.eot" t="Include" />
@@ -124,6 +127,7 @@
         <e p="Views" t="Include">
           <e p="_ViewStart.cshtml" t="Include" />
           <e p="Account" t="Include">
+            <e p="ChangePassword.cshtml" t="Include" />
             <e p="Login.cshtml" t="Include" />
           </e>
           <e p="Home" t="Include">

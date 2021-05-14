@@ -33,7 +33,7 @@ namespace WebApplication.Controllers
             }
             return RedirectToAction("Login", "Account");
         }
-        
+
         public ActionResult Login(string returnUrl)
         {
             try
@@ -72,7 +72,7 @@ namespace WebApplication.Controllers
                         return RedirectToLocal(returnUrl);
                     }
                     // Setting.
-                        ModelState.AddModelError(string.Empty, "Invalid username or password.");
+                    ModelState.AddModelError(string.Empty, "Invalid username or password.");
                 }
             }
             catch (Exception ex)
@@ -85,7 +85,12 @@ namespace WebApplication.Controllers
             return View(model);
         }
 
-        public async Task<ActionResult> ChangePassword(ChangePasswordRequest changePasswordRequest)
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+        
+        public async Task ChangePasswordImpl(ChangePasswordRequest changePasswordRequest)
         {
             try
             {
@@ -101,7 +106,6 @@ namespace WebApplication.Controllers
                 Console.Write(ex);
                 ModelState.AddModelError(string.Empty, "Some error occured while trying to change user password.");
             }
-            return RedirectToAction("UploadFileData", "Home");
         }
         
         private void ClaimIdentities(string userName, string isPersistent)
