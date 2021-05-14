@@ -1,5 +1,4 @@
-﻿@using System.Web.UI.WebControls
-@model WebApplication.RequestModel.MainRequestModel
+﻿@model WebApplication.RequestModel.MainRequestModel
 
 @{
     ViewBag.Title = "Login";
@@ -21,28 +20,15 @@
 
             @Html.EditorFor(model => model.SignUpRequestModel.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeHolder = "Email" } })
             @Html.ValidationMessageFor(model => model.SignUpRequestModel.Email, "", new { @class = "text-danger" })
-
-
-
-
-            @Html.EditorFor(model => model.SignUpRequestModel.Password, new {htmlAttributes = new {@class = "form-control", type = "password", placeHolder = "Password"}})
-            @Html.ValidationMessageFor(model => model.SignUpRequestModel.Password, "", new {@class = "text-danger"})
-
             
             
-            
-            
+            @Html.EditorFor(model => model.SignUpRequestModel.Password[0].Password, new {htmlAttributes = new {@class = "form-control", type = "password", placeHolder = "Password"}})
+            @Html.ValidationMessageFor(model => model.SignUpRequestModel.Password[0].Password, "", new {@class = "text-danger"})
         
-        
-
 
             <button class="firstb"><input type="submit" value="Create" class="btnSIGNIN btn-default" />sign up</button>
     </div>
 }
-
-@* <div class="login-h2"> *@
-@*     <h2>Login</h2> *@
-@* </div> *@
 
 @using (Html.BeginForm("Login","Account", FormMethod.Post))
 {
@@ -52,27 +38,11 @@
             <h1>Sign in</h1>
         
         @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-@*         <div class="form-group"> *@
-@*             @Html.LabelFor(model => model.LoginRequestModel.Email, htmlAttributes: new {@class = "control-label col-md-2"}) *@
-@*             <div class="col-md-10"> *@
-                @Html.EditorFor(model => model.LoginRequestModel.Email, new {htmlAttributes = new {@class = "form-control", type = "email", placeholder = "Email"}})
-                @Html.ValidationMessageFor(model => model.LoginRequestModel.Email, "", new {@class = "text-danger"})
-@*             </div> *@
-@*         </div> *@
-
-@*         <div class="form-group"> *@
-@*             @Html.LabelFor(model => model.LoginRequestModel.Password, htmlAttributes: new {@class = "control-label col-md-2"}) *@
-@*             <div class="col-md-10"> *@
-                @Html.EditorFor(model => model.LoginRequestModel.Password, new {htmlAttributes = new {@class = "form-control", type = "password", placeHolder = "Password"}})
-                @Html.ValidationMessageFor(model => model.LoginRequestModel.Password, "", new {@class = "text-danger"})
-@*             </div> *@
-@*         </div> *@
-
-@*         <div class="form-group"> *@
-@*             <div class="col-md-offset-2 col-md-10"> *@
-                <button class="secondb"><input type="submit" value="Log-in" class="btnSIGNUP"/>Sign in</button>
-@*             </div> *@
-@*         </div> *@
+        @Html.EditorFor(model => model.LoginRequestModel.Email, new {htmlAttributes = new {@class = "form-control", type = "email", placeholder = "Email"}})
+        @Html.ValidationMessageFor(model => model.LoginRequestModel.Email, "", new {@class = "text-danger"})
+        @Html.EditorFor(model => model.LoginRequestModel.Password, new {htmlAttributes = new {@class = "form-control", type = "password", placeHolder = "Password"}})
+        @Html.ValidationMessageFor(model => model.LoginRequestModel, "", new {@class = "text-danger"})
+        <button class="secondb"><input type="submit" value="Log-in" class="btnSIGNUP"/>Sign in</button>
     </div>
 }
 <div class="overlay-container">
