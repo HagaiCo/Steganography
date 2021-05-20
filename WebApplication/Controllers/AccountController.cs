@@ -79,7 +79,7 @@ namespace WebApplication.Controllers
             {
                 // Info
                 Console.Write(ex);
-                ModelState.AddModelError(string.Empty, "Some error occured while trying to sign in");
+                ModelState.AddModelError(string.Empty, "Invalid username or password.");
             }
             // If we got this far, something failed, redisplay form
             return View(model);
