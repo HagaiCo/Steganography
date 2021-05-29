@@ -90,7 +90,7 @@ namespace WebApplication.Controllers
             return View();
         }
         
-        public async Task ChangePasswordImpl(ChangePasswordRequest changePasswordRequest)
+        public async Task<ActionResult> ChangePasswordImpl(ChangePasswordRequest changePasswordRequest)
         {
             try
             {
@@ -106,6 +106,8 @@ namespace WebApplication.Controllers
                 Console.Write(ex);
                 ModelState.AddModelError(string.Empty, "Some error occured while trying to change user password.");
             }
+
+            return RedirectToAction("UploadFileData", "Home");
         }
         
         private void ClaimIdentities(string userName, string isPersistent)
