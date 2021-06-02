@@ -29,6 +29,7 @@ namespace WebApplication.Tests
     [TestFixture]
     public class UnitTests
     {
+        
         MetaDataVideo _metaDataVideo = new MetaDataVideo();
         MetaDataPicture _metaDataPicture = new MetaDataPicture();
         LsbPicture _lsbPicture = new LsbPicture();
@@ -39,7 +40,8 @@ namespace WebApplication.Tests
         Decoder _decoder = new Decoder();
         
         MetaDataAudio _metaDataAudio = new MetaDataAudio();
-        
+
+
         [Test]
         public void SerpentTest()
         {
@@ -224,6 +226,7 @@ namespace WebApplication.Tests
             }
         }
         
+        
         [Test]
         public void PETestLsb()
         {
@@ -251,6 +254,7 @@ namespace WebApplication.Tests
 
                 Console.WriteLine("Secret Massage Is: \n" + decryptedMessage);
                 File.WriteAllBytes("C:/Users/Mike/Desktop/pruducta/file_example_WAV_1MG - Copy.wav", byteAudio);
+
             }
         }
 
